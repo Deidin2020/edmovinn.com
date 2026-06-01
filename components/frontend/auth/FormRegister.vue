@@ -32,41 +32,20 @@
             </div>
         </form>
 
-        <div class="primary-auth-container">
-            <div class="primary-auth-container">
-                <div class="row  mt-3">
-                    <div class="col-md-12">
-                        <div class="sign-helper text-center mt-3">
-                            <p>{{ $t('auth.do_have_account') }}
-                                <NuxtLink :to="localePath('/auth')">
-                                    {{ $t('auth.sign_in') }}
-                                </NuxtLink>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        <div class="primary-auth-container auth-register-footer">
+            <div class="sign-helper text-center mt-3">
+                <p>{{ $t('auth.do_have_account') }}
+                    <NuxtLink :to="localePath('/auth')">
+                        {{ $t('auth.sign_in') }}
+                    </NuxtLink>
+                </p>
             </div>
-        </div>
 
-        <div class="primary-auth-container">
-            <div class="row">
-                <div class="col-md-12">
-                    <GoogleLogin />
-                </div>
-                <div class="col-md-12">
-                    <FacebookLogin />
-                </div>
+            <div class="auth-social-divider">
+                <span>or</span>
             </div>
-            <div class="row  mt-3">
-                <div class="col-md-12">
-                    <div class="sign-helper text-center mt-3">
-                        <p>{{ $t('auth.have_account') }}
-                            <NuxtLink :to="localePath('/signup')">{{ $t('auth.sing_up') }}
-                            </NuxtLink>
-                        </p>
-                    </div>
-                </div>
-            </div>
+
+            <GoogleLogin />
         </div>
     </div>
 </template>
@@ -199,3 +178,34 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.auth-register-footer {
+    padding-top: 0.5rem;
+}
+
+.auth-social-divider {
+    position: relative;
+    margin: 1.5rem 0 1rem;
+    text-align: center;
+}
+
+.auth-social-divider::before {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    border-top: 1px solid #d7deeb;
+    content: '';
+}
+
+.auth-social-divider span {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.85rem;
+    background: #ffffff;
+    color: #6b7280;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+</style>

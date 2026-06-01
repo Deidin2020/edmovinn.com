@@ -75,24 +75,18 @@
                                         </button>
                                     </div>
                                 </form>
-                                <div class="primary-auth-container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <GoogleLogin />
-                                        </div>
-                                        <div class="col-md-12">
-                                            <FacebookLogin />
-                                        </div>
+                                <div class="primary-auth-container auth-social-block">
+                                    <div class="auth-social-divider">
+                                        <span>or</span>
                                     </div>
-                                    <div class="row  mt-3">
-                                        <div class="col-md-12">
-                                            <div class="sign-helper text-center mt-3">
-                                                <p>{{ $t('auth.have_account') }}
-                                                    <NuxtLink :to="localePath('/signup')">{{ $t('auth.sing_up') }}
-                                                    </NuxtLink>
-                                                </p>
-                                            </div>
-                                        </div>
+
+                                    <GoogleLogin />
+
+                                    <div class="sign-helper text-center mt-3">
+                                        <p>{{ $t('auth.have_account') }}
+                                            <NuxtLink :to="localePath('/signup')">{{ $t('auth.sing_up') }}
+                                            </NuxtLink>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -227,5 +221,34 @@ input[type="tel"] {
     /* remove default input/button styles */
     margin: 0;
     padding: 0;
+}
+
+.auth-social-block {
+    padding-top: 0.5rem;
+}
+
+.auth-social-divider {
+    position: relative;
+    margin: 1rem 0 1rem;
+    text-align: center;
+}
+
+.auth-social-divider::before {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    border-top: 1px solid hsl(var(--input));
+    content: '';
+}
+
+.auth-social-divider span {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.85rem;
+    background: hsl(var(--background));
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 </style>
