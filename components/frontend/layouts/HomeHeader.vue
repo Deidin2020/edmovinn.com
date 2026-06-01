@@ -137,9 +137,16 @@ export default {
     mounted() {
         this.loadCartCount()
 
-        window.addEventListener('cart-updated', (e) => {
+        this.handleCartUpdated = (e) => {
             this.cartCount = e.detail.count
-        })
+        };
+
+        window.addEventListener('cart-updated', this.handleCartUpdated)
+    },
+    beforeDestroy() {
+        if (this.handleCartUpdated) {
+            window.removeEventListener('cart-updated', this.handleCartUpdated);
+        }
     },
     methods: {
         logOut() {
@@ -151,9 +158,18 @@ export default {
                 }, 1000)
             })
         },
-        loadCartCount() {
-            const stored = JSON.parse(localStorage.getItem("cartRooms")) || []
-            this.cartCount = stored.reduce((sum, item) => sum + (item.quantity || 1), 0)
+        async loadCartCount() {
+            if (!this.$auth.loggedIn) {
+                this.cartCount = 0;
+                return;
+            }
+
+            try {
+                const cart = await this.$bookingApi.getCart();
+                this.cartCount = cart.items_count || 0;
+            } catch (error) {
+                this.cartCount = 0;
+            }
         },
         async switchLanguage(lang) {
             this.isLangOpen = false

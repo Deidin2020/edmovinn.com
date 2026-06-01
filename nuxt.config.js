@@ -68,6 +68,7 @@ export default {
         '~/plugins/schemas-generator.js',
         '~/plugins/axios.js',
         '~/plugins/algolia.js',
+        '~/plugins/booking-api.js',
         {
             src: '~/plugins/bootstrap.bundle.min.js',
             mode: 'client'
@@ -129,7 +130,7 @@ export default {
                     },
                     logout: {
                         url: '/api/tenant/logout',
-                        method: 'post'
+                        method: 'get'
                     },
                     user: {
                         url: '/api/tenant/me',

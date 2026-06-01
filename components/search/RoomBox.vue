@@ -141,44 +141,39 @@ export default {
         toggleFacilities() {
             this.showAll = !this.showAll;
         },
-        addToCart(room) {
+        async addToCart(room) {
             if (!room.availability) return;
 
-            let cart = JSON.parse(localStorage.getItem('cartRooms')) || [];
-
-            const existingRoom = cart.find(item => item.id === room.id);
-
-            if (existingRoom) {
-                existingRoom.quantity = (existingRoom.quantity || 1) + 1;
-            } else {
-                cart.push({
-                    id: room.id,
-                    name: room.name,
-                    price: room.price,
-                    image: room.image,
-                    slug: room.slug,
-                    accommodation: room.accommodation?.name || '',
-                    available_from: room.available_from,
-                    quantity: 1
-                });
+            if (!this.$auth.loggedIn) {
+                localStorage.setItem('redirect', `/cart`);
+                this.$router.push(this.localePath('/auth'));
+                return;
             }
 
-            localStorage.setItem('cartRooms', JSON.stringify(cart));
+            try {
+                const cart = await this.$bookingApi.addCartItem({
+                    room_id        : room.id,
+                    quantity       : 1,
+                    stay_start_date: room.available_from || undefined,
+                });
 
-            window.dispatchEvent(new CustomEvent('cart-updated', { detail: { count: cart.reduce((sum, item) => sum + item.quantity, 0) } }));
+                window.dispatchEvent(new CustomEvent('cart-updated', {
+                    detail: {
+                        count: cart.items_count || 0,
+                        cart,
+                    }
+                }));
 
-            this.$successAlert(this.$t('notification.added_to_cart'));
+                this.$successAlert(this.$t('notification.added_to_cart'));
+            } catch (error) {
+                this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
+            }
         },
 
         openModal(roomId, roomName) {
             if (!this.$auth.loggedIn) {
                 localStorage.setItem('redirect', this.localePath({ name: 'dashboard-rooms-slug', params: { slug: this.room.slug } }));
                 this.$router.push(this.localePath('/signup'));
-                return;
-            }
-
-            if (!this.$auth.user.is_verified) {
-                window.location.href = `auth/verify`;
                 return;
             }
 

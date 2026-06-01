@@ -5,7 +5,9 @@
     "private": true,
     "scripts": {
         "dev": "nuxt",
+        "clean": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"if (Test-Path '.nuxt') { Remove-Item '.nuxt' -Recurse -Force }; if (Test-Path 'node_modules\\\\.cache') { Remove-Item 'node_modules\\\\.cache' -Recurse -Force }\"",
         "build": "nuxt build",
+        "build:clean": "npm run clean && npm run build",
         "start": "nuxt start",
         "generate": "nuxt generate",
         "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",

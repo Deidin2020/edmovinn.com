@@ -152,9 +152,9 @@
             <a class="flex-1" :href="localePath('/search')"><button
                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full border border-input bg-background hover:bg-accent hover:text-accent-foreground">
                 {{ $t('cart.Continue Shopping') }}</button></a>
-            <a class="flex-1" :href="localePath('/checkout')"><button
+            <button @click="proceedToCheckout"
                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                {{ $t('cart.Proceed to Checkout') }} </button></a>
+                {{ $t('cart.Proceed to Checkout') }} </button>
           </div>
         </div>
 
@@ -167,23 +167,34 @@
 export default {
   data() {
     return {
-      cart: [],
+      cartData: {
+        items     : [],
+        currency  : '',
+        items_count: 0,
+        summary   : {
+          subtotal     : 0,
+          deposit_total: 0,
+          grand_total  : 0,
+        }
+      },
+      loading: false,
     };
   },
   computed: {
+    cart() {
+      return this.cartData.items;
+    },
     subtotal() {
-      return this.cart.reduce((sum, r) => this.cleanPrice(r.price.price) * r.quantity, 0);
+      return this.cartData.summary.subtotal;
     },
     totalDeposit() {
-      return this.cart.reduce((sum, r) => this.cleanPrice(r.price.deposit) * r.quantity, 0);
+      return this.cartData.summary.deposit_total;
     },
     finalTotal() {
-      return this.cart.reduce((sum, room) => {
-        return sum + this.roomTotal(room);
-      }, 0);
+      return this.cartData.summary.grand_total;
     },
     currency() {
-      return this.cart.length ? this.cart[0].price.currency : '';
+      return this.cartData.currency || this.cart[0]?.price?.currency || '';
     }
   },
   mounted() {
@@ -199,34 +210,97 @@ export default {
       const deposit = this.cleanPrice(room.price.deposit);
       return (price + deposit) * room.quantity;
     },
-    loadCart() {
-      const stored = JSON.parse(localStorage.getItem("cartRooms")) || [];
-      this.cart = stored.map(r => ({ ...r, quantity: r.quantity || 1 }));
-      this.emitCartCount();
-    },
-    saveCart() {
-      localStorage.setItem("cartRooms", JSON.stringify(this.cart));
-      this.emitCartCount();
+    async loadCart() {
+      if (!this.$auth.loggedIn) {
+        this.cartData = {
+          items     : [],
+          currency  : '',
+          items_count: 0,
+          summary   : {
+            subtotal     : 0,
+            deposit_total: 0,
+            grand_total  : 0,
+          }
+        };
+        return;
+      }
+
+      this.loading = true;
+
+      try {
+        this.cartData = await this.$bookingApi.getCart();
+        this.emitCartCount();
+      } catch (error) {
+        this.cartData = {
+          items     : [],
+          currency  : '',
+          items_count: 0,
+          summary   : {
+            subtotal     : 0,
+            deposit_total: 0,
+            grand_total  : 0,
+          }
+        };
+      } finally {
+        this.loading = false;
+      }
     },
     emitCartCount() {
-      const totalQty = this.cart.reduce((sum, r) => sum + (r.quantity || 1), 0);
+      const totalQty = this.cartData.items_count || this.cart.reduce((sum, r) => sum + (r.quantity || 1), 0);
       window.dispatchEvent(new CustomEvent("cart-updated", { detail: { count: totalQty } }));
     },
-    removeFromCart(index) {
-      this.cart.splice(index, 1);
-      this.saveCart();
-    },
-    increaseQty(index) {
-      this.cart[index].quantity++;
-      this.saveCart();
-    },
-    decreaseQty(index) {
-      if (this.cart[index].quantity > 1) {
-        this.cart[index].quantity--;
-      } else {
-        this.cart.splice(index, 1);
+    async removeFromCart(index) {
+      const item = this.cart[index];
+
+      if (!item?.id) return;
+
+      try {
+        this.cartData = await this.$bookingApi.removeCartItem(item.id);
+        this.emitCartCount();
+      } catch (error) {
+        this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
       }
-      this.saveCart();
+    },
+    async increaseQty(index) {
+      const item = this.cart[index];
+
+      if (!item?.id) return;
+
+      try {
+        this.cartData = await this.$bookingApi.updateCartItem(item.id, {
+          quantity: (item.quantity || 1) + 1,
+        });
+        this.emitCartCount();
+      } catch (error) {
+        this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
+      }
+    },
+    async decreaseQty(index) {
+      const item = this.cart[index];
+
+      if (!item?.id) return;
+
+      try {
+        if ((item.quantity || 1) > 1) {
+          this.cartData = await this.$bookingApi.updateCartItem(item.id, {
+            quantity: item.quantity - 1,
+          });
+        } else {
+          this.cartData = await this.$bookingApi.removeCartItem(item.id);
+        }
+
+        this.emitCartCount();
+      } catch (error) {
+        this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
+      }
+    },
+    proceedToCheckout() {
+      if (!this.$auth.loggedIn) {
+        localStorage.setItem('redirect', '/checkout');
+        window.location.href = this.localePath('/auth');
+      } else {
+        window.location.href = this.localePath('/checkout');
+      }
     }
   }
 };
