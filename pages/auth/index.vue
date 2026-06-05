@@ -137,12 +137,36 @@ export default {
         const token = urlParams.get('token');
         if (token) {
             this.$auth.setUserToken(token);
-            this.$auth.fetchUser();
-            window.location.href = this.localePath('/dashboard');
+            this.$auth.fetchUser().then(() => {
+                this.finalizeLogin();
+            });
         }
     },
     methods: {
         ...mapActions('visitor', ['fetchVisitorInfo']),
+        async finalizeLogin() {
+            try {
+                const cart = await this.$bookingApi.syncGuestCartToServer();
+
+                window.dispatchEvent(new CustomEvent('cart-updated', {
+                    detail: {
+                        count: cart.items_count || 0,
+                        cart,
+                    }
+                }));
+            } catch (error) {
+                // Keep login flow resilient even if cart sync fails.
+            }
+
+            const redirect = localStorage.getItem('redirect');
+
+            if (redirect) {
+                localStorage.removeItem('redirect');
+                window.location.href = this.localePath(redirect);
+            } else {
+                window.location.href = this.localePath('/dashboard');
+            }
+        },
         async login() {
             this.error = null;
             await this.$auth.loginWith('local', {
@@ -160,15 +184,7 @@ export default {
 
             setTimeout(() => {
                 if (this.$auth.loggedIn) {
-                    const redirect = localStorage.getItem('redirect');
-
-                    if (redirect) {
-                        localStorage.removeItem('redirect');
-
-                        window.location.href = this.localePath(redirect);
-                    } else {
-                        window.location.href = this.localePath('/dashboard');
-                    }
+                    this.finalizeLogin();
                 }
             }, 500);
         },

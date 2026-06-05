@@ -144,17 +144,12 @@ export default {
         async addToCart(room) {
             if (!room.availability) return;
 
-            if (!this.$auth.loggedIn) {
-                localStorage.setItem('redirect', `/cart`);
-                this.$router.push(this.localePath('/auth'));
-                return;
-            }
-
             try {
                 const cart = await this.$bookingApi.addCartItem({
                     room_id        : room.id,
                     quantity       : 1,
                     stay_start_date: room.available_from || undefined,
+                    room,
                 });
 
                 window.dispatchEvent(new CustomEvent('cart-updated', {

@@ -4,6 +4,26 @@ function toNumber(value) {
     return Number(value.toString().replace(/[^0-9.-]+/g, '')) || 0;
 }
 
+const GUEST_CART_STORAGE_KEY = 'guest_cart';
+
+function isClient() {
+    return typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined';
+}
+
+function createEmptyCart() {
+    return {
+        id         : null,
+        currency   : '',
+        items_count: 0,
+        items      : [],
+        summary    : {
+            subtotal     : 0,
+            deposit_total: 0,
+            grand_total  : 0,
+        },
+    };
+}
+
 function normalizeCartItem(item = {}) {
     const pricing = item.pricing || {};
     const roomId = item.room_id || item.room?.id || item.id;
@@ -50,6 +70,48 @@ function normalizeCart(cart = {}) {
             grand_total  : summary.grand_total ?? items.reduce((sum, item) => sum + item.line_total, 0),
         },
     };
+}
+
+function readGuestCart() {
+    if (!isClient()) return createEmptyCart();
+
+    try {
+        const rawValue = window.sessionStorage.getItem(GUEST_CART_STORAGE_KEY);
+        if (!rawValue) return createEmptyCart();
+
+        return normalizeCart(JSON.parse(rawValue));
+    } catch (error) {
+        return createEmptyCart();
+    }
+}
+
+function writeGuestCart(cart = createEmptyCart()) {
+    const normalizedCart = normalizeCart(cart);
+
+    if (isClient()) {
+        window.sessionStorage.setItem(GUEST_CART_STORAGE_KEY, JSON.stringify(normalizedCart));
+    }
+
+    return normalizedCart;
+}
+
+function clearGuestCartStorage() {
+    if (isClient()) {
+        window.sessionStorage.removeItem(GUEST_CART_STORAGE_KEY);
+    }
+
+    return createEmptyCart();
+}
+
+function buildGuestCart(items = []) {
+    return normalizeCart({
+        items,
+    });
+}
+
+function resolveGuestItemId(itemId) {
+    if (itemId === null || itemId === undefined) return '';
+    return itemId.toString().replace(/^guest-/, '');
 }
 
 function normalizeDashboardMoney(value = {}) {
@@ -119,32 +181,153 @@ function normalizeDashboardResponse(result = {}) {
     };
 }
 
-export default function createBookingApi(axios) {
+export default function createBookingApi(axios, auth) {
+    const isLoggedIn = () => Boolean(auth?.loggedIn);
+
+    const buildGuestCartItem = payload => {
+        const room = payload.room || payload.roomData || {};
+        const roomId = payload.room_id ?? room.id;
+        const quantity = payload.quantity || 1;
+
+        return normalizeCartItem({
+            id             : `guest-${roomId}`,
+            room_id        : roomId,
+            name           : payload.name || room.name || '',
+            slug           : payload.slug || room.slug || '',
+            image          : payload.image || room.image || '/img/search/default-room.jpg',
+            accommodation  : payload.accommodation || room.accommodation?.name || '',
+            available_from : payload.stay_start_date || payload.available_from || room.available_from || '',
+            quantity,
+            price          : payload.price || room.price || {
+                price        : 0,
+                deposit      : 0,
+                currency     : '',
+                payment_per  : '',
+                contract_type: '',
+            },
+        });
+    };
+
+    const addGuestCartItem = payload => {
+        const cart = readGuestCart();
+        const roomId = String(payload.room_id);
+        const existingItem = cart.items.find(item => String(item.room_id) === roomId);
+
+        if (existingItem) {
+            existingItem.quantity = (existingItem.quantity || 1) + (payload.quantity || 1);
+            if (payload.stay_start_date) existingItem.available_from = payload.stay_start_date;
+        } else {
+            cart.items.push(buildGuestCartItem(payload));
+        }
+
+        return writeGuestCart(buildGuestCart(cart.items));
+    };
+
+    const updateGuestCartItem = (itemId, payload) => {
+        const cart = readGuestCart();
+        const guestItemId = resolveGuestItemId(itemId);
+        const itemIndex = cart.items.findIndex(item => String(item.room_id) === guestItemId || String(item.id) === String(itemId));
+
+        if (itemIndex === -1) return writeGuestCart(cart);
+
+        const nextQuantity = Number(payload.quantity || 1);
+
+        if (nextQuantity <= 0) {
+            cart.items.splice(itemIndex, 1);
+        } else {
+            cart.items[itemIndex] = normalizeCartItem({
+                ...cart.items[itemIndex],
+                quantity: nextQuantity,
+            });
+        }
+
+        return writeGuestCart(buildGuestCart(cart.items));
+    };
+
+    const removeGuestCartItem = itemId => {
+        const cart = readGuestCart();
+        const guestItemId = resolveGuestItemId(itemId);
+        const items = cart.items.filter(item => String(item.room_id) !== guestItemId && String(item.id) !== String(itemId));
+
+        return writeGuestCart(buildGuestCart(items));
+    };
+
     return {
         normalizeCart,
         normalizeDashboardResponse,
+        getGuestCart() {
+            return readGuestCart();
+        },
+
+        clearGuestCart() {
+            return clearGuestCartStorage();
+        },
+
+        async syncGuestCartToServer() {
+            if (!isLoggedIn()) {
+                return readGuestCart();
+            }
+
+            const guestCart = readGuestCart();
+
+            if (!guestCart.items.length) {
+                return this.getCart();
+            }
+
+            for (const item of guestCart.items) {
+                await axios.post('/api/tenant/cart/items', {
+                    room_id        : item.room_id,
+                    quantity       : item.quantity || 1,
+                    stay_start_date: item.available_from || undefined,
+                });
+            }
+
+            clearGuestCartStorage();
+
+            return this.getCart();
+        },
 
         async getCart() {
+            if (!isLoggedIn()) {
+                return readGuestCart();
+            }
+
             const { data } = await axios.get('/api/tenant/cart');
             return normalizeCart(data?.result?.cart || {});
         },
 
         async addCartItem(payload) {
+            if (!isLoggedIn()) {
+                return addGuestCartItem(payload);
+            }
+
             const { data } = await axios.post('/api/tenant/cart/items', payload);
             return normalizeCart(data?.result?.cart || {});
         },
 
         async updateCartItem(itemId, payload) {
+            if (!isLoggedIn()) {
+                return updateGuestCartItem(itemId, payload);
+            }
+
             const { data } = await axios.patch(`/api/tenant/cart/items/${itemId}`, payload);
             return normalizeCart(data?.result?.cart || {});
         },
 
         async removeCartItem(itemId) {
+            if (!isLoggedIn()) {
+                return removeGuestCartItem(itemId);
+            }
+
             const { data } = await axios.delete(`/api/tenant/cart/items/${itemId}`);
             return normalizeCart(data?.result?.cart || {});
         },
 
         async clearCart() {
+            if (!isLoggedIn()) {
+                return clearGuestCartStorage();
+            }
+
             const cart = await this.getCart();
 
             for (const item of cart.items) {

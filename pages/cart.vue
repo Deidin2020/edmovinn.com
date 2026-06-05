@@ -211,20 +211,6 @@ export default {
       return (price + deposit) * room.quantity;
     },
     async loadCart() {
-      if (!this.$auth.loggedIn) {
-        this.cartData = {
-          items     : [],
-          currency  : '',
-          items_count: 0,
-          summary   : {
-            subtotal     : 0,
-            deposit_total: 0,
-            grand_total  : 0,
-          }
-        };
-        return;
-      }
-
       this.loading = true;
 
       try {

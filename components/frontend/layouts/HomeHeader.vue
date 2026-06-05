@@ -159,11 +159,6 @@ export default {
             })
         },
         async loadCartCount() {
-            if (!this.$auth.loggedIn) {
-                this.cartCount = 0;
-                return;
-            }
-
             try {
                 const cart = await this.$bookingApi.getCart();
                 this.cartCount = cart.items_count || 0;
