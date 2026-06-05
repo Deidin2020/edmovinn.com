@@ -117,41 +117,192 @@ function resolveGuestItemId(itemId) {
 function normalizeDashboardMoney(value = {}) {
     if (typeof value === 'string') {
         return {
-            amount   : toNumber(value),
-            formatted: value,
-            currency : '',
+            amount         : toNumber(value),
+            formatted      : value,
+            formatted_short: value,
+            currency       : '',
         };
     }
 
     return {
-        amount   : value.amount ?? 0,
-        formatted: value.formatted ?? '',
-        currency : value.currency ?? '',
+        amount         : value.amount ?? 0,
+        formatted      : value.formatted ?? '',
+        formatted_short: value.formatted_short ?? value.formatted ?? '',
+        currency       : value.currency ?? '',
     };
 }
 
-function normalizeDashboardBooking(item = {}) {
+function normalizeStateKey(value = '') {
+    const key = String(value || '').trim().toLowerCase();
+
+    const map = {
+        confirmed      : 'confirmed',
+        completed      : 'completed',
+        paid           : 'paid',
+        pending        : 'pending',
+        pending_payment: 'pendingPayment',
+        uploaded       : 'uploaded',
+        not_uploaded   : 'notUploaded',
+        under_review   : 'underReview',
+        in_progress    : 'inProgress',
+        notuploaded    : 'notUploaded',
+    };
+
+    return map[key] || value || '';
+}
+
+function normalizePaymentMethodKey(value = '') {
+    const key = String(value || '').trim().toLowerCase();
+
+    if (key === 'credit_card' || key === 'credit card') return 'creditCard';
+    if (key === 'bank_transfer' || key === 'bank transfer') return 'bankTransfer';
+
+    return value || '';
+}
+
+function toneToBadgeClass(tone = '') {
+    const key = String(tone || '').toLowerCase();
+
+    if (key === 'success') return 'is-success';
+    if (key === 'warning') return 'is-warning';
+    if (key === 'danger') return 'is-danger';
+
+    return 'is-neutral';
+}
+
+function paymentStateToIconClass(statusKey = '') {
+    return normalizeStateKey(statusKey) === 'paid' ? 'green' : 'amber';
+}
+
+function normalizeSummaryCode(value = '') {
+    const key = String(value || '').trim().toLowerCase();
+
+    const map = {
+        booking_confirmed   : 'bookingConfirmed',
+        booking_under_review: 'bookingUnderReview',
+        paid_successfully   : 'paidSuccessfully',
+        payment_under_review: 'paymentUnderReview',
+        docs_partial        : 'docsPartial',
+        docs_missing        : 'docsMissing',
+    };
+
+    return map[key] || value || '';
+}
+
+function normalizeDashboardDocument(item = {}) {
+    const code = item.code || item.name_key || item.name || '';
+    const statusKey = normalizeStateKey(item.status || item.state || '');
+
+    const nameMap = {
+        passport_copy    : 'passportCopy',
+        passportcopy     : 'passportCopy',
+        acceptance_letter: 'acceptanceLetter',
+        university_acceptance_letter: 'acceptanceLetter',
+        financial_statement: 'financialStatement',
+    };
+
     return {
-        reference    : item.reference || '',
-        date         : item.date || '',
-        status       : item.status || '',
-        statusLabel  : item.status_label || item.status || '',
-        paymentStatus: item.payment_status_label || item.payment_status || '',
-        total        : normalizeDashboardMoney(item.total).formatted,
-        room         : item.room?.name || item.room_name || item.room || '',
-        location     : item.location?.formatted || item.location || '',
-        duration     : item.duration?.label || item.duration || '',
+        nameKey    : nameMap[String(code).toLowerCase()] || code,
+        stateKey   : statusKey,
+        statusClass: toneToBadgeClass(item.tone || item.badge_tone || (statusKey === 'uploaded' ? 'success' : statusKey === 'pending' || statusKey === 'underReview' ? 'warning' : statusKey === 'notUploaded' ? 'danger' : 'neutral')),
+    };
+}
+
+function buildDefaultFinalItems(statusKey = '', finalDone = false) {
+    if (finalDone || statusKey === 'confirmed') {
+        return [
+            { labelKey: 'applicationReview', stateKey: 'completed', statusClass: 'is-success' },
+            { labelKey: 'roomAssignment', stateKey: 'completed', statusClass: 'is-success' },
+            { labelKey: 'bookingConfirmation', stateKey: 'confirmed', statusClass: 'is-success' },
+        ];
+    }
+
+    return [
+        { labelKey: 'applicationReview', stateKey: 'underReview', statusClass: 'is-warning' },
+        { labelKey: 'roomAssignment', stateKey: 'pending', statusClass: 'is-neutral' },
+        { labelKey: 'bookingConfirmation', stateKey: 'pending', statusClass: 'is-neutral' },
+    ];
+}
+
+function normalizeDashboardBooking(item = {}) {
+    const items = Array.isArray(item.items)
+        ? item.items
+        : Array.isArray(item.cart_items)
+            ? item.cart_items
+            : [];
+    const amount = normalizeDashboardMoney(item.amount || item.total || {});
+    const pricing = item.pricing_breakdown || {};
+    const rent = pricing.rent || {};
+    const deposit = pricing.deposit || {};
+    const statusKey = normalizeStateKey(item.status || '');
+    const paymentKey = normalizeStateKey(item.payment_status || '');
+    const paymentDisplayKey = normalizeStateKey(item.payment_display_status || item.payment_status || '');
+    const docsDone = item.timeline?.summary_flags?.docs_done ?? false;
+    const paymentDone = item.timeline?.summary_flags?.payment_done ?? (paymentKey === 'paid');
+    const finalDone = item.timeline?.summary_flags?.final_done ?? (statusKey === 'confirmed');
+    const documents = Array.isArray(item.documents) ? item.documents.map(normalizeDashboardDocument) : [];
+    const finalItems = Array.isArray(item.final_items)
+        ? item.final_items.map(entry => ({
+            labelKey   : entry.label_key || entry.code || '',
+            stateKey   : normalizeStateKey(entry.status || entry.state || ''),
+            statusClass: toneToBadgeClass(entry.tone || entry.badge_tone || 'neutral'),
+        }))
+        : buildDefaultFinalItems(statusKey, finalDone);
+    const statusBar = item.status_bar || {};
+
+    return {
+        reference        : item.reference || '',
+        date             : item.created_at || item.date || '',
+        statusKey,
+        paymentKey,
+        paymentDisplayKey,
+        itemsCount       : item.items_count ?? items.length ?? 0,
+        university       : item.university?.name || item.university_name || item.university || '',
+        paymentMethodKey : normalizePaymentMethodKey(item.payment_method?.code || item.payment_method_label || item.payment_method || ''),
+        room             : item.room?.name || item.room_name || item.room || '',
+        roomDetails      : item.room?.details_label || item.room_details || item.room?.name || item.room_name || '',
+        location         : item.location?.formatted || item.location || '',
+        amount           : amount.formatted_short || amount.formatted,
+        total            : amount.formatted,
+        rentAmount       : rent.formatted || rent.amount || '',
+        depositAmount    : deposit.formatted || deposit.amount || '',
+        priceLine        : pricing.price_line || '',
+        progress         : item.progress?.formatted || `${item.progress?.percentage || (statusKey === 'confirmed' ? 75 : 25)}%`,
+        progressColor    : statusKey === 'confirmed' ? '#3b6d11' : '#854f0b',
+        barClass         : statusKey === 'confirmed' ? 'green' : 'amber',
+        docsDone,
+        paymentDone,
+        finalDone,
+        duration         : item.duration?.formatted || item.duration?.label || item.duration || '',
+        documents,
+        paymentLines     : [
+            ...(rent.formatted || rent.amount ? [{ labelKey: 'roomRent', value: rent.formatted || rent.amount }] : []),
+            ...(deposit.formatted || deposit.amount ? [{ labelKey: 'securityDeposit', value: deposit.formatted || deposit.amount }] : []),
+        ],
+        finalItems,
+        statusSummaryKey : normalizeSummaryCode(statusBar.booking?.code) || (statusKey === 'confirmed' ? 'bookingConfirmed' : 'bookingUnderReview'),
+        statusItemClass  : toneToBadgeClass(statusBar.booking?.tone || (statusKey === 'confirmed' ? 'success' : 'warning')),
+        paymentSummaryKey: normalizeSummaryCode(statusBar.payment?.code) || (paymentDone ? 'paidSuccessfully' : 'paymentUnderReview'),
+        paymentItemClass : toneToBadgeClass(statusBar.payment?.tone || (paymentDone ? 'success' : 'warning')),
+        docsSummaryKey   : normalizeSummaryCode(statusBar.documents?.code) || (documents.some(doc => doc.stateKey === 'uploaded') ? 'docsPartial' : 'docsMissing'),
+        docsItemClass    : toneToBadgeClass(statusBar.documents?.tone || (documents.some(doc => doc.stateKey === 'uploaded') ? 'warning' : 'neutral')),
     };
 }
 
 function normalizeDashboardPayment(item = {}) {
+    const statusKey = normalizeStateKey(item.status || '');
+
     return {
-        id        : item.id || '',
-        title     : item.title || '',
-        date      : item.date || '',
-        amount    : normalizeDashboardMoney(item.amount).formatted,
-        status    : item.status_label || item.status || '',
-        badgeClass: item.status || '',
+        id            : item.id || '',
+        reference     : item.reference || item.booking_reference || '',
+        referenceKey  : item.type === 'security_deposit' ? 'securityDeposit' : '',
+        referenceLabel: item.title || item.booking_reference || '',
+        methodCode    : item.method?.display_code || item.payment_method || '',
+        methodLabelKey: normalizePaymentMethodKey(item.method?.code || item.payment_method_label || item.payment_method || ''),
+        date          : item.date || '',
+        total         : normalizeDashboardMoney(item.amount).formatted,
+        statusKey,
+        iconClass     : paymentStateToIconClass(statusKey),
     };
 }
 
@@ -159,19 +310,24 @@ function normalizeDashboardProfile(profile = {}) {
     return [
         { key: 'full_name', label: 'Full Name', value: profile.full_name || '' },
         { key: 'email', label: 'Email', value: profile.email || '' },
-        { key: 'phone', label: 'Phone', value: profile.phone || '' },
+        { key: 'phone', label: 'Phone', value: profile.mobile || profile.phone || '' },
         { key: 'university', label: 'University', value: profile.university || '' },
         { key: 'nationality', label: 'Nationality', value: profile.nationality || '' },
-        { key: 'status', label: 'Profile Status', value: profile.status_label || '' },
+        { key: 'date_of_birth', label: 'Date of Birth', value: profile.date_of_birth || '' },
+        { key: 'address', label: 'Address', value: profile.address || '' },
+        { key: 'status', label: 'Profile Status', value: profile.completion?.label || profile.status_label || '' },
     ];
 }
 
 function normalizeDashboardResponse(result = {}) {
+    const totalPaid = normalizeDashboardMoney(result.stats?.total_paid || result.stats?.total_spent);
+
     return {
         stats: {
             total_bookings : result.stats?.total_bookings ?? 0,
             active_bookings: result.stats?.active_bookings ?? 0,
-            total_spent    : normalizeDashboardMoney(result.stats?.total_spent),
+            total_paid     : totalPaid,
+            total_spent    : totalPaid,
         },
         recent_bookings: Array.isArray(result.recent_bookings) ? result.recent_bookings.map(normalizeDashboardBooking) : [],
         bookings       : Array.isArray(result.bookings) ? result.bookings.map(normalizeDashboardBooking) : [],
@@ -183,6 +339,7 @@ function normalizeDashboardResponse(result = {}) {
 
 export default function createBookingApi(axios, auth) {
     const isLoggedIn = () => Boolean(auth?.loggedIn);
+    const hasGuestCartItems = () => readGuestCart().items.length > 0;
 
     const buildGuestCartItem = payload => {
         const room = payload.room || payload.roomData || {};
@@ -293,7 +450,13 @@ export default function createBookingApi(axios, auth) {
             }
 
             const { data } = await axios.get('/api/tenant/cart');
-            return normalizeCart(data?.result?.cart || {});
+            const cart = normalizeCart(data?.result?.cart || {});
+
+            if (!cart.items.length && hasGuestCartItems()) {
+                return this.syncGuestCartToServer();
+            }
+
+            return cart;
         },
 
         async addCartItem(payload) {
@@ -355,6 +518,10 @@ export default function createBookingApi(axios, auth) {
         },
 
         async getCheckoutContext() {
+            if (isLoggedIn() && hasGuestCartItems()) {
+                await this.syncGuestCartToServer();
+            }
+
             const { data } = await axios.get('/api/tenant/checkout/context');
 
             return {
