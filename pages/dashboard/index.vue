@@ -342,7 +342,7 @@
               <h3 class="card-title">{{ t.profile.title }}</h3>
               <p class="card-sub">{{ t.profile.subtitle }}</p>
             </div>
-            <button class="edit-btn" type="button">
+            <button class="edit-btn" type="button" @click="openProfileEditor">
               <span v-html="icons.edit"></span>
               {{ t.profile.edit }}
             </button>
@@ -398,6 +398,65 @@
             <strong>{{ formatDate(payment.date) }}</strong>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div
+      class="modal-backdrop"
+      :class="{ open: isProfileEditorOpen }"
+      @click="closeProfileEditor($event)"
+    >
+      <div class="modal">
+        <div class="card-head" style="margin-bottom: 1rem">
+          <div>
+            <h3 class="card-title">{{ t.profile.edit }}</h3>
+            <p class="card-sub">{{ t.profile.subtitle }}</p>
+          </div>
+          <button class="btn-outline" type="button" @click="isProfileEditorOpen = false">{{ $t('actions.cancel') }}</button>
+        </div>
+
+        <form class="profile-edit-form" @submit.prevent="submitProfileUpdate">
+          <div class="profile-grid">
+            <label class="form-field">
+              <span class="meta-label">{{ t.profile.fields.fullName }}</span>
+              <input v-model="profileForm.full_name" type="text" class="form-input">
+            </label>
+            <label class="form-field">
+              <span class="meta-label">{{ t.profile.fields.email }}</span>
+              <input v-model="profileForm.email" type="email" class="form-input">
+            </label>
+            <label class="form-field">
+              <span class="meta-label">{{ t.profile.fields.mobile }}</span>
+              <input v-model="profileForm.mobile" type="text" class="form-input">
+            </label>
+            <label class="form-field">
+              <span class="meta-label">{{ t.profile.fields.university }}</span>
+              <input v-model="profileForm.university" type="text" class="form-input">
+            </label>
+            <label class="form-field">
+              <span class="meta-label">{{ t.profile.fields.nationality }}</span>
+              <input v-model="profileForm.nationality" type="text" class="form-input">
+            </label>
+            <label class="form-field">
+              <span class="meta-label">{{ t.profile.fields.birthDate }}</span>
+              <input v-model="profileForm.date_of_birth" type="date" class="form-input">
+            </label>
+            <label class="form-field form-field-full">
+              <span class="meta-label">{{ t.profile.fields.address }}</span>
+              <input v-model="profileForm.address" type="text" class="form-input">
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-outline" type="button" @click="isProfileEditorOpen = false">
+              {{ $t('actions.cancel') }}
+            </button>
+            <button class="edit-btn" type="submit" :disabled="isProfileSubmitting">
+              <span v-html="icons.edit"></span>
+              {{ $t('actions.save') }}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </main>
@@ -971,6 +1030,8 @@ export default {
       activeModal: null,
       openPanel: null,
       isDashboardLoading: false,
+      isProfileEditorOpen: false,
+      isProfileSubmitting: false,
       tabLoadingState: {
         overview: false,
         bookings: false,
@@ -1000,6 +1061,15 @@ export default {
       profileData: {
         full_name: rawProfileItems[0].value,
         email    : rawProfileItems[2].value,
+      },
+      profileForm: {
+        full_name    : '',
+        email        : '',
+        mobile       : '',
+        university   : '',
+        nationality  : '',
+        address      : '',
+        date_of_birth: '',
       },
     };
   },
@@ -1154,6 +1224,52 @@ export default {
         { labelKey: 'birthDate', value: profile.date_of_birth || rawProfileItems[6].value },
         { labelKey: 'profileStatus', value: `${String(profile.completion?.percentage || rawProfileItems[7].value).replace('%', '')}%` },
       ];
+
+      this.profileForm = {
+        full_name    : this.profileData.full_name || '',
+        email        : this.profileData.email || '',
+        mobile       : this.profileData.mobile || this.profileData.phone || '',
+        university   : this.profileData.university || '',
+        nationality  : this.profileData.nationality || '',
+        address      : this.profileData.address || '',
+        date_of_birth: this.profileData.date_of_birth || '',
+      };
+    },
+    openProfileEditor() {
+      this.profileForm = {
+        full_name    : this.profileData.full_name || '',
+        email        : this.profileData.email || '',
+        mobile       : this.profileData.mobile || this.profileData.phone || '',
+        university   : this.profileData.university || '',
+        nationality  : this.profileData.nationality || '',
+        address      : this.profileData.address || '',
+        date_of_birth: this.profileData.date_of_birth || '',
+      };
+      this.isProfileEditorOpen = true;
+    },
+    closeProfileEditor(event) {
+      if (event.target === event.currentTarget) {
+        this.isProfileEditorOpen = false;
+      }
+    },
+    async submitProfileUpdate() {
+      this.isProfileSubmitting = true;
+
+      try {
+        const updatedProfile = await this.$bookingApi.updateProfile(this.profileForm);
+        this.applyProfileData(updatedProfile || {});
+        this.isProfileEditorOpen = false;
+
+        if (typeof this.$successAlert === 'function') {
+          this.$successAlert(this.$t('notification.updated_successfully'));
+        }
+      } catch (error) {
+        if (typeof this.$dangerAlert === 'function') {
+          this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
+        }
+      } finally {
+        this.isProfileSubmitting = false;
+      }
     },
     togglePanel(id) {
       this.openPanel = this.openPanel === id ? null : id;
@@ -1371,7 +1487,14 @@ export default {
 .profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .profile-item{background:#f5f5f3;border-radius:8px;padding:10px 14px}
 .profile-item strong{font-size:14px;font-weight:500;color:#1a1a1a;display:block;margin-top:2px}
+.profile-edit-form{display:grid;gap:1rem}
+.form-field{display:grid;gap:6px}
+.form-field-full{grid-column:1/-1}
+.form-input{width:100%;height:44px;border:.5px solid #d8d7cf;border-radius:8px;padding:0 12px;background:#fff;color:#1a1a1a;font-size:14px;outline:none;transition:.2s}
+.form-input:focus{border-color:#1a5c3a;box-shadow:0 0 0 3px rgba(26,92,58,.08)}
+.form-actions{display:flex;justify-content:flex-end;gap:8px}
 .edit-btn{display:flex;align-items:center;gap:6px;background:#1a5c3a;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.edit-btn:disabled{opacity:.7;cursor:not-allowed}
 .edit-btn :deep(svg){width:14px;height:14px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:999}
 .modal-backdrop.open{display:flex}
