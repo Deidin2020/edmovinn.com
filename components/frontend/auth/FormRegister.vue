@@ -52,6 +52,7 @@
 
 
 <script>
+import { extractAccessToken, normalizeBearerToken } from '@/utils/auth';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -85,6 +86,17 @@ export default {
     },
     methods: {
         ...mapActions('visitor', ['fetchVisitorInfo']),
+        async ensureAuthenticatedSession(payload = {}) {
+            const token = normalizeBearerToken(extractAccessToken(payload));
+
+            if (token && !this.$auth.loggedIn) {
+                await this.$auth.setUserToken(token);
+            }
+
+            if (!this.$auth.loggedIn) {
+                await this.$auth.fetchUser();
+            }
+        },
         async finalizeAuthenticatedCart() {
             try {
                 const cart = await this.$bookingApi.syncGuestCartToServer();
@@ -180,12 +192,14 @@ export default {
         },
         async loginUser() {
             try {
-                await this.$auth.loginWith('local', {
+                const response = await this.$auth.loginWith('local', {
                     data: {
                         mobile: this.form.mobile,
                         password: this.form.password,
                     },
                 });
+
+                await this.ensureAuthenticatedSession(response?.data);
 
                 this.$successAlert(this.$t('notification.register_successfully'))
             } catch (error) {

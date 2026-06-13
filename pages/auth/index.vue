@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import { extractAccessToken, normalizeBearerToken } from '@/utils/auth';
 
 import { mapActions, mapGetters } from 'vuex';
 export default {
@@ -137,6 +138,17 @@ export default {
     },
     methods: {
         ...mapActions('visitor', ['fetchVisitorInfo']),
+        async ensureAuthenticatedSession(payload = {}, fallbackToken = '') {
+            const token = normalizeBearerToken(extractAccessToken(payload) || fallbackToken);
+
+            if (token && !this.$auth.loggedIn) {
+                await this.$auth.setUserToken(token);
+            }
+
+            if (!this.$auth.loggedIn) {
+                await this.$auth.fetchUser();
+            }
+        },
         async handleTokenLogin() {
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
@@ -144,8 +156,7 @@ export default {
             if (!token) return;
 
             try {
-                await this.$auth.setUserToken(token);
-                await this.$auth.fetchUser();
+                await this.ensureAuthenticatedSession({}, token);
                 await this.finalizeLogin();
             } catch (error) {
                 this.error = error.response?.data?.message || this.$t('notification.error_occurred');
@@ -179,11 +190,11 @@ export default {
             this.errors = {};
 
             try {
-                await this.$auth.loginWith('local', {
+                const response = await this.$auth.loginWith('local', {
                     data: this.form,
                 });
 
-                await this.$auth.fetchUser();
+                await this.ensureAuthenticatedSession(response?.data);
                 localStorage.setItem('mobile', this.form.mobile);
                 this.$successAlert(this.$t('notification.login_successfully'));
 

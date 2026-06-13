@@ -1,5 +1,7 @@
+import { getAuthToken } from '@/utils/auth';
+
 export default async function ({ $auth }) {
-    const token = $auth?.strategy?.token?.get?.();
+    const token = getAuthToken($auth);
 
     if (!token || $auth.loggedIn) {
         return;
