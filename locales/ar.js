@@ -13,6 +13,7 @@ export default {
     sign_in      : 'تسجيل الدخول',
     sign_up      : 'إنشاء حساب جديد',
     dashboard:'لوحة التحكم',
+    cart: 'السلة',
   },
 
   hero: {

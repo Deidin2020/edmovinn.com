@@ -13,7 +13,8 @@ export default {
     sign_in      : 'Sign In',
     sign_up      : 'Sign Up',
     dashboard    : 'Dashboard',
-    
+    cart         : 'Cart',
+
   },
 
   hero: {

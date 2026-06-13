@@ -11,7 +11,8 @@ export default {
     log_out      : 'Çıkış Yap',
     my_account   : 'Hesabım',
     sign_in      : 'Giriş Yap',
-    sign_up      : 'Kayıt Ol'
+    sign_up      : 'Kayıt Ol',
+    cart         : 'Sepet'
   },
   'hero': {
     'titleLine1'   : 'Edmov Inn',
