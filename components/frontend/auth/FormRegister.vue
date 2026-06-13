@@ -85,6 +85,20 @@ export default {
     },
     methods: {
         ...mapActions('visitor', ['fetchVisitorInfo']),
+        async finalizeAuthenticatedCart() {
+            try {
+                const cart = await this.$bookingApi.syncGuestCartToServer();
+
+                window.dispatchEvent(new CustomEvent('cart-updated', {
+                    detail: {
+                        count: cart.items_count || 0,
+                        cart,
+                    }
+                }));
+            } catch (error) {
+                this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
+            }
+        },
 
         togglePasswordVisibility(fieldType) {
             this[fieldType] = this[fieldType] === 'password' ? 'text' : 'password';
@@ -100,27 +114,37 @@ export default {
 
                         this.$successAlert(this.$t('notification.register_successfully'));
 
-                        this.loginUser().then(() => {
-                            this.disabledButton = false;
-                            localStorage.setItem('mobile', this.form.mobile);
-                            this.gotToVerifyPage();
-                        });
+                        this.loginUser()
+                            .then(async () => {
+                                await this.finalizeAuthenticatedCart();
+                                localStorage.setItem('mobile', this.form.mobile);
+                                this.gotToVerifyPage();
+                            })
+                            .finally(() => {
+                                this.disabledButton = false;
+                            });
                     }
                 }).catch((errors) => {
                     console.log(errors);
                     // 502 that's mean there is a problem with send OTP
                     if (errors.response.status === 502) {
-                        this.loginUser().then(() => {
-                            localStorage.setItem('mobile', this.form.mobile);
-                            this.gotToVerifyPage(errors.response.data.message);
-                        });
+                        this.loginUser()
+                            .then(async () => {
+                                await this.finalizeAuthenticatedCart();
+                                localStorage.setItem('mobile', this.form.mobile);
+                                this.gotToVerifyPage(errors.response.data.message);
+                            })
+                            .finally(() => {
+                                this.disabledButton = false;
+                            });
                         // this.gotToVerifyPage(errors.response.data.message);
                     } else if (errors.response.status === 422) {
                         this.errors = errors.response.data.errors;
+                        this.disabledButton = false;
                     } else {
                         this.$dangerAlert(this.$t('notification.error_occurred'))
+                        this.disabledButton = false;
                     }
-                    this.disabledButton = false;
                 }
                 )
                 ;
@@ -155,17 +179,20 @@ export default {
             this.form.mobile = formattedNumber;
         },
         async loginUser() {
-            await this.$auth.loginWith('local', {
-                data: {
-                    mobile: this.form.mobile,
-                    password: this.form.password,
-                },
-            }).then((res) => {
+            try {
+                await this.$auth.loginWith('local', {
+                    data: {
+                        mobile: this.form.mobile,
+                        password: this.form.password,
+                    },
+                });
+
                 this.$successAlert(this.$t('notification.register_successfully'))
-            }).catch((error) => {
+            } catch (error) {
                 this.errors = error.response.data.errors;
                 this.error = error.response.data.message;
-            });
+                throw error;
+            }
         }
     },
     async mounted() {

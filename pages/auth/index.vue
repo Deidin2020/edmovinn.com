@@ -162,7 +162,7 @@ export default {
                     }
                 }));
             } catch (error) {
-                // Keep login flow resilient even if cart sync fails.
+                this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
             }
 
             const redirect = localStorage.getItem('redirect');
@@ -176,6 +176,7 @@ export default {
         },
         async login() {
             this.error = null;
+            this.errors = {};
 
             try {
                 await this.$auth.loginWith('local', {
