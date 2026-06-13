@@ -28,11 +28,10 @@
         </svg>
         <h2 class="text-2xl font-semibold text-foreground mb-2">{{ $t('cart.empty_title') }}</h2>
         <p class="text-muted-foreground mb-8">{{ $t('cart.empty_description') }}</p>
-        <a href="/">
-          <button
-            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-primary text-primary-foreground hover:bg-primary/90">
-            {{ $t('cart.browse_button') }}
-          </button>
+        <a
+          href="/"
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-primary text-primary-foreground hover:bg-primary/90">
+          {{ $t('cart.browse_button') }}
         </a>
       </div>
 
@@ -149,9 +148,11 @@
             <span class="text-primary">{{ finalTotal }} {{ currency }}</span>
           </div>
           <div class="flex flex-col sm:flex-row gap-4">
-            <a class="flex-1" :href="localePath('/search')"><button
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full border border-input bg-background hover:bg-accent hover:text-accent-foreground">
-                {{ $t('cart.Continue Shopping') }}</button></a>
+            <a
+              class="flex-1 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+              :href="localePath('/search')">
+              {{ $t('cart.Continue Shopping') }}
+            </a>
             <button @click="proceedToCheckout"
                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full bg-primary text-primary-foreground hover:bg-primary/90">
                 {{ $t('cart.Proceed to Checkout') }} </button>

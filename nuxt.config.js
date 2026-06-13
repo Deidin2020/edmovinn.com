@@ -4,7 +4,7 @@ export default {
     },
 
     ssr: true,
-    target: 'server',
+    target: 'static',
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
         title: 'edmovinn',
@@ -141,7 +141,8 @@ export default {
                 token: {
                     property: 'access_token',
                     type: 'Bearer',
-                    maxAge: 1800
+                    maxAge: 1800,
+                    global: false
                 },
                 user: {
                     property: 'result.tenant'

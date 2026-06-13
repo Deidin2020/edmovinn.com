@@ -1,17 +1,40 @@
 import { getAuthToken } from '@/utils/auth';
 
-function syncRequestHeaders($axios, app, $auth) {
-    $axios.setHeader('local', app.i18n.locale);
+const PUBLIC_TENANT_ENDPOINTS = [
+    '/api/tenant/login',
+    '/api/tenant/register',
+    '/api/tenant/forgot-password',
+    '/api/tenant/verify-forgot-otp',
+    '/api/tenant/resend-mobile-code',
+    '/api/tenant/reset-password',
+    '/api/tenant/auth/google/url',
+    '/api/tenant/google/url',
+    '/api/tenant/gmail',
+];
 
-    const token = getAuthToken($auth);
-    $axios.setHeader('Authorization', token || false);
+function shouldAttachAuthHeader(url = '') {
+    if (!url || typeof url !== 'string') return false;
+    if (!url.startsWith('/api/tenant/')) return false;
+
+    return !PUBLIC_TENANT_ENDPOINTS.some(endpoint => url.startsWith(endpoint));
 }
 
 export default function ({ $axios, redirect, app, $auth }) {
-    syncRequestHeaders($axios, app, $auth);
+    $axios.setHeader('local', app.i18n.locale);
+    $axios.setHeader('Authorization', false);
 
     $axios.onRequest(config => {
-        syncRequestHeaders($axios, app, $auth);
+        config.headers = config.headers || {};
+        config.headers.local = app.i18n.locale;
+
+        const token = getAuthToken($auth);
+
+        if (token && shouldAttachAuthHeader(config.url)) {
+            config.headers.Authorization = token;
+        } else if (config.headers.Authorization) {
+            delete config.headers.Authorization;
+        }
+
         return config;
     });
 
