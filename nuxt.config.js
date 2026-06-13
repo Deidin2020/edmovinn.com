@@ -68,6 +68,7 @@ export default {
         '~/plugins/schemas-generator.js',
         '~/plugins/axios.js',
         '~/plugins/algolia.js',
+        '~/plugins/auth-bootstrap.client.js',
         '~/plugins/booking-api.js',
         {
             src: '~/plugins/bootstrap.bundle.min.js',

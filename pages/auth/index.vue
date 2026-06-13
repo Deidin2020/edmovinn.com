@@ -133,17 +133,24 @@ export default {
     },
     mounted() {
         this.fetchVisitorInfo();
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        if (token) {
-            this.$auth.setUserToken(token);
-            this.$auth.fetchUser().then(() => {
-                this.finalizeLogin();
-            });
-        }
+        this.handleTokenLogin();
     },
     methods: {
         ...mapActions('visitor', ['fetchVisitorInfo']),
+        async handleTokenLogin() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            if (!token) return;
+
+            try {
+                await this.$auth.setUserToken(token);
+                await this.$auth.fetchUser();
+                await this.finalizeLogin();
+            } catch (error) {
+                this.error = error.response?.data?.message || this.$t('notification.error_occurred');
+            }
+        },
         async finalizeLogin() {
             try {
                 const cart = await this.$bookingApi.syncGuestCartToServer();
@@ -159,34 +166,34 @@ export default {
             }
 
             const redirect = localStorage.getItem('redirect');
+            const destination = redirect ? this.localePath(redirect) : this.localePath('/dashboard');
 
             if (redirect) {
                 localStorage.removeItem('redirect');
-                window.location.href = this.localePath(redirect);
-            } else {
-                window.location.href = this.localePath('/dashboard');
             }
+
+            await this.$router.replace(destination);
         },
         async login() {
             this.error = null;
-            await this.$auth.loginWith('local', {
-                data: this.form,
-            }).then((res) => {
+
+            try {
+                await this.$auth.loginWith('local', {
+                    data: this.form,
+                });
+
+                await this.$auth.fetchUser();
                 localStorage.setItem('mobile', this.form.mobile);
                 this.$successAlert(this.$t('notification.login_successfully'));
-            }).catch((errors) => {
-                if (errors.response.status == 422) {
+
+                await this.finalizeLogin();
+            } catch (errors) {
+                if (errors.response?.status === 422) {
                     this.errors = errors.response.data.errors;
                 } else {
-                    this.$dangerAlert(errors.response.data.message ?? this.$t('notification.error_occurred'))
+                    this.$dangerAlert(errors.response?.data?.message ?? this.$t('notification.error_occurred'));
                 }
-            });
-
-            setTimeout(() => {
-                if (this.$auth.loggedIn) {
-                    this.finalizeLogin();
-                }
-            }, 500);
+            }
         },
         updatePhoneNumber({ countryCode, formattedNumber }) {
             this.form.country_code = countryCode;

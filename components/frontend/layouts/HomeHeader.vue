@@ -92,22 +92,21 @@
                         </button>
                     </a>
 
-                    <a :href="localePath('/auth')" v-if="!$auth.loggedIn">
+                    <a :href="localePath('/auth')" v-if="!isLoggedIn">
                         <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium border
                         border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
                             {{ $t('header.sign_in') }}
                         </button>
                     </a>
 
-                    <a :href="localePath('/auth')" v-if="!$auth.loggedIn">
+                    <a :href="localePath('/auth')" v-if="!isLoggedIn">
                         <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium h-9 rounded-md
                         px-3 bg-primary text-primary-foreground hover:bg-primary/90">
                             {{ $t('header.sign_up') }}
                         </button>
                     </a>
 
-
-                    <a :href="localePath('/dashboard')" v-if="$auth.loggedIn">
+                    <a :href="localePath('/dashboard')" v-if="isLoggedIn">
                         <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium border
                         border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
                             {{ $t('header.dashboard') }}
@@ -116,7 +115,7 @@
 
                     <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium h-9 rounded-md
                         px-3 bg-primary text-primary-foreground hover:bg-primary/90" @click="logOut"
-                        v-if="$auth.loggedIn">
+                        v-if="isLoggedIn">
                         {{ $t('header.log_out') }}
                     </button>
 
@@ -134,6 +133,11 @@ export default {
             cartCount: 0,
         }
     },
+    computed: {
+        isLoggedIn() {
+            return this.$auth.loggedIn;
+        },
+    },
     mounted() {
         this.loadCartCount()
 
@@ -148,15 +152,25 @@ export default {
             window.removeEventListener('cart-updated', this.handleCartUpdated);
         }
     },
+    watch: {
+        isLoggedIn: {
+            immediate: true,
+            handler(value) {
+                if (value) {
+                    this.loadCartCount();
+                    return;
+                }
+
+                this.cartCount = 0;
+            },
+        },
+    },
     methods: {
-        logOut() {
-            this.$auth.logout().then(() => {
+        async logOut() {
+            await this.$auth.logout();
                 localStorage.removeItem('mobile');
                 this.$successAlert(this.$t('notification.log_out'));
-                setTimeout(() => {
-                    window.location.href = this.$i18n.locale === 'en' ? '/' : `/${this.$i18n.locale}`;
-                }, 1000)
-            })
+                await this.$router.replace(this.localePath('/'));
         },
         async loadCartCount() {
             try {

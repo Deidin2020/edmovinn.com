@@ -283,9 +283,9 @@ export default {
     proceedToCheckout() {
       if (!this.$auth.loggedIn) {
         localStorage.setItem('redirect', '/checkout');
-        window.location.href = this.localePath('/auth');
+        this.$router.push(this.localePath('/auth'));
       } else {
-        window.location.href = this.localePath('/checkout');
+        this.$router.push(this.localePath('/checkout'));
       }
     }
   }
