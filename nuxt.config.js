@@ -139,7 +139,7 @@ export default {
                     }
                 },
                 token: {
-                    property: 'access_token',
+                    property: 'result.access_token',
                     type: 'Bearer',
                     maxAge: 1800,
                     global: false

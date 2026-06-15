@@ -12,11 +12,26 @@ const PUBLIC_TENANT_ENDPOINTS = [
     '/api/tenant/gmail',
 ];
 
-function shouldAttachAuthHeader(url = '') {
-    if (!url || typeof url !== 'string') return false;
-    if (!url.startsWith('/api/tenant/')) return false;
+function normalizeRequestPath(url = '') {
+    if (!url || typeof url !== 'string') return '';
 
-    return !PUBLIC_TENANT_ENDPOINTS.some(endpoint => url.startsWith(endpoint));
+    if (url.startsWith('/')) {
+        return url;
+    }
+
+    try {
+        return new URL(url).pathname;
+    } catch (error) {
+        return url;
+    }
+}
+
+function shouldAttachAuthHeader(url = '') {
+    const path = normalizeRequestPath(url);
+
+    if (!path.startsWith('/api/tenant/')) return false;
+
+    return !PUBLIC_TENANT_ENDPOINTS.some(endpoint => path.startsWith(endpoint));
 }
 
 export default function ({ $axios, redirect, app, $auth }) {
