@@ -52,7 +52,7 @@
 
 
 <script>
-import { extractAccessToken, normalizeBearerToken } from '@/utils/auth';
+import { extractAccessToken, normalizeBearerToken, persistAuthToken } from '@/utils/auth';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -88,6 +88,10 @@ export default {
         ...mapActions('visitor', ['fetchVisitorInfo']),
         async ensureAuthenticatedSession(payload = {}) {
             const token = normalizeBearerToken(extractAccessToken(payload));
+
+            if (token) {
+                persistAuthToken(token);
+            }
 
             if (token && !this.$auth.loggedIn) {
                 await this.$auth.setUserToken(token);

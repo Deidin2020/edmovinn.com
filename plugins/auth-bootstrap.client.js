@@ -1,4 +1,4 @@
-import { getAuthToken } from '@/utils/auth';
+import { clearPersistedAuthToken, getAuthToken, normalizeBearerToken, persistAuthToken } from '@/utils/auth';
 
 export default async function ({ $auth }) {
     const token = getAuthToken($auth);
@@ -8,8 +8,11 @@ export default async function ({ $auth }) {
     }
 
     try {
+        persistAuthToken(token);
+        await $auth.setUserToken(normalizeBearerToken(token));
         await $auth.fetchUser();
     } catch (error) {
+        clearPersistedAuthToken();
         await $auth.reset();
     }
 }

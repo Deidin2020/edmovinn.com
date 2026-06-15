@@ -231,6 +231,8 @@
     </header>
 </template>
 <script>
+import { clearPersistedAuthToken } from '@/utils/auth';
+
 export default {
     data() {
         return {
@@ -273,10 +275,11 @@ export default {
     },
     methods: {
         async logOut() {
+            clearPersistedAuthToken();
             await this.$auth.logout();
-                localStorage.removeItem('mobile');
-                this.$successAlert(this.$t('notification.log_out'));
-                await this.$router.replace(this.localePath('/'));
+            localStorage.removeItem('mobile');
+            this.$successAlert(this.$t('notification.log_out'));
+            await this.$router.replace(this.localePath('/'));
         },
         async loadCartCount() {
             try {

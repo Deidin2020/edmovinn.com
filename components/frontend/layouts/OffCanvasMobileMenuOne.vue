@@ -83,6 +83,7 @@
 <script>
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
+import { clearPersistedAuthToken } from '@/utils/auth';
 
 Vue.use(VueI18n);
 export default {
@@ -153,6 +154,7 @@ export default {
 
         async logOut() {
             this.toggleMobileMenu();
+            clearPersistedAuthToken();
             await this.$auth.logout()
             localStorage.removeItem('mobile');
             window.location.href = this.$i18n.locale === 'en' ? '/' : `/${this.$i18n.locale}`;
