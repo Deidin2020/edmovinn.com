@@ -72,7 +72,7 @@ export default {
     this.form.mobile = localStorage.getItem('mobile')
 
     if (!this.form.mobile) {
-      this.$router.push(this.localePath('/signup'))
+      this.$router.push(this.localePath({ path: '/auth', query: { tab: 'signup' } }))
     }
     this.resendTimer = 30
 

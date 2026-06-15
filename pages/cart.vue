@@ -164,6 +164,8 @@
 </template>
 
 <script>
+import { setPostAuthRedirect } from '@/utils/authFlow';
+
 export default {
   data() {
     return {
@@ -282,7 +284,7 @@ export default {
     },
     proceedToCheckout() {
       if (!this.$auth.loggedIn) {
-        localStorage.setItem('redirect', '/checkout');
+        setPostAuthRedirect(this.localePath('/checkout'));
         this.$router.push(this.localePath('/auth'));
       } else {
         this.$router.push(this.localePath('/checkout'));

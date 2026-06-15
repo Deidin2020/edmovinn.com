@@ -69,10 +69,10 @@
                 <a v-if="$auth.loggedIn" @click="logOut" class="btn btn-primary w-100 mt-2">
                     {{ $t('header.log_out') }}
                 </a>
-                <a v-else :href="localePath('/signin')" class="btn btn-primary w-100 ">
+                <a v-if="!$auth.loggedIn" :href="localePath({ path: '/auth', query: { tab: 'signin' } })" class="btn btn-primary w-100 ">
                     {{ $t('header.sign_in') }}
                 </a>
-                <a v-else :href="localePath('/signup')" class="btn btn-primary w-100 ">
+                <a v-if="!$auth.loggedIn" :href="localePath({ path: '/auth', query: { tab: 'signup' } })" class="btn btn-primary w-100 ">
                     {{ $t('header.sign_up') }}
                 </a>
             </ul>

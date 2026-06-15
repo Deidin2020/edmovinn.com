@@ -84,7 +84,7 @@
 
                                     <div class="sign-helper text-center mt-3">
                                         <p>{{ $t('auth.have_account') }}
-                                            <NuxtLink :to="localePath('/signup')">{{ $t('auth.sing_up') }}
+                                            <NuxtLink :to="localePath({ path: '/auth', query: { tab: 'signup' } })">{{ $t('auth.sing_up') }}
                                             </NuxtLink>
                                         </p>
                                     </div>
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import { consumePostAuthRedirect, resolvePostAuthRedirect } from '@/utils/authFlow';
 
 import { mapActions, mapGetters } from 'vuex';
 export default {
@@ -131,12 +132,32 @@ export default {
             },
         }
     },
+    watch: {
+        '$route.query.tab': {
+            immediate: true,
+            handler() {
+                this.syncActiveTabWithRoute();
+            },
+        },
+    },
     mounted() {
         this.fetchVisitorInfo();
         this.handleTokenLogin();
     },
     methods: {
         ...mapActions('visitor', ['fetchVisitorInfo']),
+        syncActiveTabWithRoute() {
+            const requestedTab = String(this.$route.query.tab || '').toLowerCase();
+
+            if (requestedTab === 'signup') {
+                this.activeTab = 'signup';
+                return;
+            }
+
+            if (requestedTab === 'signin') {
+                this.activeTab = 'signin';
+            }
+        },
         async handleTokenLogin() {
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
@@ -165,17 +186,18 @@ export default {
                 // Keep login flow resilient even if cart sync fails.
             }
 
-            const redirect = localStorage.getItem('redirect');
-            const destination = redirect ? this.localePath(redirect) : this.localePath('/dashboard');
-
-            if (redirect) {
-                localStorage.removeItem('redirect');
-            }
+            const destination = resolvePostAuthRedirect({
+                redirectPath: consumePostAuthRedirect(),
+                locale      : this.$i18n.locale,
+                localePath  : this.localePath,
+                fallback    : '/dashboard',
+            });
 
             await this.$router.replace(destination);
         },
         async login() {
             this.error = null;
+            this.errors = {};
 
             try {
                 await this.$auth.loginWith('local', {

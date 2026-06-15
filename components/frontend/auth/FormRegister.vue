@@ -52,6 +52,7 @@
 
 
 <script>
+import { consumePostAuthRedirect, resolvePostAuthRedirect } from '@/utils/authFlow';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -75,6 +76,7 @@ export default {
                 contact_number: null,
             },
             errors: {},
+            error: null,
             passwordFieldType: 'password',
             passwordConfirmationFieldType: 'password',
             disabledButton: false,
@@ -89,51 +91,84 @@ export default {
         togglePasswordVisibility(fieldType) {
             this[fieldType] = this[fieldType] === 'password' ? 'text' : 'password';
         },
+        requiresVerification(responseData = {}) {
+            const result = responseData?.result || {};
+
+            return Boolean(
+                result.requires_verification ||
+                result.verification_required ||
+                result?.tenant?.is_verified === false
+            );
+        },
         async submitRegisterForm() {
             this.disabledButton = true;
             this.emptyInitialAlerts();
 
-            await this.$axios.post('/api/tenant/register', this.form)
-                .then((res) => {
-                    console.log(res.data);
-                    if (res.data.success) {
+            try {
+                const response = await this.$axios.post(this.apiUrl, this.form);
 
-                        this.$successAlert(this.$t('notification.register_successfully'));
-
-                        this.loginUser().then(() => {
-                            this.disabledButton = false;
-                            localStorage.setItem('mobile', this.form.mobile);
-                            this.gotToVerifyPage();
-                        });
-                    }
-                }).catch((errors) => {
-                    console.log(errors);
-                    // 502 that's mean there is a problem with send OTP
-                    if (errors.response.status === 502) {
-                        this.loginUser().then(() => {
-                            localStorage.setItem('mobile', this.form.mobile);
-                            this.gotToVerifyPage(errors.response.data.message);
-                        });
-                        // this.gotToVerifyPage(errors.response.data.message);
-                    } else if (errors.response.status === 422) {
-                        this.errors = errors.response.data.errors;
-                    } else {
-                        this.$dangerAlert(this.$t('notification.error_occurred'))
-                    }
-                    this.disabledButton = false;
+                if (!response?.data?.success) {
+                    throw new Error(response?.data?.message || this.$t('notification.error_occurred'));
                 }
-                )
-                ;
+
+                await this.loginUser();
+                this.$successAlert(this.$t('notification.register_successfully'));
+
+                if (this.requiresVerification(response.data)) {
+                    localStorage.setItem('mobile', this.form.mobile);
+                    this.gotToVerifyPage();
+                    return;
+                }
+
+                await this.finalizeAuthenticatedUser();
+            } catch (errors) {
+                if (errors.response?.status === 502) {
+                    await this.loginUser();
+                    localStorage.setItem('mobile', this.form.mobile);
+                    this.gotToVerifyPage(errors.response?.data?.message);
+                    return;
+                }
+
+                if (errors.response?.status === 422) {
+                    this.errors = errors.response.data.errors || {};
+                } else {
+                    this.$dangerAlert(errors.response?.data?.message || errors.message || this.$t('notification.error_occurred'));
+                }
+            } finally {
+                this.disabledButton = false;
+            }
+        },
+        async finalizeAuthenticatedUser() {
+            try {
+                const cart = await this.$bookingApi.syncGuestCartToServer();
+
+                if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('cart-updated', {
+                        detail: {
+                            count: cart.items_count || 0,
+                            cart,
+                        },
+                    }));
+                }
+            } catch (error) {
+                // Keep registration resilient even if the cart sync is temporarily unavailable.
+            }
+
+            const destination = resolvePostAuthRedirect({
+                redirectPath: consumePostAuthRedirect(),
+                locale      : this.$i18n.locale,
+                localePath  : this.localePath,
+                fallback    : '/dashboard',
+            });
+
+            await this.$router.replace(destination);
         },
         gotToVerifyPage(message) {
-            setTimeout(() => {
-                this.$router.push({
-                    path: this.localePath('/auth/verify'),
-                    query: { mobile: this.form.mobile, error: message }
-                });
-            }, 2500);
-        }
-        ,
+            this.$router.push({
+                path : this.localePath('/auth/verify'),
+                query: { mobile: this.form.mobile, error: message },
+            });
+        },
         resetFormData() {
             this.form = {
                 full_name: null,
@@ -157,15 +192,12 @@ export default {
         async loginUser() {
             await this.$auth.loginWith('local', {
                 data: {
-                    mobile: this.form.mobile,
+                    mobile  : this.form.mobile,
                     password: this.form.password,
                 },
-            }).then((res) => {
-                this.$successAlert(this.$t('notification.register_successfully'))
-            }).catch((error) => {
-                this.errors = error.response.data.errors;
-                this.error = error.response.data.message;
             });
+
+            await this.$auth.fetchUser();
         }
     },
     async mounted() {

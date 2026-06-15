@@ -35,7 +35,7 @@
                                         {{ $t('pages.checkout.payment_method_description') }}
                                     </p>
                                 </div>
-                                <PaymentMethod v-model="paymentForm" />
+                                <PaymentMethod v-model="paymentForm" :available-methods="paymentMethods" />
                             </div>
 
                             <!-- Personal Information -->
@@ -95,6 +95,7 @@ export default {
                     grand_total  : 0,
                 }
             },
+            paymentMethods: [],
             guestForm: {
                 first_name    : '',
                 last_name     : '',
@@ -128,10 +129,18 @@ export default {
             try {
                 const context = await this.$bookingApi.getCheckoutContext();
                 this.cartData = context.cart;
+                this.paymentMethods = context.payment_methods || [];
                 this.guestForm = {
                     ...this.guestForm,
                     ...context.tenant,
                 };
+
+                if (this.paymentMethods.length && !this.paymentMethods.some(method => method.code === this.paymentForm.method)) {
+                    this.paymentForm = {
+                        ...this.paymentForm,
+                        method: this.paymentMethods[0].code,
+                    };
+                }
             } catch (error) {
                 this.$dangerAlert(error.response?.data?.message || this.$t('notification.error_occurred'));
             } finally {
@@ -142,6 +151,14 @@ export default {
             this.submitting = true;
 
             try {
+                if (!this.cartData.items?.length) {
+                    throw new Error('Your cart is empty.');
+                }
+
+                if (this.paymentForm.method === 'bank_transfer' && !this.paymentForm.receipt_file) {
+                    throw new Error('Please upload your bank transfer receipt before submitting the booking.');
+                }
+
                 await this.$bookingApi.validateCart();
                 await this.$bookingApi.updateProfile(this.guestForm);
 
@@ -170,6 +187,20 @@ export default {
                 } else if (this.paymentForm.method === 'credit_card') {
                     const session = await this.$bookingApi.createPaymentSession(booking.id, { provider: 'stripe' });
                     const reference = booking.reference ? ` (${booking.reference})` : '';
+                    const redirectUrl = session.redirect_url || session.checkout_url || session.url;
+
+                    if (redirectUrl) {
+                        this.cartData = await this.$bookingApi.clearCart();
+                        window.dispatchEvent(new CustomEvent('cart-updated', {
+                            detail: {
+                                count: 0,
+                                cart : this.cartData,
+                            }
+                        }));
+                        this.$successAlert(`Booking created${reference}. Redirecting to payment...`);
+                        window.location.href = redirectUrl;
+                        return;
+                    }
 
                     this.$successAlert(`Booking created${reference}. Payment session initialized${session.id ? `: ${session.id}` : ''}.`);
                 } else {

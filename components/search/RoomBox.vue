@@ -120,6 +120,8 @@
 </template>
 
 <script>
+import { setPostAuthRedirect } from '@/utils/authFlow';
+
 export default {
     props: {
         room: Object,
@@ -167,8 +169,8 @@ export default {
 
         openModal(roomId, roomName) {
             if (!this.$auth.loggedIn) {
-                localStorage.setItem('redirect', this.localePath({ name: 'dashboard-rooms-slug', params: { slug: this.room.slug } }));
-                this.$router.push(this.localePath('/signup'));
+                setPostAuthRedirect(this.$route.fullPath);
+                this.$router.push(this.localePath({ path: '/auth', query: { tab: 'signup' } }));
                 return;
             }
 

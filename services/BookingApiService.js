@@ -114,6 +114,87 @@ function resolveGuestItemId(itemId) {
     return itemId.toString().replace(/^guest-/, '');
 }
 
+function splitFullName(fullName = '') {
+    const parts = String(fullName || '').trim().split(/\s+/).filter(Boolean);
+
+    if (!parts.length) {
+        return {
+            first_name: '',
+            last_name : '',
+        };
+    }
+
+    return {
+        first_name: parts[0] || '',
+        last_name : parts.slice(1).join(' '),
+    };
+}
+
+function normalizeTenantProfile(profile = {}) {
+    const fallbackNames = splitFullName(profile.full_name || profile.name || '');
+    const firstName = profile.first_name || fallbackNames.first_name || '';
+    const lastName = profile.last_name || fallbackNames.last_name || '';
+    const fullName = profile.full_name || [firstName, lastName].filter(Boolean).join(' ').trim();
+    const mobile = profile.mobile || profile.phone || '';
+    const university = profile.university || profile.university_name || '';
+
+    return {
+        ...profile,
+        full_name      : fullName,
+        first_name     : firstName,
+        last_name      : lastName,
+        email          : profile.email || '',
+        mobile,
+        phone          : mobile,
+        date_of_birth  : profile.date_of_birth || '',
+        university,
+        university_name: university,
+        nationality    : profile.nationality || '',
+        address        : profile.address || '',
+    };
+}
+
+function buildTenantProfilePayload(payload = {}) {
+    const normalizedProfile = normalizeTenantProfile(payload);
+
+    return Object.fromEntries(
+        Object.entries({
+            full_name      : normalizedProfile.full_name || undefined,
+            first_name     : normalizedProfile.first_name || undefined,
+            last_name      : normalizedProfile.last_name || undefined,
+            email          : normalizedProfile.email || undefined,
+            mobile         : normalizedProfile.mobile || undefined,
+            phone          : normalizedProfile.mobile || undefined,
+            date_of_birth  : normalizedProfile.date_of_birth || undefined,
+            university     : normalizedProfile.university || undefined,
+            university_name: normalizedProfile.university_name || undefined,
+            nationality    : normalizedProfile.nationality || undefined,
+            address        : normalizedProfile.address || undefined,
+        }).filter(([, value]) => value !== undefined)
+    );
+}
+
+function normalizePaymentMethod(method = {}) {
+    const code = method.code || method.key || '';
+    const labelMap = {
+        pay_at_property: 'Pay at Property',
+        credit_card    : 'Credit Card',
+        bank_transfer  : 'Bank Transfer',
+    };
+    const descriptionMap = {
+        pay_at_property: 'Pay when you arrive at the accommodation.',
+        credit_card    : 'Pay securely online via the configured payment gateway.',
+        bank_transfer  : 'Transfer to the provided bank account and upload proof.',
+    };
+
+    return {
+        code,
+        label      : method.label || method.name || labelMap[code] || code,
+        description: method.description || descriptionMap[code] || '',
+        ...method,
+    };
+}
+
 function normalizeDashboardMoney(value = {}) {
     if (typeof value === 'string') {
         return {
@@ -307,20 +388,23 @@ function normalizeDashboardPayment(item = {}) {
 }
 
 function normalizeDashboardProfile(profile = {}) {
+    const normalizedProfile = normalizeTenantProfile(profile);
+
     return [
-        { key: 'full_name', label: 'Full Name', value: profile.full_name || '' },
-        { key: 'email', label: 'Email', value: profile.email || '' },
-        { key: 'phone', label: 'Phone', value: profile.mobile || profile.phone || '' },
-        { key: 'university', label: 'University', value: profile.university || '' },
-        { key: 'nationality', label: 'Nationality', value: profile.nationality || '' },
-        { key: 'date_of_birth', label: 'Date of Birth', value: profile.date_of_birth || '' },
-        { key: 'address', label: 'Address', value: profile.address || '' },
-        { key: 'status', label: 'Profile Status', value: profile.completion?.label || profile.status_label || '' },
+        { key: 'full_name', label: 'Full Name', value: normalizedProfile.full_name || '' },
+        { key: 'email', label: 'Email', value: normalizedProfile.email || '' },
+        { key: 'phone', label: 'Phone', value: normalizedProfile.mobile || normalizedProfile.phone || '' },
+        { key: 'university', label: 'University', value: normalizedProfile.university || normalizedProfile.university_name || '' },
+        { key: 'nationality', label: 'Nationality', value: normalizedProfile.nationality || '' },
+        { key: 'date_of_birth', label: 'Date of Birth', value: normalizedProfile.date_of_birth || '' },
+        { key: 'address', label: 'Address', value: normalizedProfile.address || '' },
+        { key: 'status', label: 'Profile Status', value: normalizedProfile.completion?.label || normalizedProfile.status_label || '' },
     ];
 }
 
 function normalizeDashboardResponse(result = {}) {
     const totalPaid = normalizeDashboardMoney(result.stats?.total_paid || result.stats?.total_spent);
+    const normalizedProfile = normalizeTenantProfile(result.profile || {});
 
     return {
         stats: {
@@ -332,8 +416,8 @@ function normalizeDashboardResponse(result = {}) {
         recent_bookings: Array.isArray(result.recent_bookings) ? result.recent_bookings.map(normalizeDashboardBooking) : [],
         bookings       : Array.isArray(result.bookings) ? result.bookings.map(normalizeDashboardBooking) : [],
         payments       : Array.isArray(result.payments) ? result.payments.map(normalizeDashboardPayment) : [],
-        profile        : normalizeDashboardProfile(result.profile || {}),
-        rawProfile     : result.profile || {},
+        profile        : normalizeDashboardProfile(normalizedProfile),
+        rawProfile     : normalizedProfile,
     };
 }
 
@@ -525,15 +609,17 @@ export default function createBookingApi(axios, auth) {
             const { data } = await axios.get('/api/tenant/checkout/context');
 
             return {
-                tenant         : data?.result?.tenant || {},
+                tenant         : normalizeTenantProfile(data?.result?.tenant || data?.result?.profile || {}),
                 cart           : normalizeCart(data?.result?.cart || {}),
-                payment_methods: data?.result?.payment_methods || [],
+                payment_methods: Array.isArray(data?.result?.payment_methods)
+                    ? data.result.payment_methods.map(normalizePaymentMethod)
+                    : [],
             };
         },
 
         async updateProfile(payload) {
-            const { data } = await axios.put('/api/tenant/profile', payload);
-            return data?.result?.tenant || {};
+            const { data } = await axios.put('/api/tenant/profile', buildTenantProfilePayload(payload));
+            return normalizeTenantProfile(data?.result?.tenant || data?.result?.profile || data?.result || {});
         },
 
         async createBooking(payload) {
@@ -573,9 +659,11 @@ export default function createBookingApi(axios, auth) {
 
         async getDashboardProfile() {
             const { data } = await axios.get('/api/tenant/dashboard/profile');
+            const normalizedProfile = normalizeTenantProfile(data?.result?.profile || data?.result || {});
+
             return {
-                profile   : normalizeDashboardProfile(data?.result?.profile || {}),
-                rawProfile: data?.result?.profile || {},
+                profile   : normalizeDashboardProfile(normalizedProfile),
+                rawProfile: normalizedProfile,
             };
         },
 
