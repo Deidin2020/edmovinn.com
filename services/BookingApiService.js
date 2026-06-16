@@ -5,9 +5,12 @@ function toNumber(value) {
 }
 
 const GUEST_CART_STORAGE_KEY = 'guest_cart';
+const GUEST_CART_TOKEN_KEY = 'guest_cart_token';
 
 function isClient() {
-    return typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined';
+    return typeof window !== 'undefined'
+        && typeof window.sessionStorage !== 'undefined'
+        && typeof window.localStorage !== 'undefined';
 }
 
 function createEmptyCart() {
@@ -72,7 +75,7 @@ function normalizeCart(cart = {}) {
     };
 }
 
-function readGuestCart() {
+function readLegacyGuestCart() {
     if (!isClient()) return createEmptyCart();
 
     try {
@@ -85,17 +88,7 @@ function readGuestCart() {
     }
 }
 
-function writeGuestCart(cart = createEmptyCart()) {
-    const normalizedCart = normalizeCart(cart);
-
-    if (isClient()) {
-        window.sessionStorage.setItem(GUEST_CART_STORAGE_KEY, JSON.stringify(normalizedCart));
-    }
-
-    return normalizedCart;
-}
-
-function clearGuestCartStorage() {
+function clearLegacyGuestCartStorage() {
     if (isClient()) {
         window.sessionStorage.removeItem(GUEST_CART_STORAGE_KEY);
     }
@@ -103,15 +96,26 @@ function clearGuestCartStorage() {
     return createEmptyCart();
 }
 
-function buildGuestCart(items = []) {
-    return normalizeCart({
-        items,
-    });
+function readGuestCartToken() {
+    if (!isClient()) return '';
+
+    return window.localStorage.getItem(GUEST_CART_TOKEN_KEY) || '';
 }
 
-function resolveGuestItemId(itemId) {
-    if (itemId === null || itemId === undefined) return '';
-    return itemId.toString().replace(/^guest-/, '');
+function writeGuestCartToken(token = '') {
+    if (!isClient()) return '';
+
+    if (token) {
+        window.localStorage.setItem(GUEST_CART_TOKEN_KEY, token);
+    }
+
+    return token;
+}
+
+function clearGuestCartToken() {
+    if (isClient()) {
+        window.localStorage.removeItem(GUEST_CART_TOKEN_KEY);
+    }
 }
 
 function splitFullName(fullName = '') {
@@ -193,6 +197,15 @@ function normalizePaymentMethod(method = {}) {
         description: method.description || descriptionMap[code] || '',
         ...method,
     };
+}
+
+function extractGuestCartToken(response = {}) {
+    return response?.data?.result?.cart_token
+        || response?.data?.result?.token
+        || response?.data?.result?.cart?.token
+        || response?.headers?.['x-cart-token']
+        || response?.headers?.['X-Cart-Token']
+        || '';
 }
 
 function normalizeDashboardMoney(value = {}) {
@@ -423,120 +436,187 @@ function normalizeDashboardResponse(result = {}) {
 
 export default function createBookingApi(axios, auth) {
     const isLoggedIn = () => Boolean(auth?.loggedIn);
-    const hasGuestCartItems = () => readGuestCart().items.length > 0;
+    const hasGuestCartToken = () => Boolean(readGuestCartToken());
+    const hasLegacyGuestCartItems = () => readLegacyGuestCart().items.length > 0;
+    const guestCartHeaders = () => {
+        const guestCartToken = readGuestCartToken();
 
-    const buildGuestCartItem = payload => {
-        const room = payload.room || payload.roomData || {};
-        const roomId = payload.room_id ?? room.id;
-        const quantity = payload.quantity || 1;
+        return guestCartToken
+            ? { 'X-Cart-Token': guestCartToken }
+            : {};
+    };
+    const persistGuestCartToken = response => {
+        const guestCartToken = extractGuestCartToken(response);
 
-        return normalizeCartItem({
-            id             : `guest-${roomId}`,
-            room_id        : roomId,
-            name           : payload.name || room.name || '',
-            slug           : payload.slug || room.slug || '',
-            image          : payload.image || room.image || '/img/search/default-room.jpg',
-            accommodation  : payload.accommodation || room.accommodation?.name || '',
-            available_from : payload.stay_start_date || payload.available_from || room.available_from || '',
-            quantity,
-            price          : payload.price || room.price || {
-                price        : 0,
-                deposit      : 0,
-                currency     : '',
-                payment_per  : '',
-                contract_type: '',
+        if (guestCartToken) {
+            writeGuestCartToken(guestCartToken);
+        }
+    };
+    const requestGuestCart = async ({ method = 'get', url, data, params, headers = {} } = {}) => {
+        const response = await axios.request({
+            method,
+            url,
+            data,
+            params,
+            headers: {
+                Accept: 'application/json',
+                ...guestCartHeaders(),
+                ...headers,
             },
         });
+
+        persistGuestCartToken(response);
+
+        return response;
     };
+    const buildCartItemPayload = payload => {
+        const nextQuantity = Number(payload?.quantity ?? 1);
 
-    const addGuestCartItem = payload => {
-        const cart = readGuestCart();
-        const roomId = String(payload.room_id);
-        const existingItem = cart.items.find(item => String(item.room_id) === roomId);
+        return Object.fromEntries(
+            Object.entries({
+                room_id        : payload?.room_id,
+                quantity       : Number.isFinite(nextQuantity) && nextQuantity > 0 ? nextQuantity : 1,
+                stay_start_date: payload?.stay_start_date || payload?.available_from || undefined,
+            }).filter(([, value]) => value !== undefined)
+        );
+    };
+    const buildCartItemUpdatePayload = payload => {
+        const nextQuantity = payload?.quantity !== undefined ? Number(payload.quantity) : undefined;
 
-        if (existingItem) {
-            existingItem.quantity = (existingItem.quantity || 1) + (payload.quantity || 1);
-            if (payload.stay_start_date) existingItem.available_from = payload.stay_start_date;
-        } else {
-            cart.items.push(buildGuestCartItem(payload));
+        return Object.fromEntries(
+            Object.entries({
+                quantity       : Number.isFinite(nextQuantity) ? nextQuantity : undefined,
+                stay_start_date: payload?.stay_start_date || payload?.available_from || undefined,
+            }).filter(([, value]) => value !== undefined)
+        );
+    };
+    const toFormUrlEncoded = payload => {
+        const formPayload = new URLSearchParams();
+
+        Object.entries(payload || {}).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                formPayload.append(key, value);
+            }
+        });
+
+        return formPayload;
+    };
+    const toFormBody = payload => toFormUrlEncoded(payload).toString();
+    const formRequestHeaders = {
+        Accept          : 'application/json',
+        'Content-Type'  : 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+    };
+    const normalizeGuestCartResponse = response => normalizeCart(response?.data?.result?.cart || response?.data?.result || {});
+    const normalizeTenantCartResponse = responseData => normalizeCart(responseData?.result?.cart || responseData?.result || {});
+    const migrateLegacyGuestCart = async () => {
+        const legacyGuestCart = readLegacyGuestCart();
+
+        if (!legacyGuestCart.items.length) {
+            return createEmptyCart();
         }
 
-        return writeGuestCart(buildGuestCart(cart.items));
-    };
+        let guestCart = createEmptyCart();
 
-    const updateGuestCartItem = (itemId, payload) => {
-        const cart = readGuestCart();
-        const guestItemId = resolveGuestItemId(itemId);
-        const itemIndex = cart.items.findIndex(item => String(item.room_id) === guestItemId || String(item.id) === String(itemId));
-
-        if (itemIndex === -1) return writeGuestCart(cart);
-
-        const nextQuantity = Number(payload.quantity || 1);
-
-        if (nextQuantity <= 0) {
-            cart.items.splice(itemIndex, 1);
-        } else {
-            cart.items[itemIndex] = normalizeCartItem({
-                ...cart.items[itemIndex],
-                quantity: nextQuantity,
+        for (const item of legacyGuestCart.items) {
+            const response = await requestGuestCart({
+                method: 'post',
+                url   : '/api/cart/items',
+                data  : toFormBody(buildCartItemPayload({
+                    room_id        : item.room_id,
+                    quantity       : item.quantity || 1,
+                    stay_start_date: item.available_from || undefined,
+                })),
+                headers: formRequestHeaders,
             });
+
+            guestCart = normalizeGuestCartResponse(response);
         }
 
-        return writeGuestCart(buildGuestCart(cart.items));
+        clearLegacyGuestCartStorage();
+
+        return guestCart;
     };
+    const getGuestCartFromDatabase = async () => {
+        const response = await requestGuestCart({
+            method: 'get',
+            url   : '/api/cart',
+        });
 
-    const removeGuestCartItem = itemId => {
-        const cart = readGuestCart();
-        const guestItemId = resolveGuestItemId(itemId);
-        const items = cart.items.filter(item => String(item.room_id) !== guestItemId && String(item.id) !== String(itemId));
+        const guestCart = normalizeGuestCartResponse(response);
 
-        return writeGuestCart(buildGuestCart(items));
+        if (!guestCart.items.length && hasLegacyGuestCartItems()) {
+            return migrateLegacyGuestCart();
+        }
+
+        return guestCart;
     };
 
     return {
         normalizeCart,
         normalizeDashboardResponse,
-        getGuestCart() {
-            return readGuestCart();
+        async getGuestCart() {
+            return getGuestCartFromDatabase();
         },
 
         clearGuestCart() {
-            return clearGuestCartStorage();
+            clearGuestCartToken();
+            return clearLegacyGuestCartStorage();
         },
 
         async syncGuestCartToServer() {
             if (!isLoggedIn()) {
-                return readGuestCart();
+                return getGuestCartFromDatabase();
             }
 
-            const guestCart = readGuestCart();
+            let guestCart = createEmptyCart();
 
-            if (!guestCart.items.length) {
+            if (hasGuestCartToken()) {
+                try {
+                    await axios.post('/api/tenant/cart/merge', {}, {
+                        headers: guestCartHeaders(),
+                    });
+
+                    clearGuestCartToken();
+                    clearLegacyGuestCartStorage();
+
+                    return this.getCart();
+                } catch (error) {
+                    guestCart = await getGuestCartFromDatabase();
+                }
+            } else if (hasLegacyGuestCartItems()) {
+                guestCart = readLegacyGuestCart();
+            } else {
                 return this.getCart();
             }
 
             for (const item of guestCart.items) {
-                await axios.post('/api/tenant/cart/items', {
+                await axios.post('/api/tenant/cart/items', toFormUrlEncoded(buildCartItemPayload({
                     room_id        : item.room_id,
                     quantity       : item.quantity || 1,
                     stay_start_date: item.available_from || undefined,
+                })), {
+                    headers: {
+                        Accept: 'application/json',
+                    },
                 });
             }
 
-            clearGuestCartStorage();
+            clearGuestCartToken();
+            clearLegacyGuestCartStorage();
 
             return this.getCart();
         },
 
         async getCart() {
             if (!isLoggedIn()) {
-                return readGuestCart();
+                return getGuestCartFromDatabase();
             }
 
             const { data } = await axios.get('/api/tenant/cart');
-            const cart = normalizeCart(data?.result?.cart || {});
+            const cart = normalizeTenantCartResponse(data);
 
-            if (!cart.items.length && hasGuestCartItems()) {
+            if (!cart.items.length && (hasGuestCartToken() || hasLegacyGuestCartItems())) {
                 return this.syncGuestCartToServer();
             }
 
@@ -545,34 +625,89 @@ export default function createBookingApi(axios, auth) {
 
         async addCartItem(payload) {
             if (!isLoggedIn()) {
-                return addGuestCartItem(payload);
+                const response = await requestGuestCart({
+                    method: 'post',
+                    url   : '/api/cart/items',
+                    data  : toFormBody(buildCartItemPayload(payload)),
+                    headers: formRequestHeaders,
+                });
+
+                clearLegacyGuestCartStorage();
+
+                return normalizeGuestCartResponse(response);
             }
 
-            const { data } = await axios.post('/api/tenant/cart/items', payload);
-            return normalizeCart(data?.result?.cart || {});
+            const { data } = await axios.post('/api/tenant/cart/items', toFormBody(buildCartItemPayload(payload)), {
+                headers: formRequestHeaders,
+            });
+            return normalizeTenantCartResponse(data);
         },
 
         async updateCartItem(itemId, payload) {
             if (!isLoggedIn()) {
-                return updateGuestCartItem(itemId, payload);
+                const response = await requestGuestCart({
+                    method: 'patch',
+                    url   : `/api/cart/items/${itemId}`,
+                    data  : toFormBody(buildCartItemUpdatePayload(payload)),
+                    headers: formRequestHeaders,
+                });
+
+                return normalizeGuestCartResponse(response);
             }
 
-            const { data } = await axios.patch(`/api/tenant/cart/items/${itemId}`, payload);
-            return normalizeCart(data?.result?.cart || {});
+            const { data } = await axios.patch(`/api/tenant/cart/items/${itemId}`, toFormBody(buildCartItemUpdatePayload(payload)), {
+                headers: formRequestHeaders,
+            });
+            return normalizeTenantCartResponse(data);
         },
 
         async removeCartItem(itemId) {
             if (!isLoggedIn()) {
-                return removeGuestCartItem(itemId);
+                const response = await requestGuestCart({
+                    method: 'delete',
+                    url   : `/api/cart/items/${itemId}`,
+                });
+
+                return normalizeGuestCartResponse(response);
             }
 
-            const { data } = await axios.delete(`/api/tenant/cart/items/${itemId}`);
-            return normalizeCart(data?.result?.cart || {});
+            const { data } = await axios.delete(`/api/tenant/cart/items/${itemId}`, {
+                headers: formRequestHeaders,
+            });
+            return normalizeTenantCartResponse(data);
         },
 
         async clearCart() {
             if (!isLoggedIn()) {
-                return clearGuestCartStorage();
+                if (hasGuestCartToken()) {
+                    try {
+                        const response = await requestGuestCart({
+                            method: 'delete',
+                            url   : '/api/cart',
+                        });
+
+                        clearGuestCartToken();
+                        clearLegacyGuestCartStorage();
+
+                        return normalizeGuestCartResponse(response);
+                    } catch (error) {
+                        const cart = await getGuestCartFromDatabase();
+
+                        for (const item of cart.items) {
+                            if (item?.id) {
+                                await requestGuestCart({
+                                    method: 'delete',
+                                    url   : `/api/cart/items/${item.id}`,
+                                });
+                            }
+                        }
+
+                        clearGuestCartToken();
+                        clearLegacyGuestCartStorage();
+                    }
+                }
+
+                return createEmptyCart();
             }
 
             const cart = await this.getCart();
@@ -602,15 +737,20 @@ export default function createBookingApi(axios, auth) {
         },
 
         async getCheckoutContext() {
-            if (isLoggedIn() && hasGuestCartItems()) {
+            if (isLoggedIn() && (hasGuestCartToken() || hasLegacyGuestCartItems())) {
                 await this.syncGuestCartToServer();
             }
 
             const { data } = await axios.get('/api/tenant/checkout/context');
+            let normalizedCart = normalizeCart(data?.result?.cart || {});
+
+            if (!normalizedCart.items.length) {
+                normalizedCart = await this.getCart();
+            }
 
             return {
                 tenant         : normalizeTenantProfile(data?.result?.tenant || data?.result?.profile || {}),
-                cart           : normalizeCart(data?.result?.cart || {}),
+                cart           : normalizedCart,
                 payment_methods: Array.isArray(data?.result?.payment_methods)
                     ? data.result.payment_methods.map(normalizePaymentMethod)
                     : [],

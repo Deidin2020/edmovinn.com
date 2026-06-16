@@ -128,7 +128,7 @@ export default {
 
             try {
                 const context = await this.$bookingApi.getCheckoutContext();
-                this.cartData = context.cart;
+                this.cartData = context.cart?.items?.length ? context.cart : await this.$bookingApi.getCart();
                 this.paymentMethods = context.payment_methods || [];
                 this.guestForm = {
                     ...this.guestForm,

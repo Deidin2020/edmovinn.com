@@ -127,11 +127,87 @@ Success:
 
 ## Cart
 
+The cart is now expected to be persisted in the database for both:
+
+- guests
+- authenticated tenants
+
+Guest cart persistence uses a database-backed cart token.
+
+### Guest cart token behavior
+
+- frontend sends `X-Cart-Token` when available
+- backend should create a new guest cart when the header is missing
+- backend should return the active guest cart token in one of:
+  - `result.cart_token`
+  - `result.token`
+  - `result.cart.token`
+  - response header `X-Cart-Token`
+
+### `GET /api/cart`
+### `POST /api/cart/items`
+### `PATCH /api/cart/items/{itemId}`
+### `DELETE /api/cart/items/{itemId}`
+### `DELETE /api/cart`
+
+Guest item request example:
+
+```json
+{
+  "room_id": 501,
+  "quantity": 1,
+  "stay_start_date": "2026-09-01"
+}
+```
+
+Guest cart success example:
+
+```json
+{
+  "success": true,
+  "result": {
+    "cart_token": "gct_01JZEXAMPLE",
+    "cart": {
+      "id": "guest_cart_123",
+      "currency": "USD",
+      "items_count": 1,
+      "items": [
+        {
+          "id": "gci_1",
+          "room_id": 501,
+          "name": "Single Standard Room",
+          "slug": "single-standard-room",
+          "image": "https://cdn.example.com/room.jpg",
+          "accommodation": "MovInn Residence",
+          "available_from": "2026-09-01",
+          "availability_status": "available",
+          "quantity": 1,
+          "pricing": {
+            "unit_price": 450,
+            "deposit": 200,
+            "currency": "USD",
+            "payment_per": "month",
+            "contract_type": "12 Months"
+          },
+          "line_total": 650
+        }
+      ],
+      "summary": {
+        "subtotal": 450,
+        "deposit_total": 200,
+        "grand_total": 650
+      }
+    }
+  }
+}
+```
+
 ### `GET /api/tenant/cart`
 ### `POST /api/tenant/cart/items`
 ### `PATCH /api/tenant/cart/items/{itemId}`
 ### `DELETE /api/tenant/cart/items/{itemId}`
 ### `POST /api/tenant/cart/validate`
+### `POST /api/tenant/cart/merge`
 
 Cart shape:
 
@@ -165,6 +241,38 @@ Cart shape:
     "subtotal": 450,
     "deposit_total": 200,
     "grand_total": 650
+  }
+}
+```
+
+### `POST /api/tenant/cart/merge`
+
+This endpoint merges the guest database cart into the authenticated tenant cart.
+
+Headers:
+
+```text
+X-Cart-Token: gct_01JZEXAMPLE
+```
+
+Success:
+
+```json
+{
+  "success": true,
+  "message": "Guest cart merged successfully.",
+  "result": {
+    "cart": {
+      "id": "cart_123",
+      "currency": "USD",
+      "items_count": 2,
+      "items": [],
+      "summary": {
+        "subtotal": 900,
+        "deposit_total": 400,
+        "grand_total": 1300
+      }
+    }
   }
 }
 ```

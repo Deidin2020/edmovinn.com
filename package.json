@@ -5,6 +5,7 @@
     "private": true,
     "scripts": {
         "dev": "nuxt",
+        "dev:clean": "npm run clean && npm run dev",
         "clean": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"if (Test-Path '.nuxt') { Remove-Item '.nuxt' -Recurse -Force }; if (Test-Path 'node_modules\\\\.cache') { Remove-Item 'node_modules\\\\.cache' -Recurse -Force }\"",
         "build": "nuxt build",
         "build:clean": "npm run clean && npm run build",

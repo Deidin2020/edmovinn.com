@@ -31,9 +31,10 @@ It reflects the actual code paths in:
 
 ### Guest cart
 
-- Stored in frontend `sessionStorage`
+- Stored in backend database using a guest cart token
 - No backend auth required
-- Used only before login
+- Frontend sends the token in `X-Cart-Token`
+- Used before login and merged after login
 
 ### Tenant cart
 
@@ -51,10 +52,16 @@ It reflects the actual code paths in:
 - `GET /api/rooms`
 - `GET /api/rooms/{slug}`
 - `GET /api/accommodations/{slug}`
+- `GET /api/cart`
+- `POST /api/cart/items`
+- `PATCH /api/cart/items/{itemId}`
+- `DELETE /api/cart/items/{itemId}`
+- `DELETE /api/cart`
 - `GET /api/tenant/cart`
 - `POST /api/tenant/cart/items`
 - `PATCH /api/tenant/cart/items/{itemId}`
 - `DELETE /api/tenant/cart/items/{itemId}`
+- `POST /api/tenant/cart/merge`
 - `POST /api/tenant/cart/validate`
 - `GET /api/tenant/checkout/context`
 - `PUT /api/tenant/profile`
@@ -400,11 +407,19 @@ Revalidates prices and availability before booking.
 }
 ```
 
-### Optional: POST `/api/tenant/cart/merge`
+### POST `/api/tenant/cart/merge`
 
-Recommended if backend wants a single sync endpoint after login.
+Required when guest cart is stored in the database and must be merged after login.
 
 #### Request
+
+Header:
+
+```text
+X-Cart-Token: gct_01JZEXAMPLE
+```
+
+Optional body:
 
 ```json
 {
@@ -746,28 +761,35 @@ Recommended for future booking details page.
 
 ## Backend Notes
 
-### No backend endpoint is required for guest cart persistence
+### Guest cart persistence is now backend-required
 
-The current frontend stores guest cart in `sessionStorage` intentionally.
+The frontend no longer treats guest cart as local-only storage.
 
-Backend is only required when:
+Backend is required for:
 
-- user logs in and cart sync starts
-- user opens server cart
-- user proceeds to checkout
+- guest add to cart
+- guest update quantity
+- guest remove from cart
+- guest revisit cart before login
+- merge after login
 
 ### Current frontend sync behavior after login
 
-Frontend currently syncs guest cart by calling `POST /api/tenant/cart/items` once per guest item.
+Frontend first attempts `POST /api/tenant/cart/merge` using `X-Cart-Token`.
+
+If merge is unavailable, frontend falls back to:
+
+- loading the guest database cart
+- replaying its items into `POST /api/tenant/cart/items`
 
 That means:
 
-- `POST /api/tenant/cart/merge` is optional
-- but recommended if you want a single atomic sync operation
+- `POST /api/tenant/cart/merge` should be implemented
+- fallback replay still exists for compatibility
 
 ## Recommended Delivery Order
 
-1. Finish cart endpoints
+1. Finish guest cart endpoints
 2. Finish checkout context
 3. Finish profile update
 4. Finish booking creation
