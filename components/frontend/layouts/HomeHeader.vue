@@ -85,39 +85,41 @@
                                     d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12">
                                 </path>
                             </svg>
-                            <span
+                            <span v-if="cartLoaded && cartCount > 0"
                                 class="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
                                 {{ cartCount }}
                             </span>
                         </button>
                     </a>
 
-                    <a :href="localePath('/auth')" v-if="!isLoggedIn">
-                        <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium border
-                        border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-                            {{ $t('header.sign_in') }}
-                        </button>
-                    </a>
+                    <client-only>
+                        <a :href="localePath('/auth')" v-if="!isLoggedIn">
+                            <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium border
+                            border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                {{ $t('header.sign_in') }}
+                            </button>
+                        </a>
 
-                    <a :href="localePath('/auth')" v-if="!isLoggedIn">
+                        <a :href="localePath('/auth')" v-if="!isLoggedIn">
+                            <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium h-9 rounded-md
+                            px-3 bg-primary text-primary-foreground hover:bg-primary/90">
+                                {{ $t('header.sign_up') }}
+                            </button>
+                        </a>
+
+                        <a :href="localePath('/dashboard')" v-if="isLoggedIn">
+                            <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium border
+                            border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                {{ $t('header.dashboard') }}
+                            </button>
+                        </a>
+
                         <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium h-9 rounded-md
-                        px-3 bg-primary text-primary-foreground hover:bg-primary/90">
-                            {{ $t('header.sign_up') }}
+                            px-3 bg-primary text-primary-foreground hover:bg-primary/90" @click="logOut"
+                            v-if="isLoggedIn">
+                            {{ $t('header.log_out') }}
                         </button>
-                    </a>
-
-                    <a :href="localePath('/dashboard')" v-if="isLoggedIn">
-                        <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium border
-                        border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-                            {{ $t('header.dashboard') }}
-                        </button>
-                    </a>
-
-                    <button class=" inline-flex items-center justify-center gap-2 text-sm font-medium h-9 rounded-md
-                        px-3 bg-primary text-primary-foreground hover:bg-primary/90" @click="logOut"
-                        v-if="isLoggedIn">
-                        {{ $t('header.log_out') }}
-                    </button>
+                    </client-only>
 
 
                 </div>
@@ -196,6 +198,7 @@
                     </div>
                 </div>
 
+                <client-only>
                 <div class="px-3 pt-2 space-y-2">
                     <a :href="localePath('/auth')" v-if="!isLoggedIn" class="block" @click="isMobileMenuOpen = false">
                         <button class="w-full inline-flex items-center justify-center gap-2 text-sm font-medium border
@@ -224,6 +227,7 @@
                         {{ $t('header.log_out') }}
                     </button>
                 </div>
+                </client-only>
             </div>
         </div>
     </header>
@@ -235,6 +239,7 @@ export default {
             isLangOpen: false,
             isMobileMenuOpen: false,
             cartCount: 0,
+            cartLoaded: false,
         }
     },
     computed: {
@@ -247,6 +252,7 @@ export default {
 
         this.handleCartUpdated = (e) => {
             this.cartCount = e.detail.count
+            this.cartLoaded = true
         };
 
         window.addEventListener('cart-updated', this.handleCartUpdated)
@@ -282,6 +288,8 @@ export default {
                 this.cartCount = cart.items_count || 0;
             } catch (error) {
                 this.cartCount = 0;
+            } finally {
+                this.cartLoaded = true;
             }
         },
         async switchLanguage(lang) {

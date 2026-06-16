@@ -19,8 +19,13 @@
                 </div>
             </div>
 
+            <!-- Loading -->
+            <div v-if="loading" class="max-w-4xl mx-auto px-4 py-16 flex justify-center">
+                <LoadingSpinner />
+            </div>
+
             <!-- Checkout Section -->
-            <div class="max-w-4xl mx-auto px-4 py-8">
+            <div v-else class="max-w-4xl mx-auto px-4 py-8">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <SummaryOrder :cart-data="cartData" />
                     <div class="lg:col-span-2">
@@ -83,7 +88,7 @@ export default {
     middleware: ['redirect-auth', 'verified', 'profile_completed'],
     data() {
         return {
-            loading: false,
+            loading: true,
             submitting: false,
             cartData: {
                 id      : null,
@@ -128,7 +133,7 @@ export default {
 
             try {
                 const context = await this.$bookingApi.getCheckoutContext();
-                this.cartData = context.cart?.items?.length ? context.cart : await this.$bookingApi.getCart();
+                this.cartData = context.cart;
                 this.paymentMethods = context.payment_methods || [];
                 this.guestForm = {
                     ...this.guestForm,
