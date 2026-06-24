@@ -182,12 +182,12 @@ function normalizePaymentMethod(method = {}) {
     const code = method.code || method.key || '';
     const labelMap = {
         pay_at_property: 'Pay at Property',
-        credit_card    : 'Credit Card',
+        credit_card    : 'Pay Online via Bank Gateway',
         bank_transfer  : 'Bank Transfer',
     };
     const descriptionMap = {
         pay_at_property: 'Pay when you arrive at the accommodation.',
-        credit_card    : 'Pay securely online via the configured payment gateway.',
+        credit_card    : 'Complete your payment securely through the bank 3D Secure page.',
         bank_transfer  : 'Transfer to the provided bank account and upload proof.',
     };
 
@@ -814,7 +814,7 @@ export default function createBookingApi(axios, auth) {
 
         async confirmPayment(bookingId, payload) {
             const { data } = await axios.post(`/api/tenant/bookings/${bookingId}/payments/confirm`, payload);
-            return data?.result?.booking || {};
+            return data?.result || {};
         },
 
         async uploadBankTransferProof(bookingId, payload) {

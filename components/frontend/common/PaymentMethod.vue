@@ -37,9 +37,9 @@
                     <div v-if="form.method === method.code && method.code === 'credit_card'"
                         class="ml-8 pl-4 border-l-2 border-muted space-y-3">
                         <div role="alert" class="border rounded-lg p-4 bg-background text-foreground">
-                            <h5 class="mb-1 font-medium">Gateway Flow</h5>
+                            <h5 class="mb-1 font-medium">Bank Gateway Flow</h5>
                             <div class="text-sm">
-                                Card payment is initialized through the payment session endpoint after booking creation.
+                                After checkout, you will be redirected to the bank-hosted 3D Secure page to complete your payment.
                             </div>
                         </div>
                     </div>
@@ -93,8 +93,8 @@ const METHOD_COPY = {
     },
     credit_card: {
         code: 'credit_card',
-        label: 'Credit Card',
-        description: 'Pay securely with your credit card',
+        label: 'Bank Gateway Payment',
+        description: 'Pay securely through the bank 3D Secure page',
     },
     bank_transfer: {
         code: 'bank_transfer',

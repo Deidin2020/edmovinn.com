@@ -128,6 +128,68 @@ export default {
         await this.loadCheckoutContext();
     },
     methods: {
+        buildAbsoluteUrl(path) {
+            if (typeof window === 'undefined') return path;
+
+            return new URL(path, window.location.origin).toString();
+        },
+        submitHostedPaymentForm(session) {
+            if (typeof document === 'undefined') {
+                throw new Error('Payment form submission is only available in the browser.');
+            }
+
+            if (!session.form_action) {
+                throw new Error('Payment session is missing form_action.');
+            }
+
+            const form = document.createElement('form');
+            form.method = (session.form_method || 'POST').toUpperCase();
+            form.action = session.form_action;
+            form.style.display = 'none';
+
+            Object.entries(session.fields || {}).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value == null ? '' : String(value);
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+        async redirectToHostedPayment(booking) {
+            const returnPath = this.localePath(`/checkout/payment-return?booking_id=${booking.id}`);
+            const paymentSession = await this.$bookingApi.createPaymentSession(booking.id, {
+                provider  : 'kuveyt_turk',
+                language  : this.$i18n?.locale || 'en',
+                return_url: this.buildAbsoluteUrl(returnPath),
+                cancel_url: this.buildAbsoluteUrl(returnPath),
+                customer  : {
+                    name : [this.guestForm.first_name, this.guestForm.last_name].filter(Boolean).join(' ').trim(),
+                    email: this.guestForm.email,
+                    phone: this.guestForm.mobile || this.guestForm.phone || '',
+                },
+            });
+
+            const redirectUrl = paymentSession.redirect_url || paymentSession.checkout_url || paymentSession.url;
+
+            if (redirectUrl) {
+                const reference = booking.reference ? ` (${booking.reference})` : '';
+                this.$successAlert(`Booking created${reference}. Redirecting to payment...`);
+                window.location.href = redirectUrl;
+                return;
+            }
+
+            if (paymentSession.type === 'form_post' || paymentSession.form_action) {
+                const reference = booking.reference ? ` (${booking.reference})` : '';
+                this.$successAlert(`Booking created${reference}. Redirecting to payment...`);
+                this.submitHostedPaymentForm(paymentSession);
+                return;
+            }
+
+            throw new Error('Payment session did not provide a redirect_url or hosted form payload.');
+        },
         async loadCheckoutContext() {
             this.loading = true;
 
@@ -190,24 +252,8 @@ export default {
 
                     this.$successAlert('Booking created and transfer proof uploaded successfully.');
                 } else if (this.paymentForm.method === 'credit_card') {
-                    const session = await this.$bookingApi.createPaymentSession(booking.id, { provider: 'stripe' });
-                    const reference = booking.reference ? ` (${booking.reference})` : '';
-                    const redirectUrl = session.redirect_url || session.checkout_url || session.url;
-
-                    if (redirectUrl) {
-                        this.cartData = await this.$bookingApi.clearCart();
-                        window.dispatchEvent(new CustomEvent('cart-updated', {
-                            detail: {
-                                count: 0,
-                                cart : this.cartData,
-                            }
-                        }));
-                        this.$successAlert(`Booking created${reference}. Redirecting to payment...`);
-                        window.location.href = redirectUrl;
-                        return;
-                    }
-
-                    this.$successAlert(`Booking created${reference}. Payment session initialized${session.id ? `: ${session.id}` : ''}.`);
+                    await this.redirectToHostedPayment(booking);
+                    return;
                 } else {
                     this.$successAlert('Booking created successfully.');
                 }
