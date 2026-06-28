@@ -86,6 +86,14 @@
 </template>
 
 <script>
+function readQueryValue(value) {
+    if (Array.isArray(value)) {
+        return value.find(item => item !== null && item !== undefined && item !== '') || '';
+    }
+
+    return value || '';
+}
+
 export default {
     middleware: ['redirect-auth', 'verified', 'profile_completed'],
     layout: 'blank',
@@ -100,16 +108,18 @@ export default {
     },
     computed: {
         bookingId() {
-            return this.$route.query.booking_id || '';
+            return readQueryValue(this.$route.query.booking_id);
         },
         paymentId() {
-            return this.$route.query.payment_id || '';
+            return readQueryValue(this.$route.query.payment_id);
         },
         providerOrderId() {
-            return this.$route.query.order_id || this.$route.query.provider_order_id || '';
+            return readQueryValue(this.$route.query.order_id)
+                || readQueryValue(this.$route.query.provider_order_id);
         },
         providerTransactionId() {
-            return this.$route.query.transaction_id || this.$route.query.provider_transaction_id || '';
+            return readQueryValue(this.$route.query.transaction_id)
+                || readQueryValue(this.$route.query.provider_transaction_id);
         },
     },
     async mounted() {

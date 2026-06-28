@@ -134,7 +134,7 @@ export default {
             return new URL(path, window.location.origin).toString();
         },
         async redirectToHostedPayment(booking) {
-            const returnPath = this.localePath(`/checkout/payment-return?booking_id=${booking.id}`);
+            const returnPath = this.localePath('/checkout/payment-return');
             const paymentSession = await this.$bookingApi.createPaymentSession(booking.id, {
                 provider  : 'kuveyt_turk',
                 language  : this.$i18n?.locale || 'en',
