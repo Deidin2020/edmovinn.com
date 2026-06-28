@@ -156,7 +156,11 @@ export default {
                 return;
             }
 
-            throw new Error('Payment session did not provide a redirect_url.');
+            throw new Error(
+                paymentSession.backend_message
+                || paymentSession.message
+                || 'Payment session did not provide a redirect_url.'
+            );
         },
         async loadCheckoutContext() {
             this.loading = true;

@@ -809,7 +809,12 @@ export default function createBookingApi(axios, auth) {
 
         async createPaymentSession(bookingId, payload = { provider: 'stripe' }) {
             const { data } = await axios.post(`/api/tenant/bookings/${bookingId}/payment-sessions`, payload);
-            return data?.result?.payment_session || {};
+            const paymentSession = data?.result?.payment_session || {};
+
+            return {
+                ...paymentSession,
+                backend_message: data?.message || data?.result?.message || paymentSession.message || '',
+            };
         },
 
         async confirmPayment(bookingId, payload) {
