@@ -133,31 +133,6 @@ export default {
 
             return new URL(path, window.location.origin).toString();
         },
-        submitHostedPaymentForm(session) {
-            if (typeof document === 'undefined') {
-                throw new Error('Payment form submission is only available in the browser.');
-            }
-
-            if (!session.form_action) {
-                throw new Error('Payment session is missing form_action.');
-            }
-
-            const form = document.createElement('form');
-            form.method = (session.form_method || 'POST').toUpperCase();
-            form.action = session.form_action;
-            form.style.display = 'none';
-
-            Object.entries(session.fields || {}).forEach(([key, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = value == null ? '' : String(value);
-                form.appendChild(input);
-            });
-
-            document.body.appendChild(form);
-            form.submit();
-        },
         async redirectToHostedPayment(booking) {
             const returnPath = this.localePath(`/checkout/payment-return?booking_id=${booking.id}`);
             const paymentSession = await this.$bookingApi.createPaymentSession(booking.id, {
@@ -181,14 +156,7 @@ export default {
                 return;
             }
 
-            if (paymentSession.type === 'form_post' || paymentSession.form_action) {
-                const reference = booking.reference ? ` (${booking.reference})` : '';
-                this.$successAlert(`Booking created${reference}. Redirecting to payment...`);
-                this.submitHostedPaymentForm(paymentSession);
-                return;
-            }
-
-            throw new Error('Payment session did not provide a redirect_url or hosted form payload.');
+            throw new Error('Payment session did not provide a redirect_url.');
         },
         async loadCheckoutContext() {
             this.loading = true;
