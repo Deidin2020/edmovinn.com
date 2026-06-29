@@ -808,18 +808,28 @@ export default function createBookingApi(axios, auth) {
         },
 
         async createPaymentSession(bookingId, payload = { provider: 'stripe' }) {
+            console.log('[PaymentSession] Request start', { bookingId, payload });
             const { data } = await axios.post(`/api/tenant/bookings/${bookingId}/payment-sessions`, payload);
+            console.log('[PaymentSession] Response received', data);
             const paymentSession = data?.result?.payment_session || {};
 
-            return {
+            const normalizedSession = {
                 ...paymentSession,
                 backend_message: data?.message || data?.result?.message || paymentSession.message || '',
             };
+
+            console.log('[PaymentSession] Request complete', normalizedSession);
+
+            return normalizedSession;
         },
 
         async confirmPayment(bookingId, payload) {
+            console.log('[ConfirmPayment] Request start', { bookingId, payload });
             const { data } = await axios.post(`/api/tenant/bookings/${bookingId}/payments/confirm`, payload);
-            return data?.result || {};
+            console.log('[ConfirmPayment] Response received', data);
+            const normalizedResult = data?.result || {};
+            console.log('[ConfirmPayment] Request complete', normalizedResult);
+            return normalizedResult;
         },
 
         async uploadBankTransferProof(bookingId, payload) {

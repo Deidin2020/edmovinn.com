@@ -123,11 +123,14 @@ export default {
         },
     },
     async mounted() {
+        console.log('[PaymentReturn] mounted', { query: this.$route.query });
         await this.confirmPaymentStatus();
     },
     methods: {
         async clearCartAndBroadcast() {
+            console.log('[PaymentReturn] clearCartAndBroadcast start');
             const clearedCart = await this.$bookingApi.clearCart();
+            console.log('[PaymentReturn] clearCartAndBroadcast response', clearedCart);
 
             if (typeof window !== 'undefined') {
                 window.dispatchEvent(new CustomEvent('cart-updated', {
@@ -155,12 +158,29 @@ export default {
             this.message = result.message
                 || payment.failure_message
                 || 'Payment status fetched successfully.';
+            console.log('[PaymentReturn] normalizeConfirmResult', {
+                status        : this.status,
+                message       : this.message,
+                paymentDetails: this.paymentDetails,
+                rawResult     : result,
+            });
         },
         async confirmPaymentStatus() {
+            console.log('[PaymentReturn] confirmPaymentStatus start', {
+                bookingId             : this.bookingId,
+                paymentId             : this.paymentId,
+                providerOrderId       : this.providerOrderId,
+                providerTransactionId : this.providerTransactionId,
+                query                 : this.$route.query,
+            });
             if (!this.bookingId) {
                 this.status = 'failed';
                 this.message = 'Missing booking_id in the payment return URL.';
                 this.loading = false;
+                console.log('[PaymentReturn] confirmPaymentStatus aborted', {
+                    status : this.status,
+                    message: this.message,
+                });
                 return;
             }
 
@@ -173,11 +193,13 @@ export default {
                 gateway_message        : this.$route.query.message || undefined,
                 gateway_payload        : this.$route.query || undefined,
             };
+            console.log('[PaymentReturn] confirmPayment before', payload);
 
             this.retrying = !this.loading;
 
             try {
                 const result = await this.$bookingApi.confirmPayment(this.bookingId, payload);
+                console.log('[PaymentReturn] confirmPayment response', result);
                 this.normalizeConfirmResult(result);
 
                 if (this.status === 'paid') {
@@ -190,6 +212,11 @@ export default {
                     this.$dangerAlert(this.message || 'Payment failed.');
                 }
             } catch (error) {
+                console.log('[PaymentReturn] confirmPayment error', {
+                    message : error.message,
+                    response: error.response?.data,
+                    error,
+                });
                 const response = error.response?.data || {};
                 const result = response.result || {};
 
@@ -203,6 +230,13 @@ export default {
             } finally {
                 this.loading = false;
                 this.retrying = false;
+                console.log('[PaymentReturn] confirmPaymentStatus end', {
+                    status       : this.status,
+                    message      : this.message,
+                    loading      : this.loading,
+                    retrying     : this.retrying,
+                    paymentDetails: this.paymentDetails,
+                });
             }
         },
         goToDashboard() {
