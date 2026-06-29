@@ -29,7 +29,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <SummaryOrder :cart-data="cartData" />
                     <div class="lg:col-span-2">
-                        <form class="space-y-6" @submit.prevent="submitCheckout">
+                        <div class="space-y-6">
                             <!-- Payment Method -->
                             <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
                                 <div class="flex flex-col space-y-1.5 p-6">
@@ -72,10 +72,10 @@
                             <!-- Continue Button -->
                             <button
                                 class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 w-full"
-                                type="submit" :disabled="submitting || loading">
+                                type="button" :disabled="submitting || loading" @click="submitCheckout">
                                 {{ $t('pages.checkout.continue_button') }}
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,10 +155,8 @@ export default {
             console.log('[Checkout] redirect URL resolved', { redirectUrl });
 
             if (redirectUrl) {
-                const reference = booking.reference ? ` (${booking.reference})` : '';
-                this.$successAlert(`Booking created${reference}. Redirecting to payment...`);
                 console.log('[Checkout] redirecting browser', { redirectUrl });
-                window.location.href = redirectUrl;
+                window.location.assign(redirectUrl);
                 return;
             }
 
