@@ -99,6 +99,9 @@ export default {
             // 'redirect-auth',
         ],
     },
+    serverMiddleware: [
+        { path: '/api/kuveyt', handler: '~/server-middleware/kuveyt.js' }
+    ],
     
     buildModules: [
         '@nuxtjs/style-resources',

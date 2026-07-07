@@ -92,3 +92,4 @@ secrets.json
 .github/workflows/deploy.yml
 
 package-lock.json
+.env

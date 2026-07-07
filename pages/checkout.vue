@@ -40,7 +40,11 @@
                                         {{ $t('pages.checkout.payment_method_description') }}
                                     </p>
                                 </div>
-                                <PaymentMethod v-model="paymentForm" :available-methods="paymentMethods" />
+                                <PaymentMethod
+                                    v-model="paymentForm"
+                                    :available-methods="paymentMethods"
+                                    :amount="checkoutAmount"
+                                    :currency="checkoutCurrency" />
                             </div>
 
                             <!-- Personal Information -->
@@ -84,6 +88,23 @@
 </template>
 
 <script>
+function splitPhoneNumber(value = '') {
+    const normalized = String(value || '').replace(/\s+/g, '');
+    const match = normalized.match(/^(\+\d{1,4})(\d{6,})$/);
+
+    if (match) {
+        return {
+            phoneCountryCode: match[1],
+            phoneNumber     : match[2],
+        };
+    }
+
+    return {
+        phoneCountryCode: '+90',
+        phoneNumber     : normalized.replace(/\D+/g, ''),
+    };
+}
+
 export default {
     middleware: ['redirect-auth', 'verified', 'profile_completed'],
     data() {
@@ -106,10 +127,17 @@ export default {
                 last_name     : '',
                 email         : '',
                 mobile        : '',
+                phone_country_code: '+90',
+                phone_number  : '',
                 date_of_birth : '',
                 university_name: '',
                 nationality   : '',
                 address       : '',
+                bill_addr_line1   : '',
+                bill_addr_city    : '',
+                bill_addr_country : 'Turkey',
+                bill_addr_post_code: '',
+                bill_addr_state   : '',
             },
             emergencyContactForm: {
                 name    : '',
@@ -121,8 +149,29 @@ export default {
                 receipt_file    : null,
                 reference_number: '',
                 notes           : '',
+                card            : {
+                    holderName : '',
+                    number     : '',
+                    expireMonth: '',
+                    expireYear : '',
+                    cvv        : '',
+                    type       : 'CreditCard',
+                },
             },
         };
+    },
+    computed: {
+        checkoutAmount() {
+            return Number(
+                this.cartData.summary?.grand_total
+                || this.cartData.summary?.deposit_total
+                || this.cartData.summary?.subtotal
+                || 0
+            );
+        },
+        checkoutCurrency() {
+            return this.cartData.currency || 'TRY';
+        },
     },
     async mounted() {
         await this.loadCheckoutContext();
@@ -133,39 +182,130 @@ export default {
 
             return new URL(path, window.location.origin).toString();
         },
+        normalizeGuestForm(profile = {}) {
+            const mobileSource = profile.mobile || profile.phone || '';
+            const phoneParts = splitPhoneNumber(mobileSource);
+
+            return {
+                ...this.guestForm,
+                ...profile,
+                mobile             : mobileSource,
+                phone_country_code : profile.phone_country_code || phoneParts.phoneCountryCode || '+90',
+                phone_number       : profile.phone_number || phoneParts.phoneNumber || '',
+                bill_addr_line1    : profile.bill_addr_line1 || profile.address || '',
+                bill_addr_city     : profile.bill_addr_city || '',
+                bill_addr_country  : profile.bill_addr_country || 'Turkey',
+                bill_addr_post_code: profile.bill_addr_post_code || '',
+                bill_addr_state    : profile.bill_addr_state || '',
+            };
+        },
+        normalizeCardYear(value = '') {
+            const digits = String(value || '').replace(/\D+/g, '');
+
+            if (digits.length === 4) {
+                return digits.slice(-2);
+            }
+
+            return digits.slice(0, 2);
+        },
+        buildPaymentPhone() {
+            const subscriber = (this.guestForm.phone_number || this.guestForm.mobile || '').replace(/\D+/g, '');
+
+            return {
+                phoneCountryCode: this.guestForm.phone_country_code || '+90',
+                phoneNumber     : subscriber,
+            };
+        },
+        validateKuveytForm() {
+            const card = this.paymentForm.card || {};
+            const phone = this.buildPaymentPhone();
+            const requiredEntries = [
+                ['Card holder name', card.holderName],
+                ['Card number', card.number],
+                ['Expiry month', card.expireMonth],
+                ['Expiry year', card.expireYear],
+                ['CVV', card.cvv],
+                ['Email', this.guestForm.email],
+                ['Phone country code', phone.phoneCountryCode],
+                ['Phone number', phone.phoneNumber],
+                ['Billing address line 1', this.guestForm.bill_addr_line1 || this.guestForm.address],
+                ['Billing city', this.guestForm.bill_addr_city],
+                ['Billing state', this.guestForm.bill_addr_state],
+                ['Billing post code', this.guestForm.bill_addr_post_code],
+                ['Billing country', this.guestForm.bill_addr_country],
+            ].filter(([, value]) => !value);
+
+            if (requiredEntries.length) {
+                throw new Error(`Please complete the required payment fields: ${requiredEntries.map(([label]) => label).join(', ')}.`);
+            }
+        },
         async redirectToHostedPayment(booking) {
-            console.log('[Checkout] redirectToHostedPayment start', { booking });
+            this.validateKuveytForm();
             const returnPath = this.localePath('/checkout/payment-return');
+            const phone = this.buildPaymentPhone();
             const payload = {
-                provider  : 'kuveyt_turk',
-                language  : this.$i18n?.locale || 'en',
-                return_url: this.buildAbsoluteUrl(returnPath),
-                cancel_url: this.buildAbsoluteUrl(returnPath),
-                customer  : {
-                    name : [this.guestForm.first_name, this.guestForm.last_name].filter(Boolean).join(' ').trim(),
-                    email: this.guestForm.email,
-                    phone: this.guestForm.mobile || this.guestForm.phone || '',
+                orderId        : booking.reference || `BOOKING-${booking.id}`,
+                bookingId      : booking.id,
+                amount         : booking.grand_total || booking.amount || this.checkoutAmount,
+                currencyCode   : this.checkoutCurrency === 'TRY' ? '0949' : '0949',
+                installmentCount: 0,
+                frontendReturnUrl: this.buildAbsoluteUrl(`${returnPath}?booking_id=${booking.id}`),
+                card           : {
+                    ...this.paymentForm.card,
+                    expireMonth: String(this.paymentForm.card.expireMonth || '').replace(/\D+/g, '').slice(0, 2),
+                    expireYear : this.normalizeCardYear(this.paymentForm.card.expireYear),
+                },
+                customer: {
+                    email           : this.guestForm.email,
+                    phoneCountryCode: phone.phoneCountryCode,
+                    phoneNumber     : phone.phoneNumber,
+                    billAddrCity    : this.guestForm.bill_addr_city,
+                    billAddrCountry : this.guestForm.bill_addr_country,
+                    billAddrLine1   : this.guestForm.bill_addr_line1 || this.guestForm.address,
+                    billAddrPostCode: this.guestForm.bill_addr_post_code,
+                    billAddrState   : this.guestForm.bill_addr_state,
                 },
             };
-            console.log('[Checkout] createPaymentSession before', { bookingId: booking.id, payload });
-            const paymentSession = await this.$bookingApi.createPaymentSession(booking.id, payload);
-            console.log('[Checkout] createPaymentSession after', paymentSession);
 
-            const redirectUrl = paymentSession.redirect_url || paymentSession.checkout_url || paymentSession.url;
-            console.log('[Checkout] redirect URL resolved', { redirectUrl });
+            const response = await window.fetch('/api/kuveyt/start', {
+                method     : 'POST',
+                credentials: 'same-origin',
+                headers    : {
+                    'Content-Type': 'application/json',
+                    Accept        : 'text/html,application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const contentType = response.headers.get('content-type') || '';
+
+            if (!response.ok) {
+                if (contentType.includes('application/json')) {
+                    const errorPayload = await response.json();
+                    throw new Error(errorPayload.message || 'Unable to start Kuveyt payment.');
+                }
+
+                throw new Error('Unable to start Kuveyt payment.');
+            }
+
+            if (contentType.includes('text/html') || contentType.includes('text/xml') || contentType.includes('application/xml')) {
+                const html = await response.text();
+
+                document.open();
+                document.write(html);
+                document.close();
+                return;
+            }
+
+            const data = await response.json();
+            const redirectUrl = data.redirect_url || data.checkout_url || data.url;
 
             if (redirectUrl) {
-                console.log('[Checkout] redirecting browser', { redirectUrl });
                 window.location.assign(redirectUrl);
                 return;
             }
 
-            console.log('[Checkout] redirectToHostedPayment failed', paymentSession);
-            throw new Error(
-                paymentSession.backend_message
-                || paymentSession.message
-                || 'Payment session did not provide a redirect_url.'
-            );
+            throw new Error(data.message || 'Payment session did not provide a redirect document.');
         },
         async loadCheckoutContext() {
             this.loading = true;
@@ -174,10 +314,7 @@ export default {
                 const context = await this.$bookingApi.getCheckoutContext();
                 this.cartData = context.cart;
                 this.paymentMethods = context.payment_methods || [];
-                this.guestForm = {
-                    ...this.guestForm,
-                    ...context.tenant,
-                };
+                this.guestForm = this.normalizeGuestForm(context.tenant || {});
 
                 if (this.paymentMethods.length && !this.paymentMethods.some(method => method.code === this.paymentForm.method)) {
                     this.paymentForm = {
@@ -193,12 +330,6 @@ export default {
         },
         async submitCheckout() {
             this.submitting = true;
-            console.log('[Checkout] submitCheckout start', {
-                cartId        : this.cartData.id,
-                paymentMethod : this.paymentForm.method,
-                guestForm     : this.guestForm,
-                emergencyContactForm: this.emergencyContactForm,
-            });
 
             try {
                 if (!this.cartData.items?.length) {
@@ -209,12 +340,8 @@ export default {
                     throw new Error('Please upload your bank transfer receipt before submitting the booking.');
                 }
 
-                console.log('[Checkout] validateCart before');
                 await this.$bookingApi.validateCart();
-                console.log('[Checkout] validateCart after');
-                console.log('[Checkout] updateProfile before', this.guestForm);
                 await this.$bookingApi.updateProfile(this.guestForm);
-                console.log('[Checkout] updateProfile after');
 
                 const bookingPayload = {
                     cart_id           : this.cartData.id,
@@ -223,9 +350,7 @@ export default {
                     payment_method    : this.paymentForm.method,
                     notes             : this.paymentForm.notes || undefined,
                 };
-                console.log('[Checkout] createBooking before', bookingPayload);
                 const bookingResult = await this.$bookingApi.createBooking(bookingPayload);
-                console.log('[Checkout] createBooking response', bookingResult);
 
                 const booking = bookingResult.booking || {};
 
@@ -234,44 +359,32 @@ export default {
                 }
 
                 if (this.paymentForm.method === 'bank_transfer' && this.paymentForm.receipt_file) {
-                    console.log('[Checkout] uploadBankTransferProof before', { bookingId: booking.id });
                     await this.$bookingApi.uploadBankTransferProof(booking.id, {
                         receipt_file    : this.paymentForm.receipt_file,
                         reference_number: this.paymentForm.reference_number,
                         notes           : this.paymentForm.notes,
                     });
-                    console.log('[Checkout] uploadBankTransferProof after');
 
                     this.$successAlert('Booking created and transfer proof uploaded successfully.');
                 } else if (this.paymentForm.method === 'credit_card') {
-                    console.log('[Checkout] credit card flow start', { booking });
                     await this.redirectToHostedPayment(booking);
                     return;
                 } else {
                     this.$successAlert('Booking created successfully.');
                 }
 
-                console.log('[Checkout] clearCart before');
                 this.cartData = await this.$bookingApi.clearCart();
-                console.log('[Checkout] clearCart after', this.cartData);
                 window.dispatchEvent(new CustomEvent('cart-updated', {
                     detail: {
                         count: 0,
                         cart : this.cartData,
                     }
                 }));
-                console.log('[Checkout] redirecting to dashboard');
                 window.location.href = this.localePath('/dashboard');
             } catch (error) {
-                console.log('[Checkout] submitCheckout error', {
-                    message : error.message,
-                    response: error.response?.data,
-                    error,
-                });
                 this.$dangerAlert(error.response?.data?.message || error.message || this.$t('notification.error_occurred'));
             } finally {
                 this.submitting = false;
-                console.log('[Checkout] submitCheckout end', { submitting: this.submitting });
             }
         }
     },

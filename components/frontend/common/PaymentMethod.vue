@@ -39,7 +39,86 @@
                         <div role="alert" class="border rounded-lg p-4 bg-background text-foreground">
                             <h5 class="mb-1 font-medium">Bank Gateway Flow</h5>
                             <div class="text-sm">
-                                After checkout, you will be redirected to the bank-hosted 3D Secure page to complete your payment.
+                                Your card details are sent only to the local Kuveyt Turk server middleware, then the
+                                bank completes 3D Secure on its hosted page.
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="space-y-2 md:col-span-2">
+                                <label class="text-sm font-medium">Amount</label>
+                                <input class="input" :value="formattedAmount" disabled>
+                            </div>
+
+                            <div class="space-y-2 md:col-span-2">
+                                <label class="text-sm font-medium">Card Holder Name</label>
+                                <input
+                                    class="input"
+                                    :value="form.card.holderName"
+                                    placeholder="Name on card"
+                                    autocomplete="cc-name"
+                                    @input="updateCardField('holderName', $event.target.value)">
+                            </div>
+
+                            <div class="space-y-2 md:col-span-2">
+                                <label class="text-sm font-medium">Card Number</label>
+                                <input
+                                    class="input"
+                                    :value="form.card.number"
+                                    placeholder="0000 0000 0000 0000"
+                                    autocomplete="cc-number"
+                                    inputmode="numeric"
+                                    @input="updateCardField('number', $event.target.value)">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Expiry Month</label>
+                                <input
+                                    class="input"
+                                    :value="form.card.expireMonth"
+                                    placeholder="06"
+                                    autocomplete="cc-exp-month"
+                                    inputmode="numeric"
+                                    @input="updateCardField('expireMonth', $event.target.value)">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Expiry Year</label>
+                                <input
+                                    class="input"
+                                    :value="form.card.expireYear"
+                                    placeholder="25"
+                                    autocomplete="cc-exp-year"
+                                    inputmode="numeric"
+                                    @input="updateCardField('expireYear', $event.target.value)">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">CVV</label>
+                                <input
+                                    class="input"
+                                    :value="form.card.cvv"
+                                    placeholder="123"
+                                    autocomplete="cc-csc"
+                                    inputmode="numeric"
+                                    @input="updateCardField('cvv', $event.target.value)">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Card Type</label>
+                                <select class="input" :value="form.card.type" @change="updateCardField('type', $event.target.value)">
+                                    <option value="CreditCard">Credit Card</option>
+                                    <option value="DebitCard">Debit Card</option>
+                                    <option value="PrePaidCard">Prepaid Card</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div role="alert" class="border rounded-lg p-4 bg-background text-foreground">
+                            <h5 class="mb-1 font-medium">Security Note</h5>
+                            <div class="text-sm">
+                                Card number and CVV are never stored in the frontend state beyond this checkout
+                                submission and are not sent to the booking API.
                             </div>
                         </div>
                     </div>
@@ -113,6 +192,14 @@ export default {
             type: Array,
             default: () => [],
         },
+        amount: {
+            type: [Number, String],
+            default: 0,
+        },
+        currency: {
+            type: String,
+            default: 'TRY',
+        },
     },
     computed: {
         form() {
@@ -121,8 +208,25 @@ export default {
                 receipt_file: null,
                 reference_number: '',
                 notes: '',
+                card: {
+                    holderName : '',
+                    number     : '',
+                    expireMonth: '',
+                    expireYear : '',
+                    cvv        : '',
+                    type       : 'CreditCard',
+                },
                 ...this.value,
             };
+        },
+        formattedAmount() {
+            const amount = Number(this.amount || 0);
+
+            if (!Number.isFinite(amount)) {
+                return this.amount;
+            }
+
+            return `${amount.toFixed(2)} ${this.currency || 'TRY'}`;
         },
         methods() {
             if (!this.availableMethods.length) {
@@ -175,6 +279,15 @@ export default {
             this.$emit('input', {
                 ...this.form,
                 [field]: fieldValue,
+            });
+        },
+        updateCardField(field, fieldValue) {
+            this.$emit('input', {
+                ...this.form,
+                card: {
+                    ...this.form.card,
+                    [field]: fieldValue,
+                },
             });
         },
         updateFile(event) {
