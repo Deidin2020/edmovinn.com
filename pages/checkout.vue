@@ -88,6 +88,8 @@
 </template>
 
 <script>
+import { validateCard } from '@/utils/cardValidation';
+
 // ISO 4217 numeric codes expected by the Kuveyt Turk VPos CurrencyCode field.
 const KUVEYT_CURRENCY_CODES = {
     TRY: '0949',
@@ -236,12 +238,20 @@ export default {
                 throw new Error(`Currency ${this.checkoutCurrency} is not supported by the bank gateway.`);
             }
 
+            // Card rules are checked before the required-field sweep so the customer
+            // gets the specific reason ("this card has expired") rather than a generic
+            // list. Catching it here also spares them a failed attempt at the gateway.
+            const cardFailures = validateCard(card);
+
+            if (Object.keys(cardFailures).length) {
+                const reasons = Object.values(cardFailures)
+                    .map(reasonKey => this.$t(`payment.${reasonKey}`))
+                    .join(' ');
+
+                throw new Error(reasons);
+            }
+
             const requiredEntries = [
-                ['Card holder name', card.holderName],
-                ['Card number', card.number],
-                ['Expiry month', card.expireMonth],
-                ['Expiry year', card.expireYear],
-                ['CVV', card.cvv],
                 ['Email', this.guestForm.email],
                 ['Phone country code', phone.phoneCountryCode],
                 ['Phone number', phone.phoneNumber],
