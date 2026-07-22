@@ -174,6 +174,9 @@ function buildTenantProfilePayload(payload = {}) {
             university_name: normalizedProfile.university_name || undefined,
             nationality    : normalizedProfile.nationality || undefined,
             address        : normalizedProfile.address || undefined,
+            // NOTE: billing fields (bill_addr_*, phone_country_code, phone_number) are
+            // collected for the bank gateway but not persisted yet — `PUT /api/tenant/profile`
+            // does not accept them. See docs/kuveyt-turk-remaining-work.md.
         }).filter(([, value]) => value !== undefined)
     );
 }

@@ -11,8 +11,109 @@ const pendingPayments = new Map();
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Production hardening note:
-// add rate limiting and a CSRF strategy around /start before enabling live traffic.
+// --- Abuse protection for /start -------------------------------------------
+// /start forwards raw card data to the bank, so an open endpoint would let anyone
+// use the merchant account as a stolen-card checker. Every request must carry a
+// valid tenant session, and attempts are capped per user and per IP.
+//
+// NOTE: this window lives in process memory, so it is only accurate while the app
+// runs as a single instance. See docs/kuveyt-turk-remaining-work.md.
+
+const RATE_LIMIT_MAX_ATTEMPTS = Number(process.env.KUVEYT_RATE_LIMIT_MAX || 5);
+const RATE_LIMIT_WINDOW_MS = Number(process.env.KUVEYT_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000);
+
+// Rejected sign-ins are counted separately and far more loosely than real payment
+// attempts. Sharing one budget would let anonymous traffic from a NAT or carrier IP
+// lock out genuine customers sitting behind the same address.
+const AUTH_FAILURE_MAX_ATTEMPTS = Number(process.env.KUVEYT_AUTH_FAIL_LIMIT_MAX || 30);
+
+const rateLimitBuckets = new Map();
+
+function isRateLimited(key, maxAttempts = RATE_LIMIT_MAX_ATTEMPTS) {
+    if (!key) return false;
+
+    const now = Date.now();
+    const recent = (rateLimitBuckets.get(key) || []).filter(at => now - at < RATE_LIMIT_WINDOW_MS);
+
+    recent.push(now);
+    rateLimitBuckets.set(key, recent);
+
+    return recent.length > maxAttempts;
+}
+
+// Drop expired buckets so the map cannot grow without bound.
+function pruneRateLimitBuckets() {
+    const now = Date.now();
+
+    for (const [key, attempts] of rateLimitBuckets) {
+        const recent = attempts.filter(at => now - at < RATE_LIMIT_WINDOW_MS);
+
+        if (recent.length) {
+            rateLimitBuckets.set(key, recent);
+        } else {
+            rateLimitBuckets.delete(key);
+        }
+    }
+}
+
+setInterval(pruneRateLimitBuckets, RATE_LIMIT_WINDOW_MS).unref();
+
+function readCookie(req, name) {
+    const header = req.headers.cookie;
+
+    if (!header) return '';
+
+    for (const part of header.split(';')) {
+        const index = part.indexOf('=');
+
+        if (index === -1) continue;
+
+        if (part.slice(0, index).trim() === name) {
+            return decodeURIComponent(part.slice(index + 1).trim());
+        }
+    }
+
+    return '';
+}
+
+function getBearerToken(req) {
+    const header = req.headers.authorization || '';
+
+    if (header) {
+        return header.startsWith('Bearer ') ? header : `Bearer ${header}`;
+    }
+
+    // Fallback: @nuxtjs/auth-next mirrors the token into this cookie.
+    const cookieToken = readCookie(req, 'auth._token.local');
+
+    if (!cookieToken || cookieToken === 'false') return '';
+
+    return cookieToken.startsWith('Bearer ') ? cookieToken : `Bearer ${cookieToken}`;
+}
+
+// Resolves the caller against the booking API. Returns null when not authenticated.
+async function resolveTenant(req) {
+    const token = getBearerToken(req);
+    const apiUrl = process.env.API_URL;
+
+    if (!token || !apiUrl) return null;
+
+    try {
+        const { data } = await axios.get(`${apiUrl}/api/tenant/me`, {
+            headers: {
+                Accept       : 'application/json',
+                Authorization: token,
+            },
+            timeout: 10000,
+        });
+
+        const tenant = data?.result?.tenant || data?.result || null;
+
+        return tenant?.id ? tenant : null;
+    } catch (error) {
+        return null;
+    }
+}
 
 function sha1Base64Iso(value) {
     return crypto
@@ -255,8 +356,38 @@ function extractField(source = {}, keys = []) {
     return '';
 }
 
+const DEFAULT_RETURN_PATH = '/checkout/payment-return';
+
+// The return URL arrives from the browser, so it must never be trusted as-is:
+// an attacker could point it at their own host and harvest the callback query
+// string. Relative paths are kept, absolute ones are only honoured when the host
+// matches KUVEYT_OK_URL (i.e. our own site).
+function sanitizeFrontendReturnUrl(value) {
+    const candidate = String(value || '').trim();
+
+    if (!candidate) return DEFAULT_RETURN_PATH;
+
+    if (!/^https?:\/\//i.test(candidate)) {
+        // `//host/path` and `/\host/path` are protocol-relative: the browser reads them
+        // as absolute URLs to another origin, so they are not safe "relative" paths.
+        const isProtocolRelative = /^\/[/\\]/.test(candidate);
+
+        return candidate.startsWith('/') && !isProtocolRelative
+            ? candidate
+            : DEFAULT_RETURN_PATH;
+    }
+
+    try {
+        const allowedHost = new URL(process.env.KUVEYT_OK_URL).host;
+
+        return new URL(candidate).host === allowedHost ? candidate : DEFAULT_RETURN_PATH;
+    } catch (error) {
+        return DEFAULT_RETURN_PATH;
+    }
+}
+
 function buildFrontendRedirect(baseUrl, params) {
-    const fallbackUrl = baseUrl || '/checkout/payment-return';
+    const fallbackUrl = baseUrl || DEFAULT_RETURN_PATH;
     const url = new URL(fallbackUrl, 'http://local.placeholder');
     const isRelative = !/^https?:\/\//i.test(fallbackUrl);
 
@@ -292,6 +423,46 @@ function assertCredentialsConfigured(credentials) {
     }
 }
 
+// Reports the bank's verdict straight to the booking API, signed with a shared
+// secret. Without this the backend can only learn the outcome from query params on
+// the return URL, which the customer can edit to confirm a booking they never paid
+// for. Stays inert until KUVEYT_INTERNAL_SECRET and KUVEYT_SETTLE_URL are set —
+// see docs/kuveyt-turk-remaining-work.md for the endpoint contract.
+async function settlePaymentWithBackend(payload) {
+    const secret = process.env.KUVEYT_INTERNAL_SECRET;
+    const settleUrl = process.env.KUVEYT_SETTLE_URL
+        || (process.env.API_URL ? `${process.env.API_URL}/api/internal/payments/kuveyt-turk/settle` : '');
+
+    if (!secret || !settleUrl) {
+        return { settled: false, reason: 'not_configured' };
+    }
+
+    const body = JSON.stringify(payload);
+    const signature = crypto.createHmac('sha256', secret).update(body).digest('hex');
+
+    try {
+        await axios.post(settleUrl, body, {
+            headers: {
+                'Content-Type'       : 'application/json',
+                'X-Internal-Signature': signature,
+            },
+            timeout: 15000,
+        });
+
+        return { settled: true };
+    } catch (error) {
+        // The customer has already been charged at this point, so the redirect must
+        // still happen; the backend reconciles from its own record.
+        console.error('[kuveyt] settle call failed', {
+            orderId: payload.provider_order_id,
+            status : error.response?.status,
+            message: error.message,
+        });
+
+        return { settled: false, reason: 'request_failed' };
+    }
+}
+
 async function parseGatewayError(responseData) {
     if (typeof responseData !== 'string' || !responseData.trim().startsWith('<')) {
         return '';
@@ -310,6 +481,37 @@ async function parseGatewayError(responseData) {
 }
 
 app.post('/start', async (req, res) => {
+    const clientIp = getClientIp(req);
+    const tooManyAttempts = {
+        success: false,
+        message: 'Too many payment attempts. Please wait a few minutes and try again.',
+    };
+
+    const tenant = await resolveTenant(req);
+
+    if (!tenant) {
+        // Counted on its own budget: a rejected caller never reaches the bank, so it
+        // must not use up the payment attempts of customers sharing this address.
+        if (isRateLimited(`auth-fail:${clientIp}`, AUTH_FAILURE_MAX_ATTEMPTS)) {
+            return res.status(429).json(tooManyAttempts);
+        }
+
+        return res.status(401).json({
+            success: false,
+            message: 'You must be signed in to start a card payment.',
+        });
+    }
+
+    // Only genuine payment attempts are charged against these budgets. Both counters
+    // are evaluated eagerly: with `||` the second one would be skipped once the first
+    // trips, letting many accounts behind one IP each get a fresh allowance.
+    const tenantLimited = isRateLimited(`tenant:${tenant.id}`);
+    const ipLimited = isRateLimited(`ip:${clientIp}`);
+
+    if (tenantLimited || ipLimited) {
+        return res.status(429).json(tooManyAttempts);
+    }
+
     try {
         validateStartPayload(req.body);
 
@@ -323,7 +525,7 @@ app.post('/start', async (req, res) => {
         const failUrl = getCallbackUrl(req, process.env.KUVEYT_FAIL_URL, '/api/kuveyt/fail');
         const xmlPayload = buildStartRequestXml({
             amount,
-            clientIp: getClientIp(req),
+            clientIp,
             credentials,
             customer: req.body.customer,
             failUrl,
@@ -338,10 +540,11 @@ app.post('/start', async (req, res) => {
             amount,
             bookingId        : String(req.body.bookingId || ''),
             currencyCode     : String(req.body.currencyCode || '0949'),
-            frontendReturnUrl: req.body.frontendReturnUrl || '/checkout/payment-return',
+            frontendReturnUrl: sanitizeFrontendReturnUrl(req.body.frontendReturnUrl),
             installmentCount,
             orderId,
             paymentProvider  : 'kuveyt_turk',
+            tenantId         : tenant.id,
             createdAt        : new Date().toISOString(),
         });
 
@@ -398,7 +601,7 @@ app.post('/ok', async (req, res) => {
 
     if (!pendingPayment || !orderId || !md) {
         const redirectUrl = buildFrontendRedirect(
-            pendingPayment?.frontendReturnUrl || '/checkout/payment-return',
+            pendingPayment?.frontendReturnUrl || DEFAULT_RETURN_PATH,
             {
                 booking_id: pendingPayment?.bookingId || '',
                 message   : 'Payment callback is missing required data.',
@@ -442,10 +645,21 @@ app.post('/ok', async (req, res) => {
         const transactionId = extractField(result, ['TransactionId', 'AuthCode', 'HostReference']);
         const isSuccess = (successValue === 'true' || successValue === '1') && responseCode === '00';
 
-        // TODO: Replace this in-memory state with real DB logic:
-        // - load pending order by orderId
-        // - mark order as paid only when provision succeeds
-        // - store provider transaction id and response snapshot safely
+        // Tell the backend the outcome before redirecting, so the booking state comes
+        // from the bank's verdict rather than from the return URL the customer lands on.
+        await settlePaymentWithBackend({
+            booking_id             : pendingPayment.bookingId,
+            tenant_id              : pendingPayment.tenantId,
+            provider               : 'kuveyt_turk',
+            provider_order_id      : orderId,
+            provider_transaction_id: transactionId,
+            status                 : isSuccess ? 'paid' : 'failed',
+            amount_minor           : pendingPayment.amount,
+            currency_code          : pendingPayment.currencyCode,
+            response_code          : responseCode,
+            response_message       : responseMessage,
+        });
+
         pendingPayments.delete(orderId);
 
         const redirectUrl = buildFrontendRedirect(

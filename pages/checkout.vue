@@ -88,6 +88,14 @@
 </template>
 
 <script>
+// ISO 4217 numeric codes expected by the Kuveyt Turk VPos CurrencyCode field.
+const KUVEYT_CURRENCY_CODES = {
+    TRY: '0949',
+    USD: '0840',
+    EUR: '0978',
+    GBP: '0826',
+};
+
 function splitPhoneNumber(value = '') {
     const normalized = String(value || '').replace(/\s+/g, '');
     const match = normalized.match(/^(\+\d{1,4})(\d{6,})$/);
@@ -172,6 +180,9 @@ export default {
         checkoutCurrency() {
             return this.cartData.currency || 'TRY';
         },
+        kuveytCurrencyCode() {
+            return KUVEYT_CURRENCY_CODES[String(this.checkoutCurrency).toUpperCase()] || '';
+        },
     },
     async mounted() {
         await this.loadCheckoutContext();
@@ -219,6 +230,12 @@ export default {
         validateKuveytForm() {
             const card = this.paymentForm.card || {};
             const phone = this.buildPaymentPhone();
+
+            // Fail loudly instead of silently charging the customer in the wrong currency.
+            if (!this.kuveytCurrencyCode) {
+                throw new Error(`Currency ${this.checkoutCurrency} is not supported by the bank gateway.`);
+            }
+
             const requiredEntries = [
                 ['Card holder name', card.holderName],
                 ['Card number', card.number],
@@ -247,7 +264,7 @@ export default {
                 orderId        : booking.reference || `BOOKING-${booking.id}`,
                 bookingId      : booking.id,
                 amount         : booking.grand_total || booking.amount || this.checkoutAmount,
-                currencyCode   : this.checkoutCurrency === 'TRY' ? '0949' : '0949',
+                currencyCode   : this.kuveytCurrencyCode,
                 installmentCount: 0,
                 frontendReturnUrl: this.buildAbsoluteUrl(`${returnPath}?booking_id=${booking.id}`),
                 card           : {
@@ -267,12 +284,16 @@ export default {
                 },
             };
 
+            // The middleware verifies this token against the booking API before it will
+            // talk to the bank, so an unauthenticated caller cannot reach the gateway.
+            const authToken = this.$auth?.strategy?.token?.get?.() || '';
             const response = await window.fetch('/api/kuveyt/start', {
                 method     : 'POST',
                 credentials: 'same-origin',
                 headers    : {
                     'Content-Type': 'application/json',
                     Accept        : 'text/html,application/json',
+                    ...(authToken ? { Authorization: authToken } : {}),
                 },
                 body: JSON.stringify(payload),
             });

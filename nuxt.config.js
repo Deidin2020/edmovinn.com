@@ -1,6 +1,23 @@
+// Loads .env into the real process.env for server-side use only (server-middleware,
+// axios baseURL, ...). Do NOT use @nuxtjs/dotenv here: it writes into `options.env`,
+// which Nuxt inlines into the public client bundle key by key.
+require('dotenv').config();
+
 export default {
     server: {
         port: process.env.SERVER_PORT || 8000
+    },
+
+    // Explicit allowlist of variables exposed to the browser.
+    // Without this block Nuxt sets `options.env = process.env`, so every server
+    // variable — including the Kuveyt Turk merchant credentials — ends up in the
+    // client bundle. Never add a secret here.
+    env: {
+        API_URL           : process.env.API_URL || '',
+        API_BASE_URL      : process.env.API_BASE_URL || '',
+        HOST_NAME         : process.env.HOST_NAME || '',
+        ALGOLIA_APP_ID    : process.env.ALGOLIA_APP_ID || '',
+        ALGOLIA_SEARCH_KEY: process.env.ALGOLIA_SEARCH_KEY || '',
     },
 
     ssr: true,
@@ -120,7 +137,6 @@ export default {
         ['cookie-universal-nuxt', {alias: 'cookiz'}],
         '@nuxtjs/auth-next',
         'dropzone-nuxt',
-        '@nuxtjs/dotenv',
     ],
 
 
