@@ -367,6 +367,45 @@ payment_methods: {
     description: 'Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.'
   }
 },
+payment: {
+  method_pay_at_property_label      : 'Pay at Property',
+  method_pay_at_property_description: 'Settle the payment when you arrive',
+  method_credit_card_label          : 'Credit or Debit Card',
+  method_credit_card_description    : 'Secure payment verified by 3D Secure',
+  method_bank_transfer_label        : 'Bank Transfer',
+  method_bank_transfer_description  : 'Transfer to our account and upload the receipt',
+
+  amount_to_pay          : 'Amount to pay',
+  card_number            : 'Card number',
+  card_holder            : 'Cardholder name',
+  card_holder_placeholder: 'Name as printed on the card',
+  expiry                 : 'Expiry date',
+  cvv                    : 'CVV',
+  cvv_hint               : 'The 3 digits on the back of your card (4 on the front for Amex)',
+  card_type              : 'Card type',
+  card_type_credit       : 'Credit card',
+  card_type_debit        : 'Debit card',
+  card_type_prepaid      : 'Prepaid card',
+
+  secure_note      : 'You will be redirected to your bank to confirm this payment with 3D Secure. Your card details are never stored on our servers.',
+  instructions_title: 'Payment instructions',
+  important_note    : 'Important',
+  pay_at_property_note: 'Please complete your payment at the accommodation within 48 hours of booking. Bring a valid ID and your booking confirmation email.',
+  bank_transfer_note  : 'Include your full name and booking email as the transfer reference. We verify payments within 24 hours.',
+
+  bank_name       : 'Bank name',
+  account_name    : 'Account name',
+  upload_receipt  : 'Upload transfer receipt (JPG, PNG or PDF)',
+  reference_number: 'Reference number',
+
+  error_card_required  : 'Please enter your card number.',
+  error_card_invalid   : 'This card number is not valid. Please check it.',
+  error_holder_required: 'Please enter the cardholder name.',
+  error_expiry_required: 'Please enter the expiry date.',
+  error_expiry_invalid : 'The expiry month must be between 01 and 12.',
+  error_expiry_past    : 'This card has expired.',
+  error_cvv_invalid    : 'Please enter a valid CVV.'
+},
 login_with_google  : 'Login with Google',
 login_with_facebook: 'Login with Facebook',
   'auth': {

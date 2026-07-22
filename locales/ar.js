@@ -371,6 +371,45 @@ payment_methods: {
     description: 'يرجى إرسال الشيك إلى اسم المتجر، شارع المتجر، مدينة المتجر، ولاية / مقاطعة المتجر، الرمز البريدي للمتجر.'
   }
 },
+payment: {
+  method_pay_at_property_label      : 'الدفع عند الوصول',
+  method_pay_at_property_description: 'ادفع عند وصولك إلى السكن',
+  method_credit_card_label          : 'بطاقة ائتمان أو خصم',
+  method_credit_card_description    : 'دفع آمن موثّق عبر 3D Secure',
+  method_bank_transfer_label        : 'تحويل بنكي',
+  method_bank_transfer_description  : 'حوّل إلى حسابنا وارفع إيصال التحويل',
+
+  amount_to_pay          : 'المبلغ المطلوب',
+  card_number            : 'رقم البطاقة',
+  card_holder            : 'اسم حامل البطاقة',
+  card_holder_placeholder: 'الاسم كما هو مطبوع على البطاقة',
+  expiry                 : 'تاريخ الانتهاء',
+  cvv                    : 'رمز التحقق CVV',
+  cvv_hint               : 'الأرقام الثلاثة خلف البطاقة (أربعة أمامها في بطاقات أمريكان إكسبريس)',
+  card_type              : 'نوع البطاقة',
+  card_type_credit       : 'بطاقة ائتمان',
+  card_type_debit        : 'بطاقة خصم',
+  card_type_prepaid      : 'بطاقة مدفوعة مسبقًا',
+
+  secure_note      : 'سيتم تحويلك إلى صفحة البنك لتأكيد الدفع عبر 3D Secure. بيانات بطاقتك لا تُحفظ على خوادمنا.',
+  instructions_title: 'تعليمات الدفع',
+  important_note    : 'ملاحظة مهمة',
+  pay_at_property_note: 'يرجى إتمام الدفع في السكن خلال 48 ساعة من الحجز. أحضر هوية سارية ورسالة تأكيد الحجز.',
+  bank_transfer_note  : 'اكتب اسمك الكامل والبريد المستخدم في الحجز في خانة مرجع التحويل. نتحقق من التحويلات خلال 24 ساعة.',
+
+  bank_name       : 'اسم البنك',
+  account_name    : 'اسم الحساب',
+  upload_receipt  : 'ارفع إيصال التحويل (JPG أو PNG أو PDF)',
+  reference_number: 'الرقم المرجعي',
+
+  error_card_required  : 'يرجى إدخال رقم البطاقة.',
+  error_card_invalid   : 'رقم البطاقة غير صحيح، يرجى مراجعته.',
+  error_holder_required: 'يرجى إدخال اسم حامل البطاقة.',
+  error_expiry_required: 'يرجى إدخال تاريخ الانتهاء.',
+  error_expiry_invalid : 'شهر الانتهاء يجب أن يكون بين 01 و 12.',
+  error_expiry_past    : 'انتهت صلاحية هذه البطاقة.',
+  error_cvv_invalid    : 'يرجى إدخال رمز تحقق صحيح.'
+},
 auth: {
   remember_me        : 'تذكرني',
   have_account       : 'ليس لديك حساب؟',

@@ -340,6 +340,45 @@ export default {
       description: 'Lütfen çeki Mağaza Adı, Mağaza Caddesi, Mağaza Şehri, Mağaza Eyaleti / İlçesi, Mağaza Posta Kodu adresine gönderin.'
     }
   },
+  payment: {
+    method_pay_at_property_label      : 'Tesiste Öde',
+    method_pay_at_property_description: 'Ödemeyi varışınızda yapın',
+    method_credit_card_label          : 'Kredi veya Banka Kartı',
+    method_credit_card_description    : '3D Secure ile doğrulanan güvenli ödeme',
+    method_bank_transfer_label        : 'Banka Havalesi',
+    method_bank_transfer_description  : 'Hesabımıza havale edin ve dekontu yükleyin',
+
+    amount_to_pay          : 'Ödenecek tutar',
+    card_number            : 'Kart numarası',
+    card_holder            : 'Kart sahibinin adı',
+    card_holder_placeholder: 'Kartın üzerinde yazdığı gibi',
+    expiry                 : 'Son kullanma tarihi',
+    cvv                    : 'CVV',
+    cvv_hint               : 'Kartınızın arkasındaki 3 hane (Amex kartlarda ön yüzdeki 4 hane)',
+    card_type              : 'Kart tipi',
+    card_type_credit       : 'Kredi kartı',
+    card_type_debit        : 'Banka kartı',
+    card_type_prepaid      : 'Ön ödemeli kart',
+
+    secure_note      : 'Ödemeyi 3D Secure ile onaylamak üzere bankanıza yönlendirileceksiniz. Kart bilgileriniz sunucularımızda saklanmaz.',
+    instructions_title: 'Ödeme talimatları',
+    important_note    : 'Önemli',
+    pay_at_property_note: 'Lütfen ödemenizi rezervasyondan sonraki 48 saat içinde tesiste tamamlayın. Geçerli bir kimlik ve rezervasyon onay e-postanızı yanınızda bulundurun.',
+    bank_transfer_note  : 'Havale açıklamasına adınızı ve rezervasyon e-postanızı yazın. Ödemeleri 24 saat içinde doğruluyoruz.',
+
+    bank_name       : 'Banka adı',
+    account_name    : 'Hesap adı',
+    upload_receipt  : 'Havale dekontunu yükleyin (JPG, PNG veya PDF)',
+    reference_number: 'Referans numarası',
+
+    error_card_required  : 'Lütfen kart numaranızı girin.',
+    error_card_invalid   : 'Bu kart numarası geçerli değil. Lütfen kontrol edin.',
+    error_holder_required: 'Lütfen kart sahibinin adını girin.',
+    error_expiry_required: 'Lütfen son kullanma tarihini girin.',
+    error_expiry_invalid : 'Son kullanma ayı 01 ile 12 arasında olmalıdır.',
+    error_expiry_past    : 'Bu kartın süresi dolmuş.',
+    error_cvv_invalid    : 'Lütfen geçerli bir CVV girin.'
+  },
   auth: {
     remember_me        : 'Beni hatırla',
     have_account       : 'Hesabınız yok mu?',
