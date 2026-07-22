@@ -404,13 +404,61 @@ function buildFrontendRedirect(baseUrl, params) {
     return url.toString();
 }
 
+// Set KUVEYT_ENV=test to route everything at the bank's sandbox using the
+// KUVEYT_TEST_* variables. Unset (or `live`/`production`) charges the real account.
+const TEST_MODE_VALUES = ['test', 'sandbox'];
+const LIVE_MODE_VALUES = ['', 'live', 'production', 'prod'];
+
+function getEnvMode() {
+    return String(process.env.KUVEYT_ENV || '').trim().toLowerCase();
+}
+
+function isTestMode() {
+    return TEST_MODE_VALUES.includes(getEnvMode());
+}
+
+// A typo such as KUVEYT_ENV=testing would otherwise fall through to the live
+// account and charge real cards while the operator believes they are testing.
+function assertEnvModeValid() {
+    const mode = getEnvMode();
+
+    if (!TEST_MODE_VALUES.includes(mode) && !LIVE_MODE_VALUES.includes(mode)) {
+        throw new Error(
+            `Unrecognised KUVEYT_ENV value "${process.env.KUVEYT_ENV}". ` +
+            `Use one of: ${[...TEST_MODE_VALUES, ...LIVE_MODE_VALUES.filter(Boolean)].join(', ')} — ` +
+            'or leave it unset for the live account.'
+        );
+    }
+}
+
 function getCredentials() {
+    if (isTestMode()) {
+        return {
+            customerId: process.env.KUVEYT_TEST_CUSTOMER_ID || '',
+            merchantId: process.env.KUVEYT_TEST_MERCHANT_ID || '',
+            username  : process.env.KUVEYT_TEST_USERNAME || '',
+            password  : process.env.KUVEYT_TEST_PASSWORD || '',
+        };
+    }
+
     return {
         customerId: process.env.KUVEYT_CUSTOMER_ID || '',
         merchantId: process.env.KUVEYT_MERCHANT_ID || '',
         username  : process.env.KUVEYT_USERNAME || '',
         password  : process.env.KUVEYT_PASSWORD || '',
     };
+}
+
+function getPayUrl() {
+    return isTestMode()
+        ? process.env.KUVEYT_TEST_PAY_URL || ''
+        : process.env.KUVEYT_PAY_URL || '';
+}
+
+function getProvisionUrl() {
+    return isTestMode()
+        ? process.env.KUVEYT_TEST_PROVISION_URL || ''
+        : process.env.KUVEYT_PROVISION_URL || '';
 }
 
 function assertCredentialsConfigured(credentials) {
@@ -513,6 +561,7 @@ app.post('/start', async (req, res) => {
     }
 
     try {
+        assertEnvModeValid();
         validateStartPayload(req.body);
 
         const credentials = getCredentials();
@@ -552,7 +601,7 @@ app.post('/start', async (req, res) => {
         // Do not store card number or CVV; only keep order metadata needed for the callback flow.
 
         const gatewayResponse = await axios.post(
-            process.env.KUVEYT_PAY_URL,
+            getPayUrl(),
             xmlPayload,
             {
                 headers: {
@@ -625,7 +674,7 @@ app.post('/ok', async (req, res) => {
         });
 
         const provisionResponse = await axios.post(
-            process.env.KUVEYT_PROVISION_URL,
+            getProvisionUrl(),
             provisionXml,
             {
                 headers: {
@@ -714,5 +763,18 @@ app.post('/fail', (req, res) => {
 
     return res.redirect(302, redirectUrl);
 });
+
+// Printed once at boot so it is obvious which merchant account is live before any
+// card is entered. Never log the credentials themselves.
+try {
+    assertEnvModeValid();
+    console.log(
+        `[kuveyt] mode=${isTestMode() ? 'TEST (sandbox)' : 'LIVE (real charges)'} ` +
+        `gateway=${getPayUrl() || 'NOT CONFIGURED'} ` +
+        `credentials=${Object.values(getCredentials()).every(Boolean) ? 'complete' : 'INCOMPLETE'}`
+    );
+} catch (error) {
+    console.error(`[kuveyt] ${error.message} Card payments will be refused.`);
+}
 
 module.exports = app;
