@@ -208,49 +208,22 @@ const BRAND_ICONS = {
 
 const LOCK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';
 
-function digitsOnly(value) {
-    return String(value || '').replace(/\D+/g, '');
-}
+const EMPTY_CARD = {
+    holderName : '',
+    number     : '',
+    expireMonth: '',
+    expireYear : '',
+    cvv        : '',
+    type       : 'CreditCard',
+};
 
-// Card schemes group digits differently; Amex is 4-6-5, everything else 4-4-4-4.
-function groupCardNumber(digits, brand) {
-    if (brand === 'amex') {
-        return [digits.slice(0, 4), digits.slice(4, 10), digits.slice(10, 15)]
-            .filter(Boolean)
-            .join(' ');
-    }
-
-    return digits.replace(/(.{4})/g, '$1 ').trim();
-}
-
-function detectBrand(digits) {
-    if (/^4/.test(digits)) return 'visa';
-    if (/^(5[1-5]|2[2-7])/.test(digits)) return 'mastercard';
-    if (/^3[47]/.test(digits)) return 'amex';
-    if (/^9/.test(digits)) return 'troy';
-
-    return '';
-}
-
-// Luhn checksum — catches mistyped digits before the request reaches the bank.
-function passesLuhn(digits) {
-    let sum = 0;
-    let double = false;
-
-    for (let i = digits.length - 1; i >= 0; i--) {
-        let value = Number(digits[i]);
-
-        if (double) {
-            value *= 2;
-            if (value > 9) value -= 9;
-        }
-
-        sum += value;
-        double = !double;
-    }
-
-    return sum > 0 && sum % 10 === 0;
-}
+import {
+    detectBrand,
+    digitsOnly,
+    formatCardNumber,
+    getBrandRules,
+    validateCard,
+} from '@/utils/cardValidation';
 
 export default {
     props: {
@@ -274,6 +247,12 @@ export default {
     data() {
         return {
             touched: {},
+            // Working copy of the card. Emits are built from this rather than from
+            // the prop, because the parent only echoes a change back on the next
+            // tick — several updates within one tick (browser card autofill fills
+            // number, expiry and CVV together) would each spread a stale snapshot
+            // and overwrite the previous field.
+            draftCard: { ...EMPTY_CARD },
         };
     },
     computed: {
@@ -284,15 +263,7 @@ export default {
                 reference_number: '',
                 notes: '',
                 ...this.value,
-                card: {
-                    holderName : '',
-                    number     : '',
-                    expireMonth: '',
-                    expireYear : '',
-                    cvv        : '',
-                    type       : 'CreditCard',
-                    ...(this.value && this.value.card),
-                },
+                card: this.draftCard,
             };
         },
         cardDigits() {
@@ -308,10 +279,10 @@ export default {
             return LOCK_ICON;
         },
         cvvLength() {
-            return this.brand === 'amex' ? 4 : 3;
+            return getBrandRules(this.cardDigits).cvvLength;
         },
         displayCardNumber() {
-            return groupCardNumber(this.cardDigits, this.brand);
+            return formatCardNumber(this.cardDigits);
         },
         displayExpiry() {
             const month = this.form.card.expireMonth || '';
@@ -336,52 +307,20 @@ export default {
                 return `${amount.toFixed(2)} ${currency}`;
             }
         },
+        // Same rules the checkout submit handler enforces, so the form can never
+        // look valid while submission is refused (or the reverse).
+        failures() {
+            return validateCard(this.form.card);
+        },
         errors() {
-            const card = this.form.card;
-            const result = {};
-
-            if (this.touched.number) {
-                const expected = this.brand === 'amex' ? 15 : 16;
-
-                if (!this.cardDigits) {
-                    result.number = this.$t('payment.error_card_required');
-                } else if (this.cardDigits.length !== expected || !passesLuhn(this.cardDigits)) {
-                    result.number = this.$t('payment.error_card_invalid');
+            // Only surface a problem once the customer has left that field.
+            return Object.entries(this.failures).reduce((shown, [field, reasonKey]) => {
+                if (this.touched[field]) {
+                    shown[field] = this.$t(`payment.${reasonKey}`);
                 }
-            }
 
-            if (this.touched.holderName && !String(card.holderName || '').trim()) {
-                result.holderName = this.$t('payment.error_holder_required');
-            }
-
-            if (this.touched.expiry) {
-                const month = Number(card.expireMonth);
-                const year = Number(card.expireYear);
-
-                if (!card.expireMonth || !card.expireYear) {
-                    result.expiry = this.$t('payment.error_expiry_required');
-                } else if (!(month >= 1 && month <= 12)) {
-                    result.expiry = this.$t('payment.error_expiry_invalid');
-                } else {
-                    const now = new Date();
-                    const currentYear = now.getFullYear() % 100;
-                    const currentMonth = now.getMonth() + 1;
-
-                    if (year < currentYear || (year === currentYear && month < currentMonth)) {
-                        result.expiry = this.$t('payment.error_expiry_past');
-                    }
-                }
-            }
-
-            if (this.touched.cvv) {
-                const cvv = digitsOnly(card.cvv);
-
-                if (cvv.length !== this.cvvLength) {
-                    result.cvv = this.$t('payment.error_cvv_invalid');
-                }
-            }
-
-            return result;
+                return shown;
+            }, {});
         },
         methods() {
             const copy = code => ({
@@ -418,6 +357,16 @@ export default {
         },
     },
     watch: {
+        // Adopt card values that arrive from the parent (restored state, a reset
+        // after submission). Vue queues watchers, so a burst of updates inside one
+        // tick settles into draftCard first and this fires once with the result.
+        'value.card': {
+            immediate: true,
+            deep     : true,
+            handler(incoming) {
+                this.draftCard = { ...EMPTY_CARD, ...incoming };
+            },
+        },
         methods: {
             immediate: true,
             handler(methods) {
@@ -445,20 +394,23 @@ export default {
         updateField(field, fieldValue) {
             this.$emit('input', { ...this.form, [field]: fieldValue });
         },
+        // Always merges into draftCard, never into the prop, so consecutive updates
+        // inside one tick accumulate instead of overwriting each other.
+        updateCard(changes) {
+            this.draftCard = { ...this.draftCard, ...changes };
+
+            this.$emit('input', { ...this.form, card: this.draftCard });
+        },
         updateCardField(field, fieldValue) {
-            this.$emit('input', {
-                ...this.form,
-                card: { ...this.form.card, [field]: fieldValue },
-            });
+            this.updateCard({ [field]: fieldValue });
         },
         onCardNumberInput(event) {
-            const brand = detectBrand(digitsOnly(event.target.value));
-            const max = brand === 'amex' ? 15 : 16;
-            const digits = digitsOnly(event.target.value).slice(0, max);
+            const raw = event.target.value;
+            const digits = digitsOnly(raw).slice(0, getBrandRules(raw).length);
 
             // Keep the box showing the grouped value even when the digits did not
             // change (e.g. the user typed a space), otherwise Vue skips the update.
-            event.target.value = groupCardNumber(digits, brand);
+            event.target.value = formatCardNumber(digits);
 
             this.updateCardField('number', digits);
         },
@@ -474,10 +426,7 @@ export default {
 
             event.target.value = year ? `${month}/${year}` : month;
 
-            this.$emit('input', {
-                ...this.form,
-                card: { ...this.form.card, expireMonth: month, expireYear: year },
-            });
+            this.updateCard({ expireMonth: month, expireYear: year });
         },
         onCvvInput(event) {
             const cvv = digitsOnly(event.target.value).slice(0, this.cvvLength);
