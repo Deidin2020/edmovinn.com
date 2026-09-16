@@ -66,6 +66,7 @@ export default {
   'footer': {
     'description'    : 'شريكك الموثوق للحياة الطلابية الحديثة والآمنة في تركيا.',
     'quickLinksTitle': ' ',
+    'housingContract': 'عقد ولوائح السكن (PDF)',
     'contact'        : {
       'email'  : 'operations@edmovinn.com',
       'phone'  : '+905550772000',

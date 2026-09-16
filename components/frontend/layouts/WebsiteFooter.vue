@@ -26,6 +26,10 @@
                         <a class="block text-sm text-white/80 hover:text-white transition-colors"
                             :href="localePath('/contact')">{{
                                 $t('header.contact_us') }}</a>
+                        <a class="block text-sm text-white/80 hover:text-white transition-colors"
+                            href="/documents/movinn-housing-contract-and-regulations-2026-09-15.pdf"
+                            target="_blank" rel="noopener noreferrer" type="application/pdf">
+                            {{ $t('footer.housingContract') }}</a>
                     </div>
                 </div>
 

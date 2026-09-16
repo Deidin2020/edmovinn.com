@@ -64,6 +64,7 @@ export default {
   'footer': {
     'description': 'Your trusted partner for premium student accommodation in Turkey.',
     'quickLinksTitle': ' ',
+    'housingContract': 'Housing Contract & Regulations (Arabic PDF)',
     'contact': {
       'email': 'operations@edmovinn.com',
       'phone': '+905550772000',
