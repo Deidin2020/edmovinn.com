@@ -1,71 +1,68 @@
-# edmov_website
+# Edmovinn public website
 
-## Build Setup
+This repository now contains the React/Vite website from
+`doaaabed94/edmovinn-83` at `d3f06d7fcd6d3cb87ddb512df13909f6e7e62b36`.
+The former Nuxt website remains in Git history through
+`a2bdd2aeca483d46002cb96610f5740e671aa0e5`; no published history was rewritten.
 
-```bash
-# install dependencies
-$ npm install
+The website and owner portal at `https://app.edmovinn.com` use the same PHP API:
+`https://api.edmovinn.com`. Pages, contact details, residences, room pricing,
+facilities, media and booking requests are managed through the owner portal.
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+## Development
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+Use Node 22 and the committed npm lockfile:
 
-# generate static project
-$ npm run generate
+```sh
+npm ci
+cp .env.example .env.local
+npm run dev
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+`.env.example` points to the local PHP API. Configure that API's allowed origins
+for your development URL. Credentials and private configuration must never be
+committed or added to `VITE_` variables.
 
-## Special Directories
+## Production build
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+```sh
+npm ci --include=dev
+npm run typecheck
+npm run build
+```
 
-### `assets`
+The tracked `.env.production` contains only the public API URL. `npm run generate`
+also produces the same `dist/` directory for static deployment tooling previously
+used with Nuxt. This project no longer has a Nuxt server or payment middleware.
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+GitHub Actions checks the exact `main` revision and saves `dist/` as a release
+artifact. A successful build is not itself a hosting deployment.
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+Publish `dist/` to the existing website hosting origin. Serve SPA routes with an
+`index.html` fallback, including `/ar/*`, `/tr/*`, `/rooms/*`, `/accommodations/*`,
+`/auth` and `/checkout`. Upload hashed assets before activating `index.html`.
+Keep a private rollback copy of the previous release and invalidate the CDN's
+HTML/route cache. Do not cache `index.html` across releases. A CDN with a positive
+minimum TTL also needs its HTML cache policy adjusted by the hosting operator.
 
-### `components`
+On 2026-11-01 the public domain was served by Amazon S3 through CloudFront
+`decj7n1izh2ht.cloudfront.net`, independently of the older unused Nginx site on
+the app/API server. This repository does not contain that hosting account's
+credentials. Do not change DNS or assume that updating the old server checkout
+replaces the public domain. Verify the deployed HTML, current asset hashes,
+deep links, published catalogue and admin/API connection after activation.
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+## Data and booking readiness
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
+Publish reviewed residences from Website & Bookings in the owner portal.
+Imported price periods and physical availability must be reviewed before
+enabling bookings; publishing a listing does not automatically approve these.
+The 12 MovInn offers matched the existing public source during the 2026-11-01
+review, but their imported pricing period ended on 2026-10-24. Other draft
+properties must not be treated as verified inventory.
 
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
-
-Test
+Home, about, contact and footer use the published EN/AR/TR CMS pages. Hidden
+sections stay hidden. Contact phone changes also update the footer and WhatsApp.
+Deploy API revision `d7a5c103bb339fac851ffa44444fec38bb5904cf` or later for
+residence-scoped search and room transport notes. Payments and authentication
+providers are controlled by the API's existing production configuration.

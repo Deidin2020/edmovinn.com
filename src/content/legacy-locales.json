@@ -1,0 +1,1249 @@
+{
+  "en": {
+    "header": {
+      "home": "Home",
+      "about_us": "About",
+      "contact_us": "Contact",
+      "discover_room": "Discover Room",
+      "language": "Language",
+      "arabic": "Arabic",
+      "turkish": "Turkish",
+      "english": "English",
+      "log_out": "Log Out",
+      "my_account": "My Account",
+      "sign_in": "Sign In",
+      "sign_up": "Sign Up",
+      "dashboard": "Dashboard",
+      "cart": "Cart"
+    },
+    "hero": {
+      "titleLine1": "Edmovinn",
+      "titleLine2": "Smart choices for, comfortable Dorms.",
+      "subtitle": "Find the most suitable student residence for you easily with the support of artificial intelligence.",
+      "exploreButton": "Explore Dorm Options",
+      "aboutButton": "About Edmov Inn"
+    },
+    "whyChooseUs": {
+      "title": "  Why Choose Edmov Inn?",
+      "subtitle": "Edmov Inn is an intelligent platform designed to help students in Türkiye easily find the student residence that best fits their needs.Powered by advanced AI tools, our system helps you find your ideal student housing within minutes — safely, easily, and efficiently.",
+      "easySearch": {
+        "title": "Smart Search",
+        "desc": "Use personalized filters to instantly explore options based on room type, budget, location, and available services."
+      },
+      "idealLocation": {
+        "title": "Verified Options",
+        "desc": "All dorms listed on the platform are approved and licensed by the Ministry of Youth and Sports, ensuring a reliable and safe experience."
+      },
+      "safeEnvironment": {
+        "title": "Easy Tracking",
+        "desc": "Follow every step of your booking, payment, and check-in process through a simple, user-friendly dashboard.You can also manage housing services during your stay directly through the system."
+      },
+      "qualityService": {
+        "title": "Secure Payment Methods",
+        "desc": "Complete your booking through the platform with safe and flexible payment options —Bank transfer, direct payment via the platform, or on-site payment."
+      },
+      "socialLife": {
+        "title": "24/7 Support",
+        "desc": "Our dedicated team is available at all times to provide full assistance and ensure a smooth, comfortable student living experience."
+      },
+      "support247": {
+        "title": "AI-Powered Recommendations",
+        "desc": "Our system uses artificial intelligence to analyze your preferences — such as university location, budget, and lifestyle — to recommend the most suitable dorms for your needs. Find your ideal housing faster and smarter with Edmov Inn."
+      }
+    },
+    "cta": {
+      "title": "Ready to find your ideal student residence?",
+      "subtitle": "Discover the best match for you with the help of AI.",
+      "startNow": "Start Searching",
+      "moreInfo": "Learn More"
+    },
+    "footer": {
+      "description": "Your trusted partner for premium student accommodation in Turkey.",
+      "quickLinksTitle": " ",
+      "housingContract": "Housing Contract & Regulations (Arabic PDF)",
+      "contact": {
+        "email": "operations@edmovinn.com",
+        "phone": "+905550772000",
+        "address": "Mehmet Akif, 4.Can Sk No: 36-38, 34307 Küçükçekmece/İstanbul"
+      },
+      "rights": "2026 edmovinn.com",
+      "madeWith": "© All rights reserved"
+    },
+    "contact": {
+      "title": "Contact us directly",
+      "subtitle": "Call us, email us, or send us a direct request — our team is ready to assist you.",
+      "form_title": "Send Us a Message",
+      "form_description": "Fill out the form below and we will get back to you as soon as possible.",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "phone": "Phone Number ",
+      "message": "Request",
+      "first_name_placeholder": "Enter your first name",
+      "last_name_placeholder": "Enter your last name",
+      "full_name": "Full Name",
+      "full_name_placeholder": "Enter your full name",
+      "email_placeholder": "Enter your email address",
+      "phone_placeholder": "Enter your phone number ",
+      "message_placeholder": "Tell us about your accommodation needs or send your questions or feedback...",
+      "send_button": "Send Message",
+      "info_title": "Contact Information",
+      "info_description": "Or you can reach us through the following:",
+      "email_label": "Email",
+      "phone_label": "Phone",
+      "office_label": "Office",
+      "office_hours": "Working Hours",
+      "weekdays": "Monday to Friday",
+      "weekdays_hours": "From 10:00 AM to 6:00 PM",
+      "saturday": "Saturday",
+      "saturday_hours": "Closed",
+      "sunday": "Sunday",
+      "sunday_hours": "Closed"
+    },
+    "about": {
+      "title": "About Us",
+      "intro": "Edmov Inn is an intelligent platform for managing and booking student residences in Türkiye. It is designed to make the process of finding suitable accommodation easier, safer, and smarter. We believe that a student residence is not just a place to stay but the beginning of a complete student experience. That’s why we developed an AI-powered system to help students find the ideal housing option based on university location, budget, and lifestyle.",
+      "gallery": "Gallery",
+      "vision": {
+        "title": "Our Vision",
+        "text": "To be the leading platform for smart student housing in Türkiye by offering a complete booking experience that combines technology, trust, and comfort. Our goal is to make choosing a residence an easy and reliable step that contributes to students’ stability and academic success."
+      },
+      "mission": {
+        "title": "Our Mission",
+        "text": "To simplify university students’ lives through a platform that brings together all housing options in one place — supported by a smart user interface, precise verification processes, and secure, flexible payment methods. Our mission is to provide a smooth and comfortable experience for every student, from searching to moving in."
+      },
+      "how": {
+        "title": "How We Work",
+        "text": "Edmov Inn operates with an intelligent recommendation system that analyzes student data and preferences to suggest the best housing options in terms of location, price, and services. Each residence is verified and licensed before being listed on the platform to ensure the highest standards of reliability and quality. Through a simple dashboard, students can track every step of their booking, payment, and move-in process with ease."
+      }
+    },
+    "filter": {
+      "title": "Filters",
+      "hide": "Hide Filters",
+      "show": "Show Filters",
+      "location": {
+        "title": "Location",
+        "placeholder": "Select Locations"
+      },
+      "city": {
+        "title": "City",
+        "placeholder": "Select City"
+      },
+      "gender": {
+        "title": "Gender",
+        "placeholder": "Select Gender"
+      },
+      "room": {
+        "title": "Room Type",
+        "placeholder": "Select Room Type"
+      },
+      "reservation": {
+        "title": "Reservation Type",
+        "placeholder": "Select Reservation Type"
+      },
+      "program_level": {
+        "title": "Program Level",
+        "placeholder": "Select Program Level"
+      },
+      "language": {
+        "title": "Program Language",
+        "placeholder": "Select Program Language"
+      },
+      "Discipline": {
+        "title": "Discipline",
+        "placeholder": "Select Discipline"
+      },
+      "tuitionFees": {
+        "title": "Tuition Fees",
+        "placeholder": "Select Tuition Fees"
+      },
+      "university_name": {
+        "title": "University Name",
+        "placeholder": "Select University Name"
+      },
+      "Intakes": {
+        "title": "Intakes",
+        "placeholder": "Select Intakes"
+      },
+      "min_fees": "Min Fees",
+      "max_fees": "Max Fees",
+      "clear_all": "Clear All"
+    },
+    "accommodation": {
+      "title": "Accommodations",
+      "room_summary": "Room summary",
+      "room_about": "About the room",
+      "about_room": "About the room",
+      "housing_fee": "Housing fee",
+      "room_type": "Room type",
+      "reservation_type": "Reservation type",
+      "floor": "Floor",
+      "area": "Area",
+      "capacity": "Capacity",
+      "available_from": "available from",
+      "available_to": "Available to",
+      "contract_type": "contract type",
+      "price": "price",
+      "deposit": "deposit",
+      "size": "size",
+      "availability": "availability",
+      "location": "location"
+    },
+    "labels": {
+      "programs": "Programs",
+      "universities": "Universities",
+      "about": "About",
+      "address": "Address",
+      "top_disciplines": "Top Disciplines",
+      "university_features": "University Features",
+      "gallery": "Gallery",
+      "Founded": "Founded",
+      "rooms": "Rooms",
+      "Results": "Results ",
+      "Room": "Room",
+      "Accommodation": "Accommodation",
+      "accommodations": "Accommodations",
+      "no_results_try_agin": "No results found for your search. Please try again with different filters."
+    },
+    "actions": {
+      "sign_up": "Sign Up",
+      "verify": "Verify",
+      "upload_passport": "Upload Passport",
+      "apply": "Apply",
+      "addToDraft": "Save Application",
+      "cancel": "Cancel",
+      "ignore": "Ignore It",
+      "next": "Next",
+      "skip": "Skip",
+      "book_now": "Book now",
+      "book_close": "Booking closed",
+      "search": "Search",
+      "resend": "Resend",
+      "complete_profile": "Complete Profile",
+      "continue": "Continue",
+      "more_details": "Start Your Search Journey",
+      "contact_us": "Get a free Consultation",
+      "login": "Login",
+      "explore_your_options": "Explore Your Options",
+      "send_message": "Send Message",
+      "apply_now": "Apply Now",
+      "compare_program": "Compare Program",
+      "see_more": "See More",
+      "delete": "Delete",
+      "apply_date": "Apply Date",
+      "see_details": "See Details",
+      "save": "Save",
+      "read_more": "Read more",
+      "read_less": "Read less",
+      "show": "Show",
+      "hide": "Hide",
+      "change_mobile": "change mobile",
+      "send_verification_code": "send verification code",
+      "registration_closed": "registration closed",
+      "admission_file": "admission file"
+    },
+    "stats": {
+      "students": "Happy Students",
+      "accommodations": "Accommodation Options",
+      "universities": "Partner Universities",
+      "support": "Support Services"
+    },
+    "cart": {
+      "breadcrumb_home": "Home",
+      "breadcrumb_cart": "Cart",
+      "empty_title": "Your cart is empty",
+      "empty_description": "Browse our accommodations and add some rooms to your cart.",
+      "browse_button": "Browse Accommodations",
+      "Accommodation / Location": "Accommodation / Location",
+      "Price": "Price",
+      "Deposit": "Deposit",
+      "Quantity": "Quantity",
+      "Total": "Total",
+      "Continue Shopping": "Continue Shopping",
+      "Proceed to Checkout": "Proceed to Checkout",
+      "Order Summary": "Order Summary",
+      "Subtotal": "Subtotal"
+    },
+    "whatsapp": {
+      "message": "Hello 👋\nI would like to book the following room:\n\n🏠 Room: {room}\n🏢 Accommodation: {accommodation}\n📍 Location: {location}\n💰 Price: {price} {currency} / {payment_per}\n💵 Deposit: {deposit} {currency}\n📅 Available From: {available_from}\n📐 Size: {size} m²\n\nPlease provide more details. Thank you!"
+    },
+    "notification": {
+      "added_to_cart": "Added to Cart",
+      "log_out": "Logged out successfully",
+      "uploaded_successfully": "Uploaded successfully",
+      "applied_successfully": "Applied successfully",
+      "updated_successfully": "Updated successfully",
+      "register_successfully": "SignUp successfully",
+      "login_successfully": "Logged in successfully",
+      "password_reset_successfully": "Password reset successfully",
+      "error_occurred": "Error occurred",
+      "mobile_password_error": "mobile or password is incorrect",
+      "invalid_code": "Invalid code",
+      "success": "Done successfully"
+    },
+    "inputs": {
+      "full_name": "Full Name",
+      "full_name_placeholder": "Enter Full Name",
+      "email": "Email",
+      "password": "Password",
+      "phone": "Phone",
+      "phone_number_placeholder": "Enter Phone number",
+      "password_confirmation": "Password Confirmation",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "new_password": "New Password",
+      "confirmation_new_password": "New Password Confirmation",
+      "enter": "Enter",
+      "specialty": "Specialty",
+      "specialty_placeholder": "Enter specialty",
+      "nationality": "Nationality",
+      "passport_number": "Passport Number",
+      "date_of_birth": "Date of Birth",
+      "Contact Person": "Contact Person",
+      "Contact Person placeholder": "Enter responsible person name",
+      "Website": "Website",
+      "Attachments": "Attachments",
+      "Current Work": "Current Work",
+      "Current Work Placeholder": "Current Work domain"
+    },
+    "pages": {
+      "sign_up": {
+        "title": "Create Account",
+        "description": "Enter your details to create an account on Edmov platform"
+      },
+      "login": {
+        "title": "Login",
+        "description": "Enter your details to log in"
+      },
+      "verify": {
+        "title": "Account Verification",
+        "description": "Enter the verification code sent to your phone",
+        "did_not_receive_code": "Didn’t receive the verification code?"
+      },
+      "changeMobile": {
+        "title": "Change Your Mobile Number",
+        "description": "Fill in the field below to change your mobile number",
+        "note_discount": "Change your mobile number"
+      },
+      "forgotPassword": {
+        "title": "Forgot Password",
+        "description": "Enter your phone number to reset your password"
+      },
+      "resetPassword": {
+        "title": "Reset Password",
+        "description": "Enter your new password"
+      },
+      "checkout": {
+        "breadcrumb_checkout": "Checkout",
+        "payment_method_title": "Payment Method",
+        "payment_method_description": "Choose your preferred payment method",
+        "personal_info_title": "Personal Information",
+        "personal_info_description": "Please fill in your personal details",
+        "emergency_contact_title": "Emergency Contact Information",
+        "emergency_contact_description": "Please provide an emergency contact person",
+        "continue_button": "Continue to Terms & Conditions"
+      }
+    },
+    "payment_methods": {
+      "bank_transfer": {
+        "label": "Direct Bank Transfer",
+        "description": "Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode."
+      }
+    },
+    "payment": {
+      "method_pay_at_property_label": "Pay at Property",
+      "method_pay_at_property_description": "Settle the payment when you arrive",
+      "method_credit_card_label": "Credit or Debit Card",
+      "method_credit_card_description": "Secure payment verified by 3D Secure",
+      "method_bank_transfer_label": "Bank Transfer",
+      "method_bank_transfer_description": "Transfer to our account and upload the receipt",
+      "amount_to_pay": "Amount to pay",
+      "card_number": "Card number",
+      "card_holder": "Cardholder name",
+      "card_holder_placeholder": "Name as printed on the card",
+      "expiry": "Expiry date",
+      "cvv": "CVV",
+      "cvv_hint": "The 3 digits on the back of your card (4 on the front for Amex)",
+      "card_type": "Card type",
+      "card_type_credit": "Credit card",
+      "card_type_debit": "Debit card",
+      "card_type_prepaid": "Prepaid card",
+      "secure_note": "You will be redirected to your bank to confirm this payment with 3D Secure. Your card details are never stored on our servers.",
+      "instructions_title": "Payment instructions",
+      "important_note": "Important",
+      "pay_at_property_note": "Please complete your payment at the accommodation within 48 hours of booking. Bring a valid ID and your booking confirmation email.",
+      "bank_transfer_note": "Include your full name and booking email as the transfer reference. We verify payments within 24 hours.",
+      "bank_name": "Bank name",
+      "account_name": "Account name",
+      "upload_receipt": "Upload transfer receipt (JPG, PNG or PDF)",
+      "reference_number": "Reference number",
+      "error_card_required": "Please enter your card number.",
+      "error_card_invalid": "This card number is not valid. Please check it.",
+      "error_holder_required": "Please enter the cardholder name.",
+      "error_expiry_required": "Please enter the expiry date.",
+      "error_expiry_invalid": "The expiry month must be between 01 and 12.",
+      "error_expiry_past": "This card has expired.",
+      "error_cvv_invalid": "Please enter a valid CVV."
+    },
+    "login_with_google": "Login with Google",
+    "login_with_facebook": "Login with Facebook",
+    "auth": {
+      "welcome": "Welcome",
+      "subtitle": "Sign in to your account or create a new one",
+      "sign_in": "Sign In",
+      "sign_up": "Sign Up",
+      "sign_in_with": "Sign in with",
+      "email": "Email",
+      "phone": "Phone",
+      "email_address": "Email Address",
+      "email_placeholder": "Enter your email address",
+      "password": "Password",
+      "password_placeholder": "Enter your password",
+      "forgot_password": "Forgot password?",
+      "or_continue": "Or continue with",
+      "sign_in_with_google": "Sign in with Google",
+      "phone_number": "Phone Number",
+      "phone_placeholder": "Enter your phone number",
+      "pin": "Verification Code (PIN)",
+      "pin_placeholder": "Enter the code sent to you",
+      "full_name": "Full Name",
+      "full_name_placeholder": "Enter your full name",
+      "remember_me": "Remember me",
+      "have_account": "Don’t have an account?",
+      "do_have_account": "Already have an account?",
+      "sing_up": "Sign Up",
+      "sing_up_new": "Create a New Account",
+      "sing_in": "Sign In",
+      "forget_password": "Forgot Password?",
+      "Or": "Or",
+      "Corporate": "Corporate",
+      "Individual": "Individual",
+      "sign_up_as": "Sign up as",
+      "create_account": "Create New Account",
+      "remembered_password": "Remembered your password?",
+      "reset_password": "Reset Password"
+    }
+  },
+  "ar": {
+    "header": {
+      "home": "الصفحة الرئيسية ",
+      "about_us": "من نحن",
+      "contact_us": "تواصل معنا",
+      "discover_room": "اكتشف خيارات الغرف",
+      "language": "اللغات",
+      "arabic": "العربية",
+      "turkish": "التركية",
+      "english": "الإنجليزية",
+      "log_out": "تسجيل الخروج",
+      "my_account": "حسابي",
+      "sign_in": "تسجيل الدخول",
+      "sign_up": "إنشاء حساب جديد",
+      "dashboard": "لوحة التحكم",
+      "cart": "السلة"
+    },
+    "hero": {
+      "titleLine1": "ادموف إن ",
+      "titleLine2": "اختيارات ذكية لإقامة طلابية مريحة ",
+      "subtitle": "ابدأ رحلة إيجاد سكنك المثالي بمساعدة الذكاء الاصطناعي ",
+      "exploreButton": "استكشف خيارات السكن ",
+      "aboutButton": "لمحة عن ادموف إن "
+    },
+    "whyChooseUs": {
+      "title": "لماذا تختار إدموف إن؟",
+      "subtitle": "إدموف إن هي منصة ذكية صُمّمت لتسهيل وصول الطلاب في تركيا إلى السكن الجامعي المناسب لهم. بدعم من أدوات الذكاء الاصطناعي، نساعدك في إيجاد السكن المثالي خلال دقائق، بسهولة وأمان.",
+      "easySearch": {
+        "title": " بحث ذكي",
+        "desc": "اختر ما يناسبك من خلال فلاتر مخصصة تحدد نوع الغرفة، الميزانية، الموقع والخدمات التي تبحث عنها."
+      },
+      "idealLocation": {
+        "title": " خيارات موثوقة",
+        "desc": "كل السكنات على المنصة معتمدة ومرخصة من وزارة الشباب والرياضة، لتكون إقامتك مطمئنة وآمنة."
+      },
+      "safeEnvironment": {
+        "title": " متابعة سهلة",
+        "desc": "تابع مراحل الحجز، الدفع، والاستلام من خلال لوحة تحكم بسيطة وواضحة.كما يمكنك متابعة الخدمات أثناء إقامتك في السكن بكل سهولة."
+      },
+      "qualityService": {
+        "title": " طرق دفع آمنة",
+        "desc": "أكمل عملية الحجز مباشرة عبر المنصة باستخدام خيارات دفع متعددة —تحويل بنكي، دفع مباشر، أو الدفع في المكان."
+      },
+      "socialLife": {
+        "title": " دعم متواصل",
+        "desc": "فريقنا متواجد على مدار الساعة لتقديم المساعدة وضمان تجربة سكن طلابي مريحة وخالية من التعقيد."
+      },
+      "support247": {
+        "title": " توصيات مدعومة بالذكاء الاصطناعي",
+        "desc": "يحلّل نظام إدموف إن تفضيلاتك — مثل موقع الجامعة، الميزانية، ونمط الحياة — ليقترح أنسب خيارات السكن لك. ابحث عن سكنك المثالي بسرعة وذكاء عبر نظامنا الذكي."
+      }
+    },
+    "cta": {
+      "title": "هل أنت جاهز لتجد السكن الطلابي المناسب لك ؟",
+      "subtitle": "ابحث عن السكن الطلابي الأنسب لك بشكل سهل وآمن",
+      "startNow": "ابدأ البحث",
+      "moreInfo": "تفاصيل أكثر"
+    },
+    "footer": {
+      "description": "شريكك الموثوق للحياة الطلابية الحديثة والآمنة في تركيا.",
+      "quickLinksTitle": " ",
+      "housingContract": "عقد ولوائح السكن (PDF)",
+      "contact": {
+        "email": "operations@edmovinn.com",
+        "phone": "+905550772000",
+        "address": "كوتشوك جيكمجه ، منطقة محمد عاكف ارسوي ، شارع رقم 36-38 . 34307 . إسطنبول , تركيا"
+      },
+      "rights": "2026 edmovinn.com",
+      "madeWith": "© جميع الحقوق محفوظة"
+    },
+    "contact": {
+      "title": "تواصل معنا ",
+      "subtitle": "اتصل بنا , راسلنا على الايميل ، او ارسل لنا طلب مباشر ..فريقنا جاهز لتقديم الدعم ",
+      "form_title": "تواصل معنا مباشرة ",
+      "form_description": "املأ النموذج أدناه وسنرد عليك في أقرب وقت ممكن.",
+      "first_name": "الاسم",
+      "full_name": "الاسم",
+      "last_name": "الكنية",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف ",
+      "message": "الرسالة",
+      "first_name_placeholder": "أدخل اسمك الأول",
+      "full_name_placeholder": "أدخل اسمك ",
+      "last_name_placeholder": "أدخل الكنية",
+      "email_placeholder": "أدخل عنوان بريدك الإلكتروني",
+      "phone_placeholder": "أدخل رقم هاتفك",
+      "message_placeholder": "أخبرنا عن احتياجاتك في الإقامة أو أرسل أسئلتك أو ملاحظاتك...",
+      "send_button": "إرسال الرسالة",
+      "info_title": "معلومات التواصل",
+      "info_description": "أو يمكنك التواصل معنا عن طريق المعرفات التالية ",
+      "email_label": "البريد الإلكتروني",
+      "phone_label": "الهاتف",
+      "office_label": "المكتب",
+      "office_hours": "ساعات العمل",
+      "weekdays": "من الإثنين إلى الجمعة",
+      "weekdays_hours": "من الساعة 10 صباحاً لغاية الساعة 6 مساءاً ",
+      "saturday": "السبت",
+      "saturday_hours": "مغلق",
+      "sunday": "الأحد",
+      "sunday_hours": "مغلق"
+    },
+    "about": {
+      "title": "من نحن",
+      "intro": "إدموف إن هي منصة ذكية لإدارة وحجز السكن الطلابي في تركيا، صُمّمت لتجعل عملية إيجاد السكن المناسب أكثر سهولة، أمانًا، وذكاءً. نؤمن أن السكن الجامعي ليس مجرد مكان للإقامة، بل بداية لتجربة طلابية متكاملة، ولهذا عملنا على تطوير نظام يعتمد على الذكاء الاصطناعي لمساعدة الطلاب في إيجاد السكن الأمثل وفقًا لموقع الجامعة، الميزانية، ونمط الحياة.",
+      "gallery": "المعرض",
+      "vision": {
+        "title": "رؤيتنا",
+        "text": "أن نكون المنصة الرائدة في مجال السكن الطلابي الذكي في تركيا، عبر تقديم تجربة حجز متكاملة تجمع بين التقنية، الثقة، والراحة. نسعى أن يكون اختيار السكن خطوة سهلة ومضمونة، تُسهم في استقرار الطالب ونجاحه الأكاديمي."
+      },
+      "mission": {
+        "title": "مهمتنا",
+        "text": "تسهيل حياة الطلاب الجامعيين من خلال منصة تجمع كل خيارات السكن في مكان واحد، مدعومة بواجهة استخدام ذكية، وعمليات تحقق دقيقة، وخيارات دفع آمنة ومرنة. هدفنا أن نوفر للطالب تجربة مريحة منذ لحظة البحث وحتى ما بعد الانتقال إلى السكن."
+      },
+      "how": {
+        "title": "كيف نعمل",
+        "text": "يعتمد إدموف إن على نظام ترشيح ذكي يقوم بتحليل بيانات الطالب وتفضيلاته ليقترح أنسب الخيارات المتاحة من حيث الموقع والسعر والخدمات. كل سكن يتم التحقق من اعتماده وترخيصه قبل إدراجه على المنصة، لضمان أعلى معايير الموثوقية والجودة. من خلال لوحة تحكم بسيطة، يمكن للطالب تتبع كل خطوة من خطوات الحجز والدفع والاستقرار بسهولة تامة."
+      }
+    },
+    "filter": {
+      "title": "الفلاتر",
+      "hide": "إخفاء الفلاتر",
+      "show": "إظهار الفلاتر",
+      "location": {
+        "title": "الموقع",
+        "placeholder": "اختر الموقع"
+      },
+      "city": {
+        "title": "المدينة",
+        "placeholder": "اختر المدينة"
+      },
+      "gender": {
+        "title": "الجنس",
+        "placeholder": "اختر الجنس"
+      },
+      "room": {
+        "title": "نوع الغرفة",
+        "placeholder": "اختر نوع الغرفة"
+      },
+      "reservation": {
+        "title": "نوع الحجز",
+        "placeholder": "اختر نوع الحجز"
+      },
+      "program_level": {
+        "title": "المستوى الدراسي",
+        "placeholder": "اختر المستوى الدراسي"
+      },
+      "language": {
+        "title": "لغة البرنامج",
+        "placeholder": "اختر اللغة"
+      },
+      "Discipline": {
+        "title": "التخصص",
+        "placeholder": "اختر التخصص"
+      },
+      "tuitionFees": {
+        "title": "الرسوم الدراسية",
+        "placeholder": "اختر الرسوم الدراسية"
+      },
+      "university_name": {
+        "title": "اسم الجامعة",
+        "placeholder": "اختر الجامعة"
+      },
+      "Intakes": {
+        "title": "مواسم القبول",
+        "placeholder": "اختر موسم القبول"
+      },
+      "min_fees": "الحد الأدنى للرسوم",
+      "max_fees": "الحد الأقصى للرسوم",
+      "clear_all": "مسح الكل"
+    },
+    "accommodation": {
+      "title": "الإقامات",
+      "room_summary": "ملخص الغرفة",
+      "room_about": "حول الغرفة",
+      "about_room": "حول الغرفة",
+      "housing_fee": "رسوم السكن",
+      "room_type": "نوع الغرفة",
+      "reservation_type": "نوع الحجز",
+      "floor": "الطابق",
+      "area": "المساحة",
+      "capacity": "القدرة الاستيعابية",
+      "available_from": "متاح من",
+      "available_to": "متاح إلى",
+      "contract_type": "نوع العقد",
+      "price": "السعر",
+      "deposit": "الوديعة",
+      "size": "المساحة",
+      "availability": "التوفر",
+      "location": "الموقع"
+    },
+    "labels": {
+      "programs": "البرامج",
+      "universities": "الجامعات",
+      "about": "حول",
+      "address": "العنوان",
+      "top_disciplines": "أفضل التخصصات",
+      "university_features": "مميزات الجامعة",
+      "gallery": "المعرض",
+      "Founded": "تأسست في",
+      "rooms": "الغرف",
+      "Results": "النتائج",
+      "Room": "غرفة",
+      "Accommodation": "الإقامة",
+      "accommodations": "الإقامات",
+      "no_results_try_agin": "لم يتم العثور على نتائج. يرجى المحاولة باستخدام فلاتر مختلفة."
+    },
+    "actions": {
+      "sign_up": "تسجيل",
+      "verify": "تحقق",
+      "upload_passport": "رفع جواز السفر",
+      "apply": "تقديم",
+      "addToDraft": "حفظ الطلب",
+      "cancel": "إلغاء",
+      "ignore": "تجاهل",
+      "next": "التالي",
+      "skip": "تخطي",
+      "book_now": "احجز الآن",
+      "book_close": "انتهى الحجز",
+      "search": "بحث",
+      "resend": "إعادة الإرسال",
+      "complete_profile": "أكمل الملف الشخصي",
+      "continue": "استمرار",
+      "more_details": "ابدأ رحلتك البحثية",
+      "contact_us": "احصل على استشارة مجانية",
+      "login": "تسجيل الدخول",
+      "explore_your_options": "استكشف خياراتك",
+      "send_message": "أرسل رسالة",
+      "apply_now": "قدّم الآن",
+      "compare_program": "قارن البرامج",
+      "see_more": "عرض المزيد",
+      "delete": "حذف",
+      "apply_date": "تاريخ التقديم",
+      "see_details": "عرض التفاصيل",
+      "save": "حفظ",
+      "read_more": "اقرأ المزيد",
+      "read_less": "اقرأ أقل",
+      "show": "عرض",
+      "hide": "إخفاء",
+      "change_mobile": "تغيير رقم الهاتف",
+      "send_verification_code": "إرسال رمز التحقق",
+      "registration_closed": "التسجيل مغلق",
+      "admission_file": "ملف القبول"
+    },
+    "stats": {
+      "students": "طلاب سعداء",
+      "accommodations": "خيارات الإقامة",
+      "universities": "الجامعات الشريكة",
+      "support": "خدمات الدعم"
+    },
+    "cart": {
+      "breadcrumb_home": "الرئيسية",
+      "breadcrumb_cart": "سلة المشتريات",
+      "empty_title": "سلة المشتريات فارغة",
+      "empty_description": "تصفح أماكن الإقامة وأضف بعض الغرف إلى سلتك.",
+      "browse_button": "تصفح أماكن الإقامة",
+      "Accommodation / Location": "الإقامة / الموقع",
+      "Price": "السعر",
+      "Deposit": "الدفعة المقدمة",
+      "Quantity": "الكمية",
+      "Total": "الإجمالي",
+      "Continue Shopping": "متابعة التسوق",
+      "Proceed to Checkout": "المتابعة إلى الدفع",
+      "Order Summary": "ملخص الطلب",
+      "Subtotal": "المجموع الجزئي "
+    },
+    "whatsapp": {
+      "message": "مرحبًا 👋\nأرغب في حجز الغرفة التالية:\n\n🏠 الغرفة: {room}\n🏢 السكن: {accommodation}\n📍 الموقع: {location}\n💰 السعر: {price} {currency} / {payment_per}\n💵 التأمين: {deposit} {currency}\n📅 متاح من: {available_from}\n📐 المساحة: {size} م²\n\nيرجى تزويدي بمزيد من التفاصيل، شكرًا لك!"
+    },
+    "notification": {
+      "added_to_cart": "تمت الإضافة إلى السلة",
+      "log_out": "Logged out successfully",
+      "uploaded_successfully": "Uploaded successfully",
+      "applied_successfully": "Applied successfully",
+      "updated_successfully": "Updated successfully",
+      "register_successfully": "SignUp successfully",
+      "login_successfully": "Logged in successfully",
+      "password_reset_successfully": "Password reset successfully",
+      "error_occurred": "Error occurred",
+      "mobile_password_error": "mobile or password is incorrect",
+      "invalid_code": "Invalid code",
+      "success": "Done successfully"
+    },
+    "inputs": {
+      "full_name": "الاسم الكامل",
+      "full_name_placeholder": "ادخل الاسم الكامل",
+      "email": "بريد إلكتروني",
+      "password": "كلمة المرور",
+      "phone": "هاتف",
+      "phone_number_placeholder": "ادخل رقم الهاتف المحمول",
+      "password_confirmation": "تأكيد كلمة المرور",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "new_password": "كلمة المرور الجديدة",
+      "confirmation_new_password": "تأكيد كلمة المرور الجديدة",
+      "enter": "إدخال",
+      "specialty": "التخصص",
+      "specialty_placeholder": "ادخل التخصص",
+      "nationality": "الجنسية",
+      "passport_number": "رقم جواز السفر",
+      "date_of_birth": "تاريخ الميلاد",
+      "Contact Person": "الشخص المسؤول",
+      "Contact Person placeholder": "ادخل اسم الشخص المسؤول",
+      "Website": "الموقع الالكتروني",
+      "Attachments": "المرفقات",
+      "Current Work": "العمل الحالي",
+      "Current Work Placeholder": "نطاق العمل الحالي"
+    },
+    "pages": {
+      "sign_up": {
+        "title": "إنشاء حساب",
+        "description": "أدخل بيانتك لإنشاء حساب في منصة إدموف"
+      },
+      "login": {
+        "title": "تسجيل الدخول",
+        "description": "أدخل بياناتك لتسجيل الدخول"
+      },
+      "verify": {
+        "title": "التحقق من الحساب",
+        "description": "أدخل رمز التحقق المرسل إلى هاتفك",
+        "did_not_receive_code": "لم يتم استلام رمز التحقق؟"
+      },
+      "changeMobile": {
+        "title": "تغيير رقم هاتفك المحمول",
+        "description": "املأ الحقل أدناه لتغيير رقم هاتفك المحمول",
+        "note_discount": "تغيير رقم هاتفك المحمول"
+      },
+      "forgotPassword": {
+        "title": "نسيت كلمة المرور",
+        "description": "أدخل رقم جوالك لاستعادة كلمة المرور"
+      },
+      "resetPassword": {
+        "title": "إستعادة كلمة المرور",
+        "description": "أدخل كلمة المرور"
+      },
+      "checkout": {
+        "breadcrumb_checkout": "إتمام الدفع",
+        "payment_method_title": "طريقة الدفع",
+        "payment_method_description": "اختر طريقة الدفع المفضلة لديك",
+        "personal_info_title": "المعلومات الشخصية",
+        "personal_info_description": "يرجى تعبئة بياناتك الشخصية",
+        "emergency_contact_title": "معلومات جهة الاتصال للطوارئ",
+        "emergency_contact_description": "يرجى إدخال معلومات شخص يمكن الاتصال به في حالة الطوارئ",
+        "continue_button": "المتابعة إلى الشروط والأحكام"
+      }
+    },
+    "payment_methods": {
+      "bank_transfer": {
+        "label": "تحويل بنكي مباشر",
+        "description": "يرجى إرسال الشيك إلى اسم المتجر، شارع المتجر، مدينة المتجر، ولاية / مقاطعة المتجر، الرمز البريدي للمتجر."
+      }
+    },
+    "payment": {
+      "method_pay_at_property_label": "الدفع عند الوصول",
+      "method_pay_at_property_description": "ادفع عند وصولك إلى السكن",
+      "method_credit_card_label": "بطاقة ائتمان أو خصم",
+      "method_credit_card_description": "دفع آمن موثّق عبر 3D Secure",
+      "method_bank_transfer_label": "تحويل بنكي",
+      "method_bank_transfer_description": "حوّل إلى حسابنا وارفع إيصال التحويل",
+      "amount_to_pay": "المبلغ المطلوب",
+      "card_number": "رقم البطاقة",
+      "card_holder": "اسم حامل البطاقة",
+      "card_holder_placeholder": "الاسم كما هو مطبوع على البطاقة",
+      "expiry": "تاريخ الانتهاء",
+      "cvv": "رمز التحقق CVV",
+      "cvv_hint": "الأرقام الثلاثة خلف البطاقة (أربعة أمامها في بطاقات أمريكان إكسبريس)",
+      "card_type": "نوع البطاقة",
+      "card_type_credit": "بطاقة ائتمان",
+      "card_type_debit": "بطاقة خصم",
+      "card_type_prepaid": "بطاقة مدفوعة مسبقًا",
+      "secure_note": "سيتم تحويلك إلى صفحة البنك لتأكيد الدفع عبر 3D Secure. بيانات بطاقتك لا تُحفظ على خوادمنا.",
+      "instructions_title": "تعليمات الدفع",
+      "important_note": "ملاحظة مهمة",
+      "pay_at_property_note": "يرجى إتمام الدفع في السكن خلال 48 ساعة من الحجز. أحضر هوية سارية ورسالة تأكيد الحجز.",
+      "bank_transfer_note": "اكتب اسمك الكامل والبريد المستخدم في الحجز في خانة مرجع التحويل. نتحقق من التحويلات خلال 24 ساعة.",
+      "bank_name": "اسم البنك",
+      "account_name": "اسم الحساب",
+      "upload_receipt": "ارفع إيصال التحويل (JPG أو PNG أو PDF)",
+      "reference_number": "الرقم المرجعي",
+      "error_card_required": "يرجى إدخال رقم البطاقة.",
+      "error_card_invalid": "رقم البطاقة غير صحيح، يرجى مراجعته.",
+      "error_holder_required": "يرجى إدخال اسم حامل البطاقة.",
+      "error_expiry_required": "يرجى إدخال تاريخ الانتهاء.",
+      "error_expiry_invalid": "شهر الانتهاء يجب أن يكون بين 01 و 12.",
+      "error_expiry_past": "انتهت صلاحية هذه البطاقة.",
+      "error_cvv_invalid": "يرجى إدخال رمز تحقق صحيح."
+    },
+    "auth": {
+      "remember_me": "تذكرني",
+      "have_account": "ليس لديك حساب؟",
+      "do_have_account": "هل لديك حساب؟",
+      "sing_up": "التسجيل",
+      "sing_up_new": "إنشاء حساب جديد",
+      "sing_in": "تسجيل الدخول",
+      "forget_password": "نسيت كلمة المرور؟",
+      "Or": "أو",
+      "Corporate": "شركة",
+      "Individual": "فرد",
+      "sign_up_as": "التسجيل كـ",
+      "create_account": "إنشاء حساب جديد",
+      "remembered_password": "تذكرت كلمة المرور؟",
+      "reset_password": "إعادة تعيين كلمة المرور",
+      "welcome": "مرحبًا بك",
+      "subtitle": "سجّل الدخول إلى حسابك أو أنشئ حسابًا جديدًا",
+      "sign_in": "تسجيل الدخول",
+      "sign_up": "إنشاء حساب",
+      "sign_in_with": "تسجيل الدخول باستخدام",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "email_address": "عنوان البريد الإلكتروني",
+      "email_placeholder": "أدخل بريدك الإلكتروني",
+      "password": "كلمة المرور",
+      "password_placeholder": "أدخل كلمة المرور",
+      "forgot_password": "هل نسيت كلمة المرور؟",
+      "or_continue": "أو المتابعة عبر",
+      "sign_in_with_google": "تسجيل الدخول باستخدام Google",
+      "phone_number": "رقم الهاتف",
+      "phone_placeholder": "أدخل رقم هاتفك",
+      "pin": "رمز التحقق (PIN)",
+      "pin_placeholder": "أدخل رمز التحقق المرسل إليك",
+      "full_name": "الاسم الكامل",
+      "full_name_placeholder": "أدخل اسمك الكامل"
+    },
+    "login_with_google": "الدخول بحساب جوجل",
+    "login_with_facebook": "الدخول بحساب فيسبوك"
+  },
+  "tr": {
+    "header": {
+      "home": "Ana Sayfa",
+      "about_us": "Hakkımızda",
+      "contact_us": "İletişim",
+      "discover_room": "Yurtları Keşfet",
+      "language": "Dil",
+      "arabic": "Arapça",
+      "turkish": "Türkçe",
+      "english": "İngilizce",
+      "log_out": "Çıkış Yap",
+      "my_account": "Hesabım",
+      "sign_in": "Giriş Yap",
+      "sign_up": "Kayıt Ol",
+      "cart": "Sepet"
+    },
+    "hero": {
+      "titleLine1": "Edmov Inn",
+      "titleLine2": "Öğrenciler için akıllı seçimler, konforlu bir yaşam alanı.",
+      "subtitle": "Yapay zekâ desteğiyle sana en uygun öğrenci yurdunu kolayca bul",
+      "exploreButton": "Yurt Seçeneklerini Keşfet",
+      "aboutButton": "Edmov Inn Hakkında"
+    },
+    "whyChooseUs": {
+      "title": "  Neden Edmov Inn’i Seçmelisin?",
+      "subtitle": "Edmov Inn, Türkiye’deki öğrencilerin kendilerine en uygun yurdu kolayca bulmalarını sağlamak için tasarlanmış akıllı bir platformdur.Yapay zekâ araçlarıyla desteklenen sistemimiz, sana en uygun öğrenci yurdunu dakikalar içinde bulmana yardımcı olur — güvenli, kolay ve hızlı.",
+      "easySearch": {
+        "title": "Akıllı Arama",
+        "desc": "Oda tipi, bütçe, konum ve hizmet gibi kriterleri filtreleyerek sana en uygun seçenekleri anında görüntüle."
+      },
+      "idealLocation": {
+        "title": "Güvenilir Seçenekler",
+        "desc": "Platformdaki tüm yurtlar, Gençlik ve Spor Bakanlığı tarafından onaylı ve lisanslıdır. Böylece güvenli bir şekilde seçim yapabilirsin."
+      },
+      "safeEnvironment": {
+        "title": "Kolay Takip",
+        "desc": "Rezervasyon, ödeme ve teslimat süreçlerini kullanıcı dostu panelden kolayca takip et.Ayrıca yurtta kaldığın süre boyunca hizmetleri de sistem üzerinden yönetebilirsin."
+      },
+      "qualityService": {
+        "title": "Güvenli Ödeme Yöntemleri",
+        "desc": "Rezervasyonunu platform üzerinden güvenli ödeme seçenekleriyle tamamla — Banka havalesi, doğrudan platform üzerinden ödeme veya yerinde ödeme seçeneklerinden dilediğini seç."
+      },
+      "socialLife": {
+        "title": "7/24 Destek",
+        "desc": "Ekibimiz, sana günün her saatinde destek sunarak sorunsuz ve konforlu bir öğrenci yaşamı deneyimi sağlar."
+      },
+      "support247": {
+        "title": "Yapay Zeka Destekli Öneriler",
+        "desc": "Sistemimiz, üniversite konumu, bütçe ve yaşam tarzı gibi tercihlerini analiz ederek sana en uygun yurtları önerir. Edmov Inn ile ideal konutunu daha hızlı ve akıllıca bul."
+      }
+    },
+    "cta": {
+      "title": "Sana en uygun yurdu bulmaya hazır mısın?",
+      "subtitle": "Yapay zekâ desteğiyle senin için en doğru seçeneği hemen keşfet.",
+      "startNow": "Aramaya Başla",
+      "moreInfo": "Daha Fazla Detay"
+    },
+    "footer": {
+      "description": "Your trusted partner for premium student accommodation in Turkey.",
+      "quickLinksTitle": " ",
+      "housingContract": "Konaklama Sözleşmesi ve Kuralları (Arapça PDF)",
+      "contact": {
+        "email": "operations@edmovinn.com",
+        "phone": "+905550772000",
+        "address": "Mehmet Akif, 4.Can Sk No: 36-38, 34307 Küçükçekmece/İstanbul"
+      },
+      "rights": "2026 edmovinn.com",
+      "madeWith": "© All rights reserved"
+    },
+    "contact": {
+      "title": "Bize Ulaşın",
+      "subtitle": "Bizi arayın, e-posta gönderin veya doğrudan talep oluşturun — ekibimiz size destek olmaya hazır.",
+      "form_title": "Doğrudan bizimle iletişime geçin",
+      "form_description": "Aşağıdaki formu doldurun, size en kısa sürede geri dönüş yapacağız.",
+      "first_name": "Ad",
+      "last_name": "Soyad",
+      "email": "E-posta",
+      "phone": "Telefon Numarası ",
+      "message": "Mesaj",
+      "first_name_placeholder": "Adınızı girin",
+      "last_name_placeholder": "Soyadınızı girin",
+      "email_placeholder": "E-posta adresinizi girin",
+      "phone_placeholder": "Telefon numaranızı girin ",
+      "message_placeholder": "Konaklama ihtiyaçlarınızı, sorularınızı veya yorumlarınızı bize yazın...",
+      "send_button": "Mesaj Gönder",
+      "info_title": "İletişim Bilgileri",
+      "info_description": "Ya da aşağıdaki bilgiler üzerinden bizimle iletişime geçebilirsiniz:",
+      "email_label": "E-posta",
+      "phone_label": "Telefon",
+      "office_label": "Ofis",
+      "office_hours": "Çalışma Saatleri",
+      "weekdays": "Pazartesi - Cuma",
+      "weekdays_hours": "10:00 - 18:00",
+      "saturday": "Cumartesi",
+      "saturday_hours": "Kapalı",
+      "sunday": "Pazar",
+      "sunday_hours": "Kapalı"
+    },
+    "about": {
+      "title": "Hakkımızda",
+      "intro": "Edmov Inn, Türkiye’deki öğrenci yurtlarının yönetimi ve rezervasyonu için tasarlanmış akıllı bir platformdur. Uygun yurdu bulma sürecini daha kolay, güvenli ve akıllı hale getirmek için geliştirilmiştir. Biz, öğrenci yurdunun yalnızca bir konaklama alanı olmadığını, aynı zamanda bütünsel bir öğrenci deneyiminin başlangıcı olduğunu düşünüyoruz. Bu nedenle, öğrencilerin üniversite konumu, bütçesi ve yaşam tarzına göre en uygun yurdu bulmalarına yardımcı olmak için yapay zekâ destekli bir sistem geliştirdik.",
+      "gallery": "Galeri",
+      "vision": {
+        "title": "Vizyonumuz",
+        "text": "Türkiye’de akıllı öğrenci yurtları alanında lider platform olmak; teknolojiyi, güveni ve konforu bir araya getiren bütünsel bir rezervasyon deneyimi sunmak. Amacımız, yurt seçimini öğrencinin akademik başarısına katkı sağlayan kolay ve güvenilir bir adım haline getirmektir."
+      },
+      "mission": {
+        "title": "Misyonumuz",
+        "text": "Üniversite öğrencilerinin yaşamını kolaylaştırmak için tüm yurt seçeneklerini tek bir çatı altında toplayan bir platform sunuyoruz. Akıllı bir kullanıcı arayüzü, titiz doğrulama süreçleri ve güvenli, esnek ödeme seçenekleriyle desteklenmiştir. Amacımız, öğrencinin araştırma anından yurt yerleşimine kadar rahat ve sorunsuz bir deneyim yaşamasını sağlamaktır."
+      },
+      "how": {
+        "title": "Nasıl Çalışıyoruz",
+        "text": "Edmov Inn, öğrencinin verilerini ve tercihlerini analiz eden akıllı bir öneri sistemiyle çalışır ve konum, fiyat ve hizmet açısından en uygun seçenekleri sunar. Her yurt, platforma eklenmeden önce lisans ve onay süreçlerinden geçirilir; bu da en yüksek güvenilirlik ve kalite standartlarını garanti eder. Kullanıcı dostu panelimiz sayesinde öğrenci, rezervasyon, ödeme ve yerleşim adımlarının her birini kolayca takip edebilir."
+      }
+    },
+    "filter": {
+      "title": "Filtreler",
+      "hide": "Filtreleri Gizle",
+      "show": "Filtreleri Göster",
+      "location": {
+        "title": "Konum",
+        "placeholder": "Konum Seç"
+      },
+      "city": {
+        "title": "Şehir",
+        "placeholder": "Şehir Seç"
+      },
+      "gender": {
+        "title": "Cinsiyet",
+        "placeholder": "Cinsiyet Seç"
+      },
+      "room": {
+        "title": "Oda Tipi",
+        "placeholder": "Oda Tipi Seç"
+      },
+      "reservation": {
+        "title": "Rezervasyon Tipi",
+        "placeholder": "Rezervasyon Tipi Seç"
+      },
+      "program_level": {
+        "title": "Program Seviyesi",
+        "placeholder": "Program Seviyesi Seç"
+      },
+      "language": {
+        "title": "Program Dili",
+        "placeholder": "Program Dili Seç"
+      },
+      "Discipline": {
+        "title": "Disiplin",
+        "placeholder": "Disiplin Seç"
+      },
+      "tuitionFees": {
+        "title": "Eğitim Ücretleri",
+        "placeholder": "Eğitim Ücretleri Seç"
+      },
+      "university_name": {
+        "title": "Üniversite Adı",
+        "placeholder": "Üniversite Seç"
+      },
+      "Intakes": {
+        "title": "Kabul Dönemi",
+        "placeholder": "Kabul Dönemi Seç"
+      },
+      "min_fees": "Minimum Ücret",
+      "max_fees": "Maksimum Ücret",
+      "clear_all": "Tümünü Temizle"
+    },
+    "accommodation": {
+      "title": "Konaklamalar",
+      "room_summary": "Oda Özeti",
+      "room_about": "Oda Hakkında",
+      "about_room": "Oda Hakkında",
+      "housing_fee": "Konaklama Ücreti",
+      "room_type": "Oda Tipi",
+      "reservation_type": "Rezervasyon Tipi",
+      "floor": "Kat",
+      "area": "Alan",
+      "capacity": "Kapasite",
+      "available_from": "Uygun Başlangıç",
+      "available_to": "Uygun Bitiş",
+      "contract_type": "Sözleşme Tipi",
+      "price": "Fiyat",
+      "deposit": "Depozito",
+      "size": "Boyut",
+      "availability": "Uygunluk",
+      "location": "Konum"
+    },
+    "labels": {
+      "programs": "Programlar",
+      "universities": "Üniversiteler",
+      "about": "Hakkında",
+      "address": "Adres",
+      "top_disciplines": "Popüler Disiplinler",
+      "university_features": "Üniversite Özellikleri",
+      "gallery": "Galeri",
+      "Founded": "Kuruluş",
+      "rooms": "Odalar",
+      "Results": "Sonuçlar",
+      "Room": "Oda",
+      "Accommodation": "Konaklama",
+      "accommodations": "Konaklamalar",
+      "no_results_try_agin": "Sonuç bulunamadı. Lütfen farklı filtrelerle tekrar deneyin."
+    },
+    "actions": {
+      "sign_up": "Kayıt Ol",
+      "verify": "Doğrula",
+      "upload_passport": "Pasaport Yükle",
+      "apply": "Başvur",
+      "addToDraft": "Başvuruyu Kaydet",
+      "cancel": "İptal Et",
+      "ignore": "Yoksay",
+      "next": "Sonraki",
+      "skip": "Atla",
+      "book_now": "Hemen Rezervasyon Yap",
+      "book_close": "Rezervasyon Kapalı",
+      "search": "Ara",
+      "resend": "Tekrar Gönder",
+      "complete_profile": "Profili Tamamla",
+      "continue": "Devam Et",
+      "more_details": "Keşfetmeye Başla",
+      "contact_us": "Ücretsiz Danışmanlık Al",
+      "login": "Giriş Yap",
+      "explore_your_options": "Seçeneklerini Keşfet",
+      "send_message": "Mesaj Gönder",
+      "apply_now": "Hemen Başvur",
+      "compare_program": "Program Karşılaştır",
+      "see_more": "Daha Fazla Gör",
+      "delete": "Sil",
+      "apply_date": "Başvuru Tarihi",
+      "see_details": "Detayları Gör",
+      "save": "Kaydet",
+      "read_more": "Devamını Oku",
+      "read_less": "Daha Az Göster",
+      "show": "Göster",
+      "hide": "Gizle",
+      "change_mobile": "Telefonu Değiştir",
+      "send_verification_code": "Doğrulama Kodu Gönder",
+      "registration_closed": "Kayıt Kapalı",
+      "admission_file": "Kabul Dosyası"
+    },
+    "stats": {
+      "students": "Mutlu Öğrenciler",
+      "accommodations": "Konaklama Seçenekleri",
+      "universities": "Ortak Üniversiteler",
+      "support": "Destek Hizmetleri"
+    },
+    "cart": {
+      "breadcrumb_home": "Ana Sayfa",
+      "breadcrumb_cart": "Sepet",
+      "empty_title": "Sepetiniz boş",
+      "empty_description": "Konaklamalarımızı göz atın ve sepetinize bazı odalar ekleyin.",
+      "browse_button": "Konaklamalara Göz At",
+      "Accommodation / Location": "Konaklama / Konum",
+      "Price": "Fiyat",
+      "Deposit": "Depozito",
+      "Quantity": "Miktar",
+      "Total": "Toplam",
+      "Continue Shopping": "Alışverişe Devam Et",
+      "Proceed to Checkout": "Ödeme İşlemine Devam Et",
+      "Order Summary": "Sipariş Özeti",
+      "Subtotal": "Ara Toplam"
+    },
+    "whatsapp": {
+      "message": "Merhaba 👋\nAşağıdaki odayı rezerve etmek istiyorum:\n\n🏠 Oda: {room}\n🏢 Konaklama: {accommodation}\n📍 Konum: {location}\n💰 Fiyat: {price} {currency} / {payment_per}\n💵 Depozito: {deposit} {currency}\n📅 Uygunluk Başlangıcı: {available_from}\n📐 Boyut: {size} m²\n\nLütfen daha fazla bilgi sağlayın. Teşekkürler!"
+    },
+    "notification": {
+      "added_to_cart": "Sepete Eklendi",
+      "log_out": "Logged out successfully",
+      "uploaded_successfully": "Uploaded successfully",
+      "applied_successfully": "Applied successfully",
+      "updated_successfully": "Updated successfully",
+      "register_successfully": "SignUp successfully",
+      "login_successfully": "Logged in successfully",
+      "password_reset_successfully": "Password reset successfully",
+      "error_occurred": "Error occurred",
+      "mobile_password_error": "mobile or password is incorrect",
+      "invalid_code": "Invalid code",
+      "success": "Done successfully"
+    },
+    "pages": {
+      "sign_up": {
+        "title": "Hesap Oluştur",
+        "description": "Edmov platformunda hesap oluşturmak için bilgilerinizi girin"
+      },
+      "login": {
+        "title": "Giriş Yap",
+        "description": "Giriş yapmak için bilgilerinizi girin"
+      },
+      "verify": {
+        "title": "Hesap Doğrulama",
+        "description": "Telefonunuza gönderilen doğrulama kodunu girin",
+        "did_not_receive_code": "Doğrulama kodunu almadınız mı?"
+      },
+      "changeMobile": {
+        "title": "Cep Numaranızı Değiştirin",
+        "description": "Cep numaranızı değiştirmek için aşağıdaki alanı doldurun",
+        "note_discount": "Cep numaranızı değiştirin"
+      },
+      "forgotPassword": {
+        "title": "Şifremi Unuttum",
+        "description": "Şifrenizi sıfırlamak için telefon numaranızı girin"
+      },
+      "resetPassword": {
+        "title": "Şifreyi Sıfırla",
+        "description": "Yeni şifrenizi girin"
+      },
+      "checkout": {
+        "breadcrumb_checkout": "Ödeme",
+        "payment_method_title": "Ödeme Yöntemi",
+        "payment_method_description": "Tercih ettiğiniz ödeme yöntemini seçin",
+        "personal_info_title": "Kişisel Bilgiler",
+        "personal_info_description": "Lütfen kişisel bilgilerinizi doldurun",
+        "emergency_contact_title": "Acil Durum İletişim Bilgileri",
+        "emergency_contact_description": "Lütfen acil durumda iletişim kurulabilecek bir kişi belirtin",
+        "continue_button": "Şartlar ve Koşullara Devam Et"
+      }
+    },
+    "payment_methods": {
+      "bank_transfer": {
+        "label": "Doğrudan Banka Havalesi",
+        "description": "Lütfen çeki Mağaza Adı, Mağaza Caddesi, Mağaza Şehri, Mağaza Eyaleti / İlçesi, Mağaza Posta Kodu adresine gönderin."
+      }
+    },
+    "payment": {
+      "method_pay_at_property_label": "Tesiste Öde",
+      "method_pay_at_property_description": "Ödemeyi varışınızda yapın",
+      "method_credit_card_label": "Kredi veya Banka Kartı",
+      "method_credit_card_description": "3D Secure ile doğrulanan güvenli ödeme",
+      "method_bank_transfer_label": "Banka Havalesi",
+      "method_bank_transfer_description": "Hesabımıza havale edin ve dekontu yükleyin",
+      "amount_to_pay": "Ödenecek tutar",
+      "card_number": "Kart numarası",
+      "card_holder": "Kart sahibinin adı",
+      "card_holder_placeholder": "Kartın üzerinde yazdığı gibi",
+      "expiry": "Son kullanma tarihi",
+      "cvv": "CVV",
+      "cvv_hint": "Kartınızın arkasındaki 3 hane (Amex kartlarda ön yüzdeki 4 hane)",
+      "card_type": "Kart tipi",
+      "card_type_credit": "Kredi kartı",
+      "card_type_debit": "Banka kartı",
+      "card_type_prepaid": "Ön ödemeli kart",
+      "secure_note": "Ödemeyi 3D Secure ile onaylamak üzere bankanıza yönlendirileceksiniz. Kart bilgileriniz sunucularımızda saklanmaz.",
+      "instructions_title": "Ödeme talimatları",
+      "important_note": "Önemli",
+      "pay_at_property_note": "Lütfen ödemenizi rezervasyondan sonraki 48 saat içinde tesiste tamamlayın. Geçerli bir kimlik ve rezervasyon onay e-postanızı yanınızda bulundurun.",
+      "bank_transfer_note": "Havale açıklamasına adınızı ve rezervasyon e-postanızı yazın. Ödemeleri 24 saat içinde doğruluyoruz.",
+      "bank_name": "Banka adı",
+      "account_name": "Hesap adı",
+      "upload_receipt": "Havale dekontunu yükleyin (JPG, PNG veya PDF)",
+      "reference_number": "Referans numarası",
+      "error_card_required": "Lütfen kart numaranızı girin.",
+      "error_card_invalid": "Bu kart numarası geçerli değil. Lütfen kontrol edin.",
+      "error_holder_required": "Lütfen kart sahibinin adını girin.",
+      "error_expiry_required": "Lütfen son kullanma tarihini girin.",
+      "error_expiry_invalid": "Son kullanma ayı 01 ile 12 arasında olmalıdır.",
+      "error_expiry_past": "Bu kartın süresi dolmuş.",
+      "error_cvv_invalid": "Lütfen geçerli bir CVV girin."
+    },
+    "auth": {
+      "remember_me": "Beni hatırla",
+      "have_account": "Hesabınız yok mu?",
+      "do_have_account": "Zaten hesabınız var mı?",
+      "sing_up": "Kayıt Ol",
+      "sing_up_new": "Yeni Hesap Oluştur",
+      "sing_in": "Giriş Yap",
+      "forget_password": "Şifremi Unuttum?",
+      "Or": "Veya",
+      "Corporate": "Şirket",
+      "Individual": "Bireysel",
+      "sign_up_as": "Kayıt türü",
+      "create_account": "Yeni Hesap Oluştur",
+      "remembered_password": "Şifrenizi hatırladınız mı?",
+      "reset_password": "Şifreyi Sıfırla",
+      "welcome": "Hoş geldiniz",
+      "subtitle": "Hesabınıza giriş yapın veya yeni bir hesap oluşturun",
+      "sign_in": "Giriş Yap",
+      "sign_up": "Kayıt Ol",
+      "sign_in_with": "Şununla giriş yap",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "email_address": "E-posta Adresi",
+      "email_placeholder": "E-posta adresinizi girin",
+      "password": "Şifre",
+      "password_placeholder": "Şifrenizi girin",
+      "forgot_password": "Şifrenizi mi unuttunuz?",
+      "or_continue": "Veya şununla devam edin",
+      "sign_in_with_google": "Google ile giriş yap",
+      "phone_number": "Telefon Numarası",
+      "phone_placeholder": "Telefon numaranızı girin",
+      "pin": "Doğrulama Kodu (PIN)",
+      "pin_placeholder": "Size gönderilen kodu girin",
+      "full_name": "Tam Ad",
+      "full_name_placeholder": "Tam adınızı girin"
+    },
+    "login_with_google": "Google ile giriş yap",
+    "login_with_facebook": "Facebook ile giriş yap"
+  }
+}

@@ -1,0 +1,918 @@
+{
+  "Males accommodation": {
+    "ar": "سكن الذكور",
+    "tr": "Erkek öğrenci yurdu"
+  },
+  "Females accommodation": {
+    "ar": "سكن الإناث",
+    "tr": "Kız öğrenci yurdu"
+  },
+  "Mixed accommodation": {
+    "ar": "سكن مختلط",
+    "tr": "Karma yurt"
+  },
+  "in": {
+    "ar": "في",
+    "tr": "—"
+  },
+  "more": {
+    "ar": "المزيد",
+    "tr": "daha fazla"
+  },
+  "less": {
+    "ar": "أقل",
+    "tr": "daha az"
+  },
+  "Filters": {
+    "ar": "الفلاتر",
+    "tr": "Filtreler"
+  },
+  "Hide Filters": {
+    "ar": "إخفاء الفلاتر",
+    "tr": "Filtreleri gizle"
+  },
+  "Show Filters": {
+    "ar": "عرض الفلاتر",
+    "tr": "Filtreleri göster"
+  },
+  "Minimum price": {
+    "ar": "أقل سعر",
+    "tr": "En düşük fiyat"
+  },
+  "Maximum price": {
+    "ar": "أعلى سعر",
+    "tr": "En yüksek fiyat"
+  },
+  "Clear filters": {
+    "ar": "مسح الفلاتر",
+    "tr": "Filtreleri temizle"
+  },
+  "Results": {
+    "ar": "النتائج",
+    "tr": "Sonuçlar"
+  },
+  "Accommodations": {
+    "ar": "السكنات",
+    "tr": "Yurtlar"
+  },
+  "Book Now": {
+    "ar": "احجز الآن",
+    "tr": "Şimdi rezervasyon yap"
+  },
+  "Room Summary": {
+    "ar": "ملخص الغرفة",
+    "tr": "Oda özeti"
+  },
+  "About The Room :": {
+    "ar": "عن الغرفة:",
+    "tr": "Oda hakkında:"
+  },
+  "Housing Type": {
+    "ar": "السكن",
+    "tr": "Konaklama yeri"
+  },
+  "Accommodation Type": {
+    "ar": "نوع الإقامة",
+    "tr": "Konaklama türü"
+  },
+  "Floor": {
+    "ar": "الطابق",
+    "tr": "Kat"
+  },
+  "Area": {
+    "ar": "المساحة",
+    "tr": "Alan"
+  },
+  "Available From": {
+    "ar": "متاح من",
+    "tr": "Başlangıç tarihi"
+  },
+  "Available To": {
+    "ar": "متاح حتى",
+    "tr": "Bitiş tarihi"
+  },
+  "Similar Rooms": {
+    "ar": "غرف مشابهة",
+    "tr": "Benzer odalar"
+  },
+  "View All": {
+    "ar": "عرض الكل",
+    "tr": "Tümünü gör"
+  },
+  "Back": {
+    "ar": "رجوع",
+    "tr": "Geri"
+  },
+  "Enlarge image": {
+    "ar": "تكبير الصورة",
+    "tr": "Resmi büyüt"
+  },
+  "Laundry Room": {
+    "ar": "غرفة غسيل",
+    "tr": "Çamaşır odası"
+  },
+  "Gym": {
+    "ar": "صالة رياضية",
+    "tr": "Spor salonu"
+  },
+  "Heating": {
+    "ar": "تدفئة",
+    "tr": "Isıtma"
+  },
+  "Refrigerator": {
+    "ar": "ثلاجة",
+    "tr": "Buzdolabı"
+  },
+  "Library": {
+    "ar": "مكتبة",
+    "tr": "Kütüphane"
+  },
+  "Sauna": {
+    "ar": "ساونا",
+    "tr": "Sauna"
+  },
+  "Turkish Bath": {
+    "ar": "حمام تركي",
+    "tr": "Türk hamamı"
+  },
+  "Mosque": {
+    "ar": "مسجد",
+    "tr": "Mescit"
+  },
+  "Cafeteria": {
+    "ar": "كافتيريا",
+    "tr": "Kafeterya"
+  },
+  "Buffet": {
+    "ar": "بوفيه",
+    "tr": "Büfe"
+  },
+  "Reception Hall": {
+    "ar": "صالة استقبال",
+    "tr": "Resepsiyon salonu"
+  },
+  "Annual": {
+    "ar": "سنوي",
+    "tr": "Yıllık"
+  },
+  "Contract term:": {
+    "ar": "مدة العقد:",
+    "tr": "Sözleşme süresi:"
+  },
+  "Imported price awaiting review; booking is not yet available.": {
+    "ar": "السعر المستورد قيد المراجعة؛ الحجز غير متاح بعد.",
+    "tr": "İçe aktarılan fiyat inceleniyor; rezervasyon henüz açık değil."
+  },
+  "Your trusted partner for premium student accommodation in Turkey.": {
+    "ar": "شريكك الموثوق للسكن الطلابي المميز في تركيا.",
+    "tr": "Türkiye'de kaliteli öğrenci konaklaması için güvenilir ortağınız."
+  },
+  "2025 MovInn. © All rights reserved": {
+    "ar": "2025 MovInn. © جميع الحقوق محفوظة",
+    "tr": "2025 MovInn. © Tüm hakları saklıdır"
+  },
+  "No photo yet": {
+    "ar": "لا توجد صورة بعد",
+    "tr": "Henüz fotoğraf yok"
+  },
+  "Price not published": {
+    "ar": "السعر غير منشور",
+    "tr": "Fiyat yayınlanmadı"
+  },
+  "View room": {
+    "ar": "عرض الغرفة",
+    "tr": "Odayı görüntüle"
+  },
+  "Loading…": {
+    "ar": "جارٍ التحميل…",
+    "tr": "Yükleniyor…"
+  },
+  "results": {
+    "ar": "نتيجة",
+    "tr": "sonuç"
+  },
+  "View accommodation": {
+    "ar": "عرض السكن",
+    "tr": "Yurdu görüntüle"
+  },
+  "No published listings match your search.": {
+    "ar": "لا توجد خيارات منشورة تطابق بحثك.",
+    "tr": "Aramanıza uygun ilan bulunamadı."
+  },
+  "Previous": {
+    "ar": "السابق",
+    "tr": "Önceki"
+  },
+  "Page": {
+    "ar": "الصفحة",
+    "tr": "Sayfa"
+  },
+  "Next": {
+    "ar": "التالي",
+    "tr": "Sonraki"
+  },
+  "Room": {
+    "ar": "غرفة",
+    "tr": "Oda"
+  },
+  "Accommodation": {
+    "ar": "السكن",
+    "tr": "Yurt"
+  },
+  "Rooms": {
+    "ar": "الغرف",
+    "tr": "Odalar"
+  },
+  "Deposit:": {
+    "ar": "التأمين:",
+    "tr": "Depozito:"
+  },
+  "· Deposit": {
+    "ar": "· التأمين",
+    "tr": "· Depozito"
+  },
+  "/ bed": {
+    "ar": "/ سرير",
+    "tr": "/ yatak"
+  },
+  "/ bed · Deposit": {
+    "ar": "/ سرير · التأمين",
+    "tr": "/ yatak · Depozito"
+  },
+  "beds · Floor": {
+    "ar": "سرير · الطابق",
+    "tr": "yatak · Kat"
+  },
+  "Availability is checked for your dates when you submit your request. Final stay pricing is confirmed by the property before payment.": {
+    "ar": "يتم التحقق من التوفر لتواريخك عند إرسال الطلب. تؤكد إدارة السكن السعر النهائي للإقامة قبل الدفع.",
+    "tr": "Talebinizi gönderdiğinizde tarihleriniz için müsaitlik kontrol edilir. Nihai konaklama fiyatı ödeme öncesinde yurt tarafından onaylanır."
+  },
+  "Add to booking request": {
+    "ar": "إضافة إلى طلب الحجز",
+    "tr": "Rezervasyon talebine ekle"
+  },
+  "Currently unavailable": {
+    "ar": "غير متاح حاليًا",
+    "tr": "Şu anda müsait değil"
+  },
+  "Added.": {
+    "ar": "تمت الإضافة.",
+    "tr": "Eklendi."
+  },
+  "View your request": {
+    "ar": "عرض طلبك",
+    "tr": "Talebinizi görüntüleyin"
+  },
+  "University & transport": {
+    "ar": "الجامعة والمواصلات",
+    "tr": "Üniversite ve ulaşım"
+  },
+  "min walk ·": {
+    "ar": "دقيقة مشيًا ·",
+    "tr": "dakika yürüyüş ·"
+  },
+  "min travel": {
+    "ar": "دقيقة بالمواصلات",
+    "tr": "dakika yolculuk"
+  },
+  "No rooms published yet.": {
+    "ar": "لا توجد غرف منشورة بعد.",
+    "tr": "Henüz yayınlanmış oda yok."
+  },
+  "Please wait…": {
+    "ar": "يرجى الانتظار…",
+    "tr": "Lütfen bekleyin…"
+  },
+  "Beds": {
+    "ar": "عدد الأسرّة",
+    "tr": "Yatak sayısı"
+  },
+  "Remove": {
+    "ar": "حذف",
+    "tr": "Kaldır"
+  },
+  "Prices and available beds will be checked when you submit. Final stay pricing is confirmed by the property.": {
+    "ar": "يتم التحقق من الأسعار والأسرّة المتاحة عند الإرسال. تؤكد إدارة السكن السعر النهائي للإقامة.",
+    "tr": "Gönderdiğinizde fiyatlar ve müsait yataklar kontrol edilir. Nihai konaklama fiyatı yurt tarafından onaylanır."
+  },
+  "Choose dates & submit": {
+    "ar": "اختيار التواريخ وإرسال الطلب",
+    "tr": "Tarihleri seç ve gönder"
+  },
+  "Submit your booking request": {
+    "ar": "إرسال طلب الحجز",
+    "tr": "Rezervasyon talebinizi gönderin"
+  },
+  "Sign in or create an account": {
+    "ar": "تسجيل الدخول أو إنشاء حساب",
+    "tr": "Giriş yapın veya hesap oluşturun"
+  },
+  "Find a room": {
+    "ar": "البحث عن غرفة",
+    "tr": "Oda bul"
+  },
+  "Signed in as": {
+    "ar": "الحساب:",
+    "tr": "Oturum açan:"
+  },
+  ". A request reserves beds until the property confirms or cancels it. No payment is taken now.": {
+    "ar": ". يحجز الطلب الأسرّة حتى تؤكده إدارة السكن أو تلغيه. لن يتم تحصيل أي مبلغ الآن.",
+    "tr": ". Talep, yurt onaylayana veya iptal edene kadar yatakları ayırır. Şimdi ödeme alınmaz."
+  },
+  "beds ·": {
+    "ar": "سرير ·",
+    "tr": "yatak ·"
+  },
+  "per contract, plus": {
+    "ar": "لكل عقد، إضافة إلى",
+    "tr": "sözleşme başına, ayrıca"
+  },
+  "deposit": {
+    "ar": "تأمين",
+    "tr": "depozito"
+  },
+  "Check-in": {
+    "ar": "تاريخ الوصول",
+    "tr": "Giriş tarihi"
+  },
+  "Check-out": {
+    "ar": "تاريخ المغادرة",
+    "tr": "Çıkış tarihi"
+  },
+  "Notes / university / special requirements": {
+    "ar": "ملاحظات / الجامعة / متطلبات خاصة",
+    "tr": "Notlar / üniversite / özel talepler"
+  },
+  "Payment: at the property after confirmation. The property will confirm the total for your full stay.": {
+    "ar": "الدفع لدى السكن بعد التأكيد. ستؤكد إدارة السكن المبلغ الإجمالي لكامل إقامتك.",
+    "tr": "Ödeme, onaydan sonra yurtta yapılır. Yurt, tüm konaklamanızın toplam tutarını onaylayacaktır."
+  },
+  "I understand this is a booking request and the final stay price requires confirmation.": {
+    "ar": "أفهم أن هذا طلب حجز وأن السعر النهائي للإقامة يحتاج إلى تأكيد.",
+    "tr": "Bunun bir rezervasyon talebi olduğunu ve nihai konaklama fiyatının onay gerektirdiğini anlıyorum."
+  },
+  "Submitting…": {
+    "ar": "جارٍ الإرسال…",
+    "tr": "Gönderiliyor…"
+  },
+  "Submit request": {
+    "ar": "إرسال الطلب",
+    "tr": "Talebi gönder"
+  },
+  "Your account & bookings": {
+    "ar": "حسابك وحجوزاتك",
+    "tr": "Hesabınız ve rezervasyonlarınız"
+  },
+  "Sign in": {
+    "ar": "تسجيل الدخول",
+    "tr": "Giriş yap"
+  },
+  "Full name": {
+    "ar": "الاسم الكامل",
+    "tr": "Ad soyad"
+  },
+  "Phone": {
+    "ar": "الهاتف",
+    "tr": "Telefon"
+  },
+  "Save profile": {
+    "ar": "حفظ الملف الشخصي",
+    "tr": "Profili kaydet"
+  },
+  "Sign out": {
+    "ar": "تسجيل الخروج",
+    "tr": "Çıkış yap"
+  },
+  "Booking requests": {
+    "ar": "طلبات الحجز",
+    "tr": "Rezervasyon talepleri"
+  },
+  "No requests yet.": {
+    "ar": "لا توجد طلبات بعد.",
+    "tr": "Henüz talep yok."
+  },
+  "· Room": {
+    "ar": "· غرفة",
+    "tr": "· Oda"
+  },
+  "beds": {
+    "ar": "سرير",
+    "tr": "yatak"
+  },
+  "Request:": {
+    "ar": "حالة الطلب:",
+    "tr": "Talep:"
+  },
+  "· Payment:": {
+    "ar": "· حالة الدفع:",
+    "tr": "· Ödeme:"
+  },
+  "Contract price": {
+    "ar": "سعر العقد",
+    "tr": "Sözleşme fiyatı"
+  },
+  "Final stay total including deposit:": {
+    "ar": "إجمالي الإقامة النهائي شامل التأمين:",
+    "tr": "Depozito dahil nihai konaklama toplamı:"
+  },
+  "Bank attempt:": {
+    "ar": "محاولة الدفع:",
+    "tr": "Ödeme denemesi:"
+  },
+  "Contact the property before trying another payment.": {
+    "ar": "تواصل مع إدارة السكن قبل محاولة الدفع مجددًا.",
+    "tr": "Tekrar ödeme denemeden önce yurtla iletişime geçin."
+  },
+  "Pay with Kuveyt Türk": {
+    "ar": "الدفع عبر Kuveyt Türk",
+    "tr": "Kuveyt Türk ile öde"
+  },
+  "Contact an accommodation": {
+    "ar": "تواصل مع السكن",
+    "tr": "Yurtla iletişime geçin"
+  },
+  "Your message was saved and sent to the property's management inbox.": {
+    "ar": "تم حفظ رسالتك وإرسالها إلى صندوق رسائل إدارة السكن.",
+    "tr": "Mesajınız kaydedildi ve yurt yönetiminin gelen kutusuna gönderildi."
+  },
+  "Select accommodation": {
+    "ar": "اختر السكن",
+    "tr": "Yurt seçin"
+  },
+  "Sending…": {
+    "ar": "جارٍ الإرسال…",
+    "tr": "Gönderiliyor…"
+  },
+  "Search by accommodation, city, country or university": {
+    "ar": "البحث بالسكن أو المدينة أو الدولة أو الجامعة",
+    "tr": "Yurt, şehir, ülke veya üniversiteye göre ara"
+  },
+  "Accommodation, city, country or university": {
+    "ar": "السكن أو المدينة أو الدولة أو الجامعة",
+    "tr": "Yurt, şehir, ülke veya üniversite"
+  },
+  "Unable to load this page. Please try again.": {
+    "ar": "تعذر تحميل الصفحة. يرجى المحاولة مجددًا.",
+    "tr": "Sayfa yüklenemedi. Lütfen tekrar deneyin."
+  },
+  "This page has not been published yet.": {
+    "ar": "لم تُنشر هذه الصفحة بعد.",
+    "tr": "Bu sayfa henüz yayınlanmadı."
+  },
+  "Explore accommodations": {
+    "ar": "استكشف السكن والغرف",
+    "tr": "Yurtları keşfedin"
+  },
+  "Contact the accommodation through our contact page": {
+    "ar": "تواصل مع السكن من صفحة التواصل",
+    "tr": "İletişim sayfamızdan yurtla iletişime geçin"
+  },
+  "Phone not published": {
+    "ar": "رقم الهاتف غير منشور",
+    "tr": "Telefon yayınlanmadı"
+  },
+  "Terms & conditions": {
+    "ar": "الشروط والأحكام",
+    "tr": "Şartlar ve koşullar"
+  },
+  "Privacy policy": {
+    "ar": "سياسة الخصوصية",
+    "tr": "Gizlilik politikası"
+  },
+  "FAQ": {
+    "ar": "الأسئلة الشائعة",
+    "tr": "Sıkça sorulan sorular"
+  },
+  "Online payment is disabled until bank testing is complete.": {
+    "ar": "الدفع الإلكتروني معطّل حتى اكتمال اختبار البنك.",
+    "tr": "Banka testleri tamamlanana kadar çevrimiçi ödeme devre dışıdır."
+  },
+  "Kuveyt Türk secure payment": {
+    "ar": "الدفع الآمن عبر Kuveyt Türk",
+    "tr": "Kuveyt Türk güvenli ödeme"
+  },
+  "Back to bookings": {
+    "ar": "العودة إلى الحجوزات",
+    "tr": "Rezervasyonlara dön"
+  },
+  "Card payments are awaiting merchant configuration. Contact the property to complete payment.": {
+    "ar": "الدفع الإلكتروني معطّل حاليًا بانتظار إعداد حساب الاختبار والتحقق منه.",
+    "tr": "Kart ödemeleri test hesabının kurulumu ve doğrulanması tamamlanana kadar devre dışıdır."
+  },
+  "This booking is not eligible for online payment. A confirmed TRY quote is required.": {
+    "ar": "هذا الحجز غير مؤهل للدفع الإلكتروني. يلزم عرض سعر مؤكد بالليرة التركية.",
+    "tr": "Bu rezervasyon çevrimiçi ödemeye uygun değil. Onaylı TRY fiyat teklifi gereklidir."
+  },
+  "Sandbox test payment. Use bank test cards only. This does not pay your booking.": {
+    "ar": "دفع تجريبي. استخدم بطاقات اختبار البنك فقط. لن يُسدد هذا حجزك.",
+    "tr": "Test ödemesi. Yalnızca bankanın test kartlarını kullanın. Bu işlem rezervasyonunuzu ödemez."
+  },
+  "Booking #": {
+    "ar": "الحجز رقم",
+    "tr": "Rezervasyon #"
+  },
+  "Total including deposit:": {
+    "ar": "الإجمالي شامل التأمين:",
+    "tr": "Depozito dahil toplam:"
+  },
+  "You will continue to your bank's 3D Secure verification. Your card details are not stored by Edmovinn.": {
+    "ar": "ستنتقل إلى تحقق البنك باستخدام 3D Secure. لا يحتفظ Edmovinn ببيانات بطاقتك.",
+    "tr": "Bankanızın 3D Secure doğrulamasına yönlendirileceksiniz. Kart bilgileriniz Edmovinn tarafından saklanmaz."
+  },
+  "Billing country": {
+    "ar": "دولة الفوترة",
+    "tr": "Fatura ülkesi"
+  },
+  "Card type": {
+    "ar": "نوع البطاقة",
+    "tr": "Kart türü"
+  },
+  "Pay": {
+    "ar": "دفع",
+    "tr": "Öde"
+  },
+  "Cardholder name": {
+    "ar": "اسم حامل البطاقة",
+    "tr": "Kart sahibinin adı"
+  },
+  "Card number (digits only)": {
+    "ar": "رقم البطاقة (أرقام فقط)",
+    "tr": "Kart numarası (yalnızca rakam)"
+  },
+  "Expiry month (MM)": {
+    "ar": "شهر الانتهاء (MM)",
+    "tr": "Son kullanma ayı (AA)"
+  },
+  "Expiry year (YY)": {
+    "ar": "سنة الانتهاء (YY)",
+    "tr": "Son kullanma yılı (YY)"
+  },
+  "Security code": {
+    "ar": "رمز الأمان",
+    "tr": "Güvenlik kodu"
+  },
+  "Billing city": {
+    "ar": "مدينة الفوترة",
+    "tr": "Fatura şehri"
+  },
+  "Billing state / district": {
+    "ar": "ولاية / منطقة الفوترة",
+    "tr": "Fatura ili / ilçesi"
+  },
+  "Billing address": {
+    "ar": "عنوان الفوترة",
+    "tr": "Fatura adresi"
+  },
+  "Postal code": {
+    "ar": "الرمز البريدي",
+    "tr": "Posta kodu"
+  },
+  "Phone country code (e.g. 90)": {
+    "ar": "رمز دولة الهاتف (مثل 90)",
+    "tr": "Telefon ülke kodu (ör. 90)"
+  },
+  "Phone number without country code": {
+    "ar": "رقم الهاتف دون رمز الدولة",
+    "tr": "Ülke kodu olmadan telefon numarası"
+  },
+  "pending": {
+    "ar": "قيد الانتظار",
+    "tr": "Bekliyor"
+  },
+  "confirmed": {
+    "ar": "مؤكد",
+    "tr": "Onaylandı"
+  },
+  "cancelled": {
+    "ar": "ملغى",
+    "tr": "İptal edildi"
+  },
+  "unpaid": {
+    "ar": "غير مدفوع",
+    "tr": "Ödenmedi"
+  },
+  "paid": {
+    "ar": "مدفوع",
+    "tr": "Ödendi"
+  },
+  "failed": {
+    "ar": "فشل",
+    "tr": "Başarısız"
+  },
+  "test_paid": {
+    "ar": "دفع تجريبي",
+    "tr": "Test ödemesi"
+  },
+  "review": {
+    "ar": "قيد المراجعة",
+    "tr": "İnceleniyor"
+  },
+  "starting": {
+    "ar": "جارٍ البدء",
+    "tr": "Başlatılıyor"
+  },
+  "awaiting": {
+    "ar": "بانتظار البنك",
+    "tr": "Banka bekleniyor"
+  },
+  "provisioning": {
+    "ar": "جارٍ التحقق",
+    "tr": "Doğrulanıyor"
+  },
+  "monthly": {
+    "ar": "شهري",
+    "tr": "Aylık"
+  },
+  "yearly": {
+    "ar": "سنوي",
+    "tr": "Yıllık"
+  },
+  "daily": {
+    "ar": "يومي",
+    "tr": "Günlük"
+  },
+  "weekly": {
+    "ar": "أسبوعي",
+    "tr": "Haftalık"
+  },
+  "semester": {
+    "ar": "فصلي",
+    "tr": "Dönemlik"
+  },
+  "single": {
+    "ar": "فردية",
+    "tr": "Tek kişilik"
+  },
+  "double": {
+    "ar": "ثنائية",
+    "tr": "İki kişilik"
+  },
+  "triple": {
+    "ar": "ثلاثية",
+    "tr": "Üç kişilik"
+  },
+  "quadruple": {
+    "ar": "رباعية",
+    "tr": "Dört kişilik"
+  },
+  "male": {
+    "ar": "ذكور",
+    "tr": "Erkek"
+  },
+  "female": {
+    "ar": "إناث",
+    "tr": "Kadın"
+  },
+  "mixed": {
+    "ar": "مختلط",
+    "tr": "Karma"
+  },
+  "Decrease quantity": {
+    "ar": "تقليل الكمية",
+    "tr": "Miktarı azalt"
+  },
+  "Increase quantity": {
+    "ar": "زيادة الكمية",
+    "tr": "Miktarı artır"
+  },
+  "First Name": {
+    "ar": "الاسم الأول",
+    "tr": "Ad"
+  },
+  "Last Name": {
+    "ar": "اسم العائلة",
+    "tr": "Soyad"
+  },
+  "Email Address": {
+    "ar": "البريد الإلكتروني",
+    "tr": "E-posta adresi"
+  },
+  "Mobile Number": {
+    "ar": "رقم الجوال",
+    "tr": "Cep telefonu"
+  },
+  "Phone Country Code": {
+    "ar": "مفتاح الدولة",
+    "tr": "Ülke telefon kodu"
+  },
+  "Phone Number": {
+    "ar": "رقم الهاتف",
+    "tr": "Telefon numarası"
+  },
+  "Date of Birth": {
+    "ar": "تاريخ الميلاد",
+    "tr": "Doğum tarihi"
+  },
+  "University Name": {
+    "ar": "اسم الجامعة",
+    "tr": "Üniversite adı"
+  },
+  "Nationality": {
+    "ar": "الجنسية",
+    "tr": "Uyruk"
+  },
+  "Address": {
+    "ar": "العنوان",
+    "tr": "Adres"
+  },
+  "Emergency Contact Name": {
+    "ar": "اسم جهة الاتصال للطوارئ",
+    "tr": "Acil durum kişisi"
+  },
+  "Emergency Contact Phone": {
+    "ar": "هاتف الطوارئ",
+    "tr": "Acil durum telefonu"
+  },
+  "Relation": {
+    "ar": "صلة القرابة",
+    "tr": "Yakınlık"
+  },
+  "Review your booking request": {
+    "ar": "مراجعة طلب الحجز",
+    "tr": "Rezervasyon talebini inceleyin"
+  },
+  "Online payment is currently disabled.": {
+    "ar": "الدفع الإلكتروني معطّل حاليًا.",
+    "tr": "Çevrimiçi ödeme şu anda devre dışı."
+  },
+  "Phone number or email": {
+    "ar": "رقم الهاتف أو البريد الإلكتروني",
+    "tr": "Telefon numarası veya e-posta"
+  },
+  "Passwords do not match.": {
+    "ar": "كلمتا المرور غير متطابقتين.",
+    "tr": "Şifreler eşleşmiyor."
+  },
+  "Use at least 12 characters for your password.": {
+    "ar": "استخدم 12 حرفًا على الأقل لكلمة المرور.",
+    "tr": "Şifreniz en az 12 karakter olmalıdır."
+  },
+  "Show password": {
+    "ar": "إظهار كلمة المرور",
+    "tr": "Şifreyi göster"
+  },
+  "Hide password": {
+    "ar": "إخفاء كلمة المرور",
+    "tr": "Şifreyi gizle"
+  },
+  "Incorrect email or password.": {
+    "ar": "بيانات تسجيل الدخول غير صحيحة.",
+    "tr": "Giriş bilgileri hatalı."
+  },
+  "Optional": {
+    "ar": "اختياري",
+    "tr": "İsteğe bağlı"
+  },
+  "Bank transfer": {
+    "ar": "تحويل بنكي",
+    "tr": "Banka havalesi"
+  },
+  "Bank transfers are currently disabled.": {
+    "ar": "التحويل البنكي معطّل حاليًا.",
+    "tr": "Banka havalesi şu anda devre dışı."
+  },
+  "Billing Address": {
+    "ar": "عنوان الفاتورة",
+    "tr": "Fatura adresi"
+  },
+  "Billing details are optional while online payment is disabled.": {
+    "ar": "بيانات الفاتورة اختيارية طالما الدفع الإلكتروني معطّل.",
+    "tr": "Çevrimiçi ödeme kapalıyken fatura bilgileri isteğe bağlıdır."
+  },
+  "Billing address line": {
+    "ar": "عنوان الفاتورة التفصيلي",
+    "tr": "Fatura adres satırı"
+  },
+  "City": {
+    "ar": "المدينة",
+    "tr": "Şehir"
+  },
+  "State / Province": {
+    "ar": "الولاية / المحافظة",
+    "tr": "İl / Bölge"
+  },
+  "Country": {
+    "ar": "الدولة",
+    "tr": "Ülke"
+  },
+  "Review booking request": {
+    "ar": "مراجعة طلب الحجز",
+    "tr": "Rezervasyon talebini incele"
+  },
+  "Check-out must be after check-in.": {
+    "ar": "تاريخ المغادرة لازم يكون بعد تاريخ الوصول.",
+    "tr": "Çıkış tarihi giriş tarihinden sonra olmalıdır."
+  },
+  "Step 1 of 2: Guest details. Only fields marked * are required.": {
+    "ar": "الخطوة ١ من ٢: بيانات الضيف. الحقول بعلامة * فقط مطلوبة.",
+    "tr": "Adım 1/2: Misafir bilgileri. Yalnızca * işaretli alanlar zorunludur."
+  },
+  "Step 2 of 2: Review and send your request. No payment will be taken.": {
+    "ar": "الخطوة ٢ من ٢: راجع طلبك وأرسله. لن يتم خصم أي مبلغ.",
+    "tr": "Adım 2/2: Talebinizi inceleyip gönderin. Ödeme alınmayacaktır."
+  },
+  "Continue with Google": {
+    "ar": "المتابعة باستخدام Google",
+    "tr": "Google ile devam et"
+  },
+  "Forgot password?": {
+    "ar": "نسيت كلمة المرور؟",
+    "tr": "Şifrenizi mi unuttunuz?"
+  },
+  "Reset your password": {
+    "ar": "استعادة كلمة المرور",
+    "tr": "Şifrenizi sıfırlayın"
+  },
+  "Choose a new password": {
+    "ar": "اختر كلمة مرور جديدة",
+    "tr": "Yeni bir şifre seçin"
+  },
+  "Save password": {
+    "ar": "حفظ كلمة المرور",
+    "tr": "Şifreyi kaydet"
+  },
+  "Send reset link": {
+    "ar": "إرسال رابط الاستعادة",
+    "tr": "Sıfırlama bağlantısı gönder"
+  },
+  "Back to sign in": {
+    "ar": "العودة لتسجيل الدخول",
+    "tr": "Girişe dön"
+  },
+  "Password updated. Sign in to continue your booking.": {
+    "ar": "تم تحديث كلمة المرور. سجّل الدخول لتكمل حجزك.",
+    "tr": "Şifre güncellendi. Rezervasyonunuza devam etmek için giriş yapın."
+  },
+  "If an account exists, a reset link will be emailed to you.": {
+    "ar": "إذا كان البريد مسجّلًا، سيصلك رابط استعادة كلمة المرور.",
+    "tr": "Hesap varsa sıfırlama bağlantısı e-posta ile gönderilecektir."
+  },
+  "Google sign-in could not be completed. Try again or use your password.": {
+    "ar": "تعذّر إكمال الدخول باستخدام Google. حاول مجددًا أو استخدم كلمة المرور.",
+    "tr": "Google ile giriş tamamlanamadı. Tekrar deneyin veya şifrenizi kullanın."
+  },
+  "This reset link has expired or was already used.": {
+    "ar": "رابط الاستعادة انتهت صلاحيته أو استُخدم من قبل.",
+    "tr": "Bu sıfırlama bağlantısının süresi dolmuş veya zaten kullanılmış."
+  },
+  "Use matching passwords of 12 to 72 characters.": {
+    "ar": "أدخل كلمتي مرور متطابقتين بطول ١٢ إلى ٧٢ حرفًا.",
+    "tr": "12–72 karakter uzunluğunda eşleşen şifreler kullanın."
+  },
+  "Google sign-in is temporarily unavailable. Please use your email or phone number.": {
+    "ar": "الدخول باستخدام Google غير متاح مؤقتًا. استخدم البريد أو رقم الهاتف.",
+    "tr": "Google ile giriş geçici olarak kullanılamıyor. E-posta veya telefon numaranızı kullanın."
+  },
+  "Check-in cannot be before today.": {
+    "ar": "تاريخ الوصول لا يمكن أن يكون قبل اليوم.",
+    "tr": "Giriş tarihi bugünden önce olamaz."
+  },
+  "Latest available check-out:": {
+    "ar": "آخر تاريخ مغادرة مسموح:",
+    "tr": "İzin verilen son çıkış tarihi:"
+  },
+  "Earliest check-in:": {
+    "ar": "أقرب تاريخ وصول:",
+    "tr": "En erken giriş:"
+  },
+  "Check-out is beyond the booking window.": {
+    "ar": "تاريخ المغادرة يتجاوز الفترة المتاحة للحجز.",
+    "tr": "Çıkış tarihi rezervasyon aralığı dışında."
+  },
+  "Unable to verify booking dates. Please try again.": {
+    "ar": "تعذّر التحقق من تواريخ الحجز. حاول مجددًا.",
+    "tr": "Rezervasyon tarihleri doğrulanamadı. Lütfen tekrar deneyin."
+  },
+  "Apply Now": {
+    "ar": "قدّم الآن",
+    "tr": "Şimdi Başvur"
+  },
+  "About": {
+    "ar": "عن السكن",
+    "tr": "Hakkında"
+  },
+  "Facilities": {
+    "ar": "المرافق",
+    "tr": "Olanaklar"
+  },
+  "Reservation Types": {
+    "ar": "أنواع الإقامة",
+    "tr": "Konaklama Türleri"
+  },
+  "Nearest Universities To The Residence": {
+    "ar": "أقرب الجامعات إلى السكن",
+    "tr": "Yurda En Yakın Üniversiteler"
+  },
+  "min": {
+    "ar": "دقيقة",
+    "tr": "dk"
+  },
+  "min walk": {
+    "ar": "دقيقة مشيًا",
+    "tr": "dk yürüyüş"
+  },
+  "Try again": {
+    "ar": "حاول مجددًا",
+    "tr": "Tekrar dene"
+  }
+}

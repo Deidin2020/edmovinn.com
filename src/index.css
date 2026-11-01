@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 165 57% 16%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 160 25% 28%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 160 15% 92%;
+    --muted-foreground: 160 10% 45%;
+
+    --accent: 37 59% 51%;
+    --accent-foreground: 0 0% 100%;
+
+    --gold-primary: 37 59% 51%;
+    --gold-secondary: 36 64% 61%;
+    --green-primary: 165 57% 16%;
+    --green-secondary: 160 25% 28%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 160 20% 85%;
+    --input: 160 20% 85%;
+    --ring: 160 57% 16%;
+
+    /* Custom tokens for accommodation platform */
+    --filter-background: 160 15% 98%;
+    --filter-border: 160 20% 85%;
+    --accommodation-tag-female: 340 65% 88%;
+    --accommodation-tag-female-text: 340 65% 25%;
+    --accommodation-tag-male: 210 65% 88%;
+    --accommodation-tag-male-text: 210 65% 25%;
+    --accommodation-tag-mixed: 160 30% 90%;
+    --accommodation-tag-mixed-text: 160 30% 30%;
+    --amenity-tag: 36 64% 90%;
+    --amenity-tag-text: 36 64% 35%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 160 15% 98%;
+    --sidebar-foreground: 160 30% 25%;
+    --sidebar-primary: 160 57% 16%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 160 15% 92%;
+    --sidebar-accent-foreground: 160 57% 16%;
+    --sidebar-border: 160 20% 85%;
+    --sidebar-ring: 160 57% 16%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 165 57% 16%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 160 25% 28%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 160 25% 20%;
+    --muted-foreground: 160 15% 70%;
+
+    --accent: 37 59% 51%;
+    --accent-foreground: 0 0% 100%;
+
+    --gold-primary: 37 59% 51%;
+    --gold-secondary: 36 64% 61%;
+    --green-primary: 165 57% 16%;
+    --green-secondary: 160 25% 28%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 160 25% 25%;
+    --input: 160 25% 25%;
+    --ring: 160 57% 16%;
+
+    --filter-background: 160 25% 18%;
+    --filter-border: 160 25% 30%;
+    --accommodation-tag-female: 340 65% 22%;
+    --accommodation-tag-female-text: 340 65% 85%;
+    --accommodation-tag-male: 210 65% 22%;
+    --accommodation-tag-male-text: 210 65% 85%;
+    --accommodation-tag-mixed: 160 30% 25%;
+    --accommodation-tag-mixed-text: 160 30% 85%;
+    --amenity-tag: 36 64% 25%;
+    --amenity-tag-text: 36 64% 80%;
+    --sidebar-background: 160 25% 15%;
+    --sidebar-foreground: 160 15% 80%;
+    --sidebar-primary: 160 57% 16%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 160 25% 22%;
+    --sidebar-accent-foreground: 160 15% 85%;
+    --sidebar-border: 160 25% 25%;
+    --sidebar-ring: 160 57% 16%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+}
+
+[dir="rtl"] .space-x-1 > * + * {
+  margin-left: 0;
+  margin-right: 0.25rem;
+}
+
+[dir="rtl"] .space-x-2 > * + * {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .space-x-3 > * + * {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+[dir="rtl"] .space-x-4 > * + * {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* Arabic font support */
+[lang="ar"] {
+  font-family: "AbdElRady", "Arial", "Tahoma", sans-serif;
+}
+
+/* Ensure proper spacing for Arabic text */
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .flex {
+  direction: rtl;
+}
+
+/* Flex and grid follow the document direction without a second reversal. */
+
+/* RTL padding and margin fixes */
+[dir="rtl"] .pl-3 {
+  padding-left: 0;
+  padding-right: 0.75rem;
+}
+
+[dir="rtl"] .pr-3 {
+  padding-right: 0;
+  padding-left: 0.75rem;
+}
+
+[dir="rtl"] .ml-8 {
+  margin-left: 0;
+  margin-right: 2rem;
+}
+
+[dir="rtl"] .border-l-2 {
+  border-left: none;
+  border-right: 2px solid;
+}
+
+/* Fix sheet content direction */
+[dir="rtl"] [data-radix-dialog-content] {
+  direction: rtl;
+}
+
+/* Original Arabic typefaces from the existing Edmovinn website. */
+@font-face {
+  font-family: "AbdElRady";
+  src: url("/fonts/AbdElRadyRegular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 100 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AbdElRady";
+  src: url("/fonts/AbdElRady.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500 900;
+  font-display: swap;
+}
