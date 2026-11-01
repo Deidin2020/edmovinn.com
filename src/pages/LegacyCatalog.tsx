@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { api, mediaUrl, type Room, type Catalog, type Accommodation } from "@/lib/api";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookingCopy } from "@/content/booking-copy";
+import { bookingUnavailableMessage } from "@/lib/booking-availability";
 import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -32,10 +33,9 @@ function useBook() {
   const { addToCart } = useCart();
   const c = useBookingCopy();
   return (r: Room) => {
-    // A cart selection is not a confirmed booking. The API checks availability
-    // and review status when a booking request is submitted.
-    if (r.price === null || !Number.isFinite(r.price) || r.capacity < 1) {
-      toast.info(c("Currently unavailable"));
+    const issue = bookingUnavailableMessage(r);
+    if (issue) {
+      toast.info(c(issue));
       return;
     }
     addToCart({
@@ -58,6 +58,7 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
   const c = useBookingCopy();
   const book = useBook();
   const [expanded, setExpanded] = useState(false);
+  const bookingIssue = bookingUnavailableMessage(r);
   return (
     <article className="rounded-lg border bg-card shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <Link to={`/rooms/${r.slug}`} className="block relative">
@@ -136,10 +137,11 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
           <Button asChild variant="outline" size="sm" className="flex-1">
             <Link to={`/rooms/${r.slug}`}>{t("actions.see_more")}</Link>
           </Button>
-          <Button size="sm" className="flex-1" onClick={() => book(r)}>
+          <Button size="sm" className="flex-1" disabled={!!bookingIssue} onClick={() => book(r)}>
             {t("actions.book_now")}
           </Button>
         </div>
+        {bookingIssue && <p className="mt-3 text-sm text-muted-foreground">{c(bookingIssue)} <Link to="/contact" className="text-primary underline">{c("Contact us")}</Link></p>}
       </div>
     </article>
   );
@@ -416,6 +418,7 @@ export function LegacyRoom() {
         {result.error ? result.error.message : c("Loading…")}
       </div>
     );
+  const bookingIssue = bookingUnavailableMessage(r);
   const fields = [
     [Home, "Housing Type", r.property_name],
     [Building2, "Accommodation Type", c(r.reservation_type)],
@@ -440,10 +443,11 @@ export function LegacyRoom() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between gap-4 mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold">{r.name}</h1>
-          <Button size="lg" onClick={() => book(r)}>
+          <Button size="lg" disabled={!!bookingIssue} onClick={() => book(r)}>
             {c("Book Now")}
           </Button>
         </div>
+        {bookingIssue && <p role="status" className="mb-6 rounded-lg border p-4">{c(bookingIssue)} <Link to="/contact" className="text-primary underline">{c("Contact us")}</Link></p>}
         <Gallery key={r.id} images={r.media} name={r.name} />
         <section className="bg-secondary/20 rounded-lg p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">{c("Room Summary")}</h2>

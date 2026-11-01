@@ -74,6 +74,7 @@ export type Room = {
   image: string;
   media: { url: string; caption: string }[];
   bookable: boolean;
+  booking_unavailable_reason?: string | null;
   contract_period?: string;
   review_required?: boolean;
 };

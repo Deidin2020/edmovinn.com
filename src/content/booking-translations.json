@@ -911,6 +911,54 @@
     "ar": "دقيقة مشيًا",
     "tr": "dk yürüyüş"
   },
+  "This room is currently unavailable. Please choose another room.": {
+    "ar": "هذه الغرفة غير متاحة حاليًا. يرجى اختيار غرفة أخرى.",
+    "tr": "Bu oda şu anda müsait değil. Lütfen başka bir oda seçin."
+  },
+  "Booking for this room is awaiting approval. Please contact the residence.": {
+    "ar": "الحجز لهذه الغرفة بانتظار الاعتماد. يرجى التواصل مع السكن.",
+    "tr": "Bu oda için rezervasyon onay bekliyor. Lütfen yurtla iletişime geçin."
+  },
+  "The booking price for this room needs updating. Please contact the residence.": {
+    "ar": "سعر الحجز لهذه الغرفة يحتاج إلى تحديث. يرجى التواصل مع السكن.",
+    "tr": "Bu odanın rezervasyon fiyatı güncellenmelidir. Lütfen yurtla iletişime geçin."
+  },
+  "This room is not available for booking.": {
+    "ar": "الحجز لهذه الغرفة غير متاح حاليًا. يرجى التواصل مع السكن.",
+    "tr": "Bu oda şu anda rezervasyona uygun değil. Lütfen yurtla iletişime geçin."
+  },
+  "This imported room is awaiting review.": {
+    "ar": "الحجز لهذه الغرفة بانتظار الاعتماد. يرجى التواصل مع السكن.",
+    "tr": "Bu oda için rezervasyon onay bekliyor. Lütfen yurtla iletişime geçin."
+  },
+  "Not enough beds for these dates.": {
+    "ar": "لا يوجد عدد كافٍ من الأسرّة للتواريخ المختارة. يرجى تغيير التواريخ أو عدد الأسرّة.",
+    "tr": "Bu tarihler için yeterli yatak yok. Lütfen tarihleri veya yatak sayısını değiştirin."
+  },
+  "Unable to verify room availability. Please try again.": {
+    "ar": "تعذّر التحقق من إمكانية حجز الغرف. يرجى المحاولة مجددًا أو اختيار غرفة أخرى من السلة.",
+    "tr": "Odaların uygunluğu doğrulanamadı. Lütfen tekrar deneyin veya sepetinizden başka bir oda seçin."
+  },
+  "The price or booking terms have changed. Remove this room from your cart and add it again to review the current offer.": {
+    "ar": "تغيّر السعر أو شروط الحجز. احذف هذه الغرفة من السلة ثم أضفها مجددًا لمراجعة العرض الحالي.",
+    "tr": "Fiyat veya rezervasyon koşulları değişti. Güncel teklifi incelemek için odayı sepetinizden kaldırıp yeniden ekleyin."
+  },
+  "Checking room availability…": {
+    "ar": "جارٍ التحقق من إمكانية الحجز…",
+    "tr": "Oda uygunluğu kontrol ediliyor…"
+  },
+  "Contact us": {
+    "ar": "تواصل معنا",
+    "tr": "Bize ulaşın"
+  },
+  "Booking availability": {
+    "ar": "إمكانية الحجز",
+    "tr": "Rezervasyon uygunluğu"
+  },
+  "Back to cart": {
+    "ar": "العودة إلى السلة",
+    "tr": "Sepete dön"
+  },
   "Try again": {
     "ar": "حاول مجددًا",
     "tr": "Tekrar dene"

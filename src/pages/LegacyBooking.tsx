@@ -6,6 +6,7 @@ import { useCart, type CartItem } from "@/hooks/useCart";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookingCopy } from "@/content/booking-copy";
 import { api, type Session, type Room } from "@/lib/api";
+import { bookingUnavailableMessage } from "@/lib/booking-availability";
 import { Button } from "@/components/ui/button";
 
 const cash = (n: number, currency: string) => `${Number(n.toFixed(2))} ${currency}`;
@@ -186,6 +187,29 @@ export function LegacyCheckout() {
   const c = useBookingCopy();
   const { items, clearCart } = useCart();
   const navigate = useNavigate();
+  const availability = useQuery({
+    queryKey: ["checkout-availability", items.map(i => i.id)],
+    queryFn: () => Promise.all(items.map(i => api<Room>("/public/rooms/" + i.id))),
+    enabled: items.length > 0,
+    staleTime: 0,
+    retry: false,
+    refetchOnMount: "always",
+  });
+  function checkoutIssue(rooms: Room[]): string | null {
+    for (const item of items) {
+      const room = rooms.find(r => String(r.id) === item.id);
+      if (!room) return c("Unable to verify room availability. Please try again.");
+      const issue = bookingUnavailableMessage(room);
+      if (issue) return `${room.name}: ${c(issue)}`;
+      if (item.quantity > room.capacity) return `${room.name}: ${c("Not enough beds for these dates.")}`;
+      if (item.price !== room.price || item.deposit !== room.deposit || item.currency !== room.currency || item.contract !== room.reservation_type)
+        return `${room.name}: ${c("The price or booking terms have changed. Remove this room from your cart and add it again to review the current offer.")}`;
+    }
+    return null;
+  }
+  const availabilityIssue = availability.isError
+    ? c("Unable to verify room availability. Please try again.")
+    : availability.data ? checkoutIssue(availability.data) : null;
   const session = useQuery({
     queryKey: ["student-session"],
     queryFn: () => api<Session>("/tenant/me"),
@@ -223,23 +247,26 @@ export function LegacyCheckout() {
   }
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!review) {
-      const values=Object.fromEntries(new FormData(e.currentTarget)) as Record<string,string>;
-      let limits;
-      try { limits=await api<{today:string;latest_checkout:string}>("/public/booking-dates"); }
-      catch { setError(c("Unable to verify booking dates. Please try again.")); return; }
-      if (values.start_date < limits.today) { setError(c("Check-in cannot be before today.")+" "+readableDate(limits.today)); return; }
-      if (values.end_date <= values.start_date) { setError(c("Check-out must be after check-in.")); return; }
-      if (values.end_date > limits.latest_checkout) { setError(c("Latest available check-out:")+" "+readableDate(limits.latest_checkout)); return; }
-      setError("");
-      setDetails(values);
-      setSelectedDates({start_date:values.start_date,end_date:values.end_date});
-      setReview(true);
-      return;
-    }
+    const values=Object.fromEntries(new FormData(e.currentTarget)) as Record<string,string>;
     setBusy(true);
     setError("");
     try {
+      const latest = await availability.refetch();
+      if (latest.error || !latest.data) { setError(c("Unable to verify room availability. Please try again.")); return; }
+      const issue = checkoutIssue(latest.data);
+      if (issue) { setError(issue); return; }
+      if (!review) {
+        let limits;
+        try { limits=await api<{today:string;latest_checkout:string}>("/public/booking-dates"); }
+        catch { setError(c("Unable to verify booking dates. Please try again.")); return; }
+        if (values.start_date < limits.today) { setError(c("Check-in cannot be before today.")+" "+readableDate(limits.today)); return; }
+        if (values.end_date <= values.start_date) { setError(c("Check-out must be after check-in.")); return; }
+        if (values.end_date > limits.latest_checkout) { setError(c("Latest available check-out:")+" "+readableDate(limits.latest_checkout)); return; }
+        setDetails(values);
+        setSelectedDates({start_date:values.start_date,end_date:values.end_date});
+        setReview(true);
+        return;
+      }
       await api("/tenant/bookings", "POST", {
         start_date: details.start_date,
         end_date: details.end_date,
@@ -291,7 +318,18 @@ export function LegacyCheckout() {
               </Panel>
             </aside>
             <div className="lg:col-span-2">
-              {session.isPending ? (
+              {availability.isPending ? (
+                <p role="status">{c("Checking room availability…")}</p>
+              ) : availabilityIssue ? (
+                <Panel title={c("Booking availability")}>
+                  <p role="alert">{availabilityIssue}</p>
+                  <div className="flex flex-wrap gap-3">
+                    <Button type="button" variant="outline" disabled={availability.isFetching} onClick={() => void availability.refetch()}>{c("Try again")}</Button>
+                    <Button asChild><Link to="/cart">{c("Back to cart")}</Link></Button>
+                    <Button asChild variant="outline"><Link to="/contact">{c("Contact us")}</Link></Button>
+                  </div>
+                </Panel>
+              ) : session.isPending ? (
                 <p>{c("Loading…")}</p>
               ) : !session.data ? (
                 <Panel title={c("Sign in or create an account")}>
