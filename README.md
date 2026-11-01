@@ -40,8 +40,11 @@ catalogue and fails if that API cannot be reached. Page content and prices still
 come from the live API. Rebuild after publishing new catalogue URLs when using
 an S3 website origin without a CDN SPA rewrite.
 
-GitHub Actions checks the exact `main` revision and saves `dist/` as a release
-artifact. A successful build is not itself a hosting deployment.
+The existing hosting integration publishes updates from `main` automatically;
+this was verified on the public domain during the 2026-11-01 release. GitHub
+Actions independently checks the exact revision and saves `dist/` as a release
+artifact. Verify the public domain after each push rather than relying only on
+the GitHub build result.
 
 Publish `dist/` to the existing website hosting origin. Serve SPA routes with an
 `index.html` fallback, including `/ar/*`, `/tr/*`, `/rooms/*`, `/accommodations/*`,
@@ -53,8 +56,9 @@ minimum TTL also needs its HTML cache policy adjusted by the hosting operator.
 On 2026-11-01 the public domain was served by Amazon S3 through CloudFront
 `decj7n1izh2ht.cloudfront.net`, independently of the older unused Nginx site on
 the app/API server. This repository does not contain that hosting account's
-credentials. Do not change DNS or assume that updating the old server checkout
-replaces the public domain. Verify the deployed HTML, current asset hashes,
+credentials; routine publishing uses the existing `main` integration. Do not
+change DNS or assume that updating the old server checkout replaces the public
+domain. Verify the deployed HTML, current asset hashes,
 deep links, published catalogue and admin/API connection after activation.
 
 ## Data and booking readiness
@@ -65,6 +69,9 @@ enabling bookings; publishing a listing does not automatically approve these.
 The 12 MovInn offers matched the existing public source during the 2026-11-01
 review, but their imported pricing period ended on 2026-10-24. Other draft
 properties must not be treated as verified inventory.
+The reviewed residence and its 12 room offers were published on 2026-11-01
+after a database backup. Booking review remains enabled until current pricing
+validity and actual availability are approved in the owner portal.
 
 Home, about, contact and footer use the published EN/AR/TR CMS pages. Hidden
 sections stay hidden. Contact phone changes also update the footer and WhatsApp.
