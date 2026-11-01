@@ -34,6 +34,11 @@ npm run build
 The tracked `.env.production` contains only the public API URL. `npm run generate`
 also produces the same `dist/` directory for static deployment tooling previously
 used with Nuxt. This project no longer has a Nuxt server or payment middleware.
+The build writes index documents for fixed application routes and currently
+published room/residence links in all three languages. It reads only the public
+catalogue and fails if that API cannot be reached. Page content and prices still
+come from the live API. Rebuild after publishing new catalogue URLs when using
+an S3 website origin without a CDN SPA rewrite.
 
 GitHub Actions checks the exact `main` revision and saves `dist/` as a release
 artifact. A successful build is not itself a hosting deployment.

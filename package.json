@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/static-routes.mjs",
     "generate": "npm run build",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "build:dev": "vite build --mode development",
