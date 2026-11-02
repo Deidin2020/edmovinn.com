@@ -69,10 +69,16 @@ export const Header = ({ onToggleFilters, showFilters }: HeaderProps) => {
               {t("header.home")}
             </Link>
             <Link
+              to="/accommodations"
+              className="text-muted-foreground hover:text-primary transition-colors px-3 py-2 text-sm font-medium"
+            >
+              {t("labels.accommodations")}
+            </Link>
+            <Link
               to="/search"
               className="text-muted-foreground hover:text-primary transition-colors px-3 py-2 text-sm font-medium"
             >
-              {t("header.discover")}
+              {t("labels.rooms")}
             </Link>
             <Link
               to="/about"
@@ -213,11 +219,18 @@ export const Header = ({ onToggleFilters, showFilters }: HeaderProps) => {
                     {t("header.home")}
                   </Link>
                   <Link
+                    to="/accommodations"
+                    className="text-foreground hover:text-primary transition-colors px-3 py-2 text-base font-medium"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {t("labels.accommodations")}
+                  </Link>
+                  <Link
                     to="/search"
                     className="text-foreground hover:text-primary transition-colors px-3 py-2 text-base font-medium"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {t("header.discover")}
+                    {t("labels.rooms")}
                   </Link>
                   <Link
                     to="/about"

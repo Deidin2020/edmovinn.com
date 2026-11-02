@@ -23,6 +23,7 @@ import { bookingUnavailableMessage } from "@/lib/booking-availability";
 import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { ResidenceCard } from "@/components/ResidenceDirectory";
 
 function currency(value: number | null, code: string) {
   return value === null
@@ -60,9 +61,23 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
   const [expanded, setExpanded] = useState(false);
   const bookingIssue = bookingUnavailableMessage(r);
   return (
-    <article className="rounded-lg border bg-card shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <article
+      aria-label={r.name}
+      className="rounded-lg border bg-card shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300"
+    >
       <Link to={`/rooms/${r.slug}`} className="block relative">
-        <img src={mediaUrl(r.image)} alt={r.name} className="w-full h-40 sm:h-48 object-cover" />
+        {r.image ? (
+          <img
+            src={mediaUrl(r.image)}
+            alt={r.name}
+            loading="lazy"
+            className="w-full h-40 sm:h-48 object-cover"
+          />
+        ) : (
+          <div className="h-40 sm:h-48 bg-muted flex items-center justify-center text-primary/40">
+            <Home className="w-12 h-12" />
+          </div>
+        )}
         <span className="absolute top-2 start-2 rounded-full px-2.5 py-0.5 text-xs font-semibold bg-pink-100 text-pink-900">
           {c(
             r.gender === "Male"
@@ -83,7 +98,7 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
             <MapPin className="w-4 h-4 shrink-0" />
             {t("accommodation.location")}
           </span>
-          <span className="font-medium">{r.state || r.city}</span>
+          <span className="font-medium">{r.state || r.city || "—"}</span>
           <span className="flex items-center gap-1 text-muted-foreground">
             <Maximize className="w-4 h-4" />
             {t("accommodation.size")}
@@ -141,7 +156,14 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
             {t("actions.book_now")}
           </Button>
         </div>
-        {bookingIssue && <p className="mt-3 text-sm text-muted-foreground">{c(bookingIssue)} <Link to="/contact" className="text-primary underline">{c("Contact us")}</Link></p>}
+        {bookingIssue && (
+          <p className="mt-3 text-sm text-muted-foreground">
+            {c(bookingIssue)}{" "}
+            <Link to="/contact" className="text-primary underline">
+              {c("Contact us")}
+            </Link>
+          </p>
+        )}
       </div>
     </article>
   );
@@ -280,32 +302,7 @@ export function LegacySearch({ propertiesOnly = false }: { propertiesOnly?: bool
         <div className="grid lg:grid-cols-2 gap-6">
           {tab === "rooms"
             ? result.data?.rooms.map((r) => <LegacyRoomCard key={r.id} room={r} />)
-            : result.data?.accommodations.map((p) => (
-                <Link
-                  className="block rounded-lg border bg-card shadow-sm p-4 hover:shadow-lg transition-shadow"
-                  key={p.id}
-                  to={`/accommodations/${p.slug}`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-muted">
-                      {p.image && (
-                        <img
-                          src={mediaUrl(p.image)}
-                          alt={p.name}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <h2 className="text-lg font-semibold mb-2">{p.name}</h2>
-                      <p className="flex items-center gap-1 text-primary font-medium">
-                        <MapPin className="w-4 h-4 shrink-0" />
-                        {p.district || p.city}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+            : result.data?.accommodations.map((p) => <ResidenceCard key={p.id} property={p} />)}
         </div>
         {result.data && pagination?.total_records === 0 && (
           <p>{c("No published listings match your search.")}</p>
@@ -447,7 +444,14 @@ export function LegacyRoom() {
             {c("Book Now")}
           </Button>
         </div>
-        {bookingIssue && <p role="status" className="mb-6 rounded-lg border p-4">{c(bookingIssue)} <Link to="/contact" className="text-primary underline">{c("Contact us")}</Link></p>}
+        {bookingIssue && (
+          <p role="status" className="mb-6 rounded-lg border p-4">
+            {c(bookingIssue)}{" "}
+            <Link to="/contact" className="text-primary underline">
+              {c("Contact us")}
+            </Link>
+          </p>
+        )}
         <Gallery key={r.id} images={r.media} name={r.name} />
         <section className="bg-secondary/20 rounded-lg p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">{c("Room Summary")}</h2>
@@ -526,13 +530,22 @@ export function LegacyAccommodation() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-primary mb-4">{p.name}</h1>
-        <p className="flex items-center gap-2 text-muted-foreground mb-6">
-          <MapPin className="w-4 h-4 shrink-0" />
-          {p.address}
-        </p>
-        <Button asChild className="px-8">
-          <Link to={`/search?property_id=${p.id}`}>{c("Apply Now")}</Link>
-        </Button>
+        {p.address && (
+          <p className="flex items-center gap-2 text-muted-foreground mb-6">
+            <MapPin className="w-4 h-4 shrink-0" />
+            {p.address}
+          </p>
+        )}
+        <div className="flex flex-wrap gap-3">
+          <Button asChild className="px-8">
+            <a href="#residence-rooms">
+              {c("View all rooms")} ({p.rooms.length})
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/accommodations">{c("All residences")}</Link>
+          </Button>
+        </div>
       </div>
       <section className="rounded-lg border bg-card shadow-sm mb-8">
         <h2 className="p-6 text-2xl font-semibold leading-none tracking-tight text-primary">
@@ -542,6 +555,39 @@ export function LegacyAccommodation() {
           <p className="text-muted-foreground mb-6">{p.description}</p>
           <Gallery key={p.id} images={p.media} name={p.name} className="" />
         </div>
+      </section>
+      <section
+        id="residence-rooms"
+        aria-labelledby="residence-rooms-title"
+        className="mb-10 scroll-mt-24"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 id="residence-rooms-title" className="text-2xl font-bold text-primary">
+              {c("Rooms in this residence")}{" "}
+              <span className="text-muted-foreground">({p.rooms.length})</span>
+            </h2>
+            <p className="mt-2 text-muted-foreground">
+              {c("Browse all rooms, compare prices and review booking availability.")}
+            </p>
+          </div>
+          {p.rooms.length > 0 && (
+            <Button asChild variant="outline">
+              <Link to={`/search?property_id=${p.id}`}>{c("Filter these rooms")}</Link>
+            </Button>
+          )}
+        </div>
+        {p.rooms.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {p.rooms.map((room) => (
+              <LegacyRoomCard key={room.id} room={room} />
+            ))}
+          </div>
+        ) : (
+          <p className="rounded-lg border bg-muted/30 p-6">
+            {c("No rooms have been added to this residence yet.")}
+          </p>
+        )}
       </section>
       {p.facilities.length > 0 && (
         <section className="rounded-lg border bg-card shadow-sm mb-8">

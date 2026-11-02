@@ -25,6 +25,7 @@ export function Footer() {
             <div className="space-y-2">
               {[
                 ["/", "header.home"],
+                ["/accommodations", "labels.accommodations"],
                 ["/search", "header.discover_room"],
                 ["/about", "header.about_us"],
                 ["/contact", "header.contact_us"],

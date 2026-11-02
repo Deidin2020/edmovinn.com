@@ -1,4 +1,32 @@
 {
+  "View residence and rooms": { "ar": "عرض السكن والغرف", "tr": "Yurdu ve odaları incele" },
+  "Our residences": { "ar": "سكناتنا", "tr": "Yurtlarımız" },
+  "Explore each residence and all its rooms in one place.": {
+    "ar": "تعرّف على كل سكن وتصفّح جميع غرفه في مكان واحد.",
+    "tr": "Her yurdu ve tüm odalarını tek bir yerde keşfedin."
+  },
+  "All residences": { "ar": "كل السكنات", "tr": "Tüm yurtlar" },
+  "All rooms": { "ar": "كل الغرف", "tr": "Tüm odalar" },
+  "We could not load the residences. Please try again.": {
+    "ar": "تعذّر تحميل السكنات. يرجى المحاولة مجددًا.",
+    "tr": "Yurtlar yüklenemedi. Lütfen tekrar deneyin."
+  },
+  "No residences have been published yet.": {
+    "ar": "لم تُنشر سكنات بعد.",
+    "tr": "Henüz yayımlanmış yurt yok."
+  },
+  "Residence pages": { "ar": "صفحات السكنات", "tr": "Yurt sayfaları" },
+  "View all rooms": { "ar": "عرض كل الغرف", "tr": "Tüm odaları görüntüle" },
+  "Rooms in this residence": { "ar": "غرف هذا السكن", "tr": "Bu yurttaki odalar" },
+  "Browse all rooms, compare prices and review booking availability.": {
+    "ar": "تصفّح جميع الغرف وقارن الأسعار واطّلع على إمكانية الحجز.",
+    "tr": "Tüm odaları inceleyin, fiyatları karşılaştırın ve rezervasyon uygunluğunu kontrol edin."
+  },
+  "Filter these rooms": { "ar": "تصفية غرف السكن", "tr": "Yurdun odalarını filtrele" },
+  "No rooms have been added to this residence yet.": {
+    "ar": "لم تُضف غرف لهذا السكن بعد.",
+    "tr": "Bu yurda henüz oda eklenmedi."
+  },
   "Males accommodation": {
     "ar": "سكن الذكور",
     "tr": "Erkek öğrenci yurdu"

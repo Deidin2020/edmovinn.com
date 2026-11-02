@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { api, type Catalog } from "@/lib/api";
 import { useBookingCopy } from "@/content/booking-copy";
+import { ResidenceDirectory } from "@/components/ResidenceDirectory";
 
 function usePageMeta(page: PageContent | null | undefined) {
   useEffect(() => {
@@ -102,6 +103,7 @@ export function LegacyHome() {
           </div>
         </div>
       </section>
+      <ResidenceDirectory />
       {(!page.data || sections[0]) && (
         <section className="py-20">
           <div className="max-w-6xl mx-auto px-4">
