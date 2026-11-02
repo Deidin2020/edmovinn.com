@@ -16,7 +16,7 @@ import {
   Clock,
 } from "lucide-react";
 import { toast } from "sonner";
-import { api, mediaUrl, type Room, type Catalog, type Accommodation } from "@/lib/api";
+import { api, mediaUrl, roomLink, type Room, type Catalog, type Accommodation } from "@/lib/api";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookingCopy } from "@/content/booking-copy";
 import { bookingUnavailableMessage } from "@/lib/booking-availability";
@@ -41,6 +41,7 @@ function useBook() {
     }
     addToCart({
       id: String(r.id),
+      price_id: r.price_id,
       title: r.name,
       location: r.city,
       accommodation: r.property_name,
@@ -65,7 +66,7 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
       aria-label={r.name}
       className="rounded-lg border bg-card shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300"
     >
-      <Link to={`/rooms/${r.slug}`} className="block relative">
+      <Link to={roomLink(r)} className="block relative">
         {r.image ? (
           <img
             src={mediaUrl(r.image)}
@@ -89,8 +90,9 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
         </span>
       </Link>
       <div className="p-3 sm:p-4">
+        <span className="inline-block mb-3 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-bold">{c(r.reservation_type)}</span>
         <h3 className="font-semibold text-base sm:text-lg mb-2 sm:mb-3 line-clamp-2">
-          <Link to={`/rooms/${r.slug}`}>{r.name}</Link> {c("in")}{" "}
+          <Link to={roomLink(r)}>{r.name}</Link> {c("in")}{" "}
           <Link to={`/accommodations/${r.property_slug}`}>{r.property_name}</Link>
         </h3>
         <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-sm">
@@ -116,7 +118,7 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
             <span className="font-bold text-base sm:text-lg">
               {currency(r.price, r.currency)}{" "}
               <span className="text-[10px] text-muted-foreground font-normal">
-                / {c(r.reservation_type)}
+                / {c(r.reservation_type)} · {c("/ bed")}
               </span>
             </span>
           </div>
@@ -150,7 +152,7 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
         </div>
         <div className="flex gap-2">
           <Button asChild variant="outline" size="sm" className="flex-1">
-            <Link to={`/rooms/${r.slug}`}>{t("actions.see_more")}</Link>
+            <Link to={roomLink(r)}>{t("actions.see_more")}</Link>
           </Button>
           <Button size="sm" className="flex-1" disabled={!!bookingIssue} onClick={() => book(r)}>
             {t("actions.book_now")}
@@ -301,7 +303,7 @@ export function LegacySearch({ propertiesOnly = false }: { propertiesOnly?: bool
         {result.error && <p role="alert">{result.error.message}</p>}
         <div className="grid lg:grid-cols-2 gap-6">
           {tab === "rooms"
-            ? result.data?.rooms.map((r) => <LegacyRoomCard key={r.id} room={r} />)
+            ? result.data?.rooms.map((r) => <LegacyRoomCard key={r.offer_id ?? r.id} room={r} />)
             : result.data?.accommodations.map((p) => <ResidenceCard key={p.id} property={p} />)}
         </div>
         {result.data && pagination?.total_records === 0 && (
@@ -397,12 +399,14 @@ function Gallery({
 }
 export function LegacyRoom() {
   const { slug, id } = useParams();
+  const [params] = useSearchParams();
+  const selection = params.has("price_id") ? `?price_id=${encodeURIComponent(params.get("price_id")!)}` : "";
   const c = useBookingCopy();
   const book = useBook();
   const result = useQuery({
-    queryKey: ["legacy-room", slug || id],
+    queryKey: ["legacy-room", slug || id, selection],
     queryFn: () =>
-      api<Room>(slug ? `/public/rooms/by-slug/${encodeURIComponent(slug)}` : `/public/rooms/${id}`),
+      api<Room>((slug ? `/public/rooms/by-slug/${encodeURIComponent(slug)}` : `/public/rooms/${id}`) + selection),
   });
   const related = useQuery({
     queryKey: ["related-rooms"],
@@ -452,6 +456,7 @@ export function LegacyRoom() {
             </Link>
           </p>
         )}
+        <div className="mb-5 rounded-xl bg-primary/5 p-4 flex flex-wrap gap-5 text-sm"><strong>{c(r.reservation_type)}</strong><span>{c("Full contract price / bed")}: {currency(r.price, r.currency)}</span><span>{c("Deposit:")} {currency(r.deposit, r.currency)} {c("/ bed")}</span></div>
         <Gallery key={r.id} images={r.media} name={r.name} />
         <section className="bg-secondary/20 rounded-lg p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">{c("Room Summary")}</h2>
@@ -490,7 +495,7 @@ export function LegacyRoom() {
               .reverse()
               .map((other) => (
                 <div
-                  key={other.id}
+                  key={other.offer_id ?? other.id}
                   className="min-w-[280px] w-[calc((100%_-_48px)/3)] shrink-0 snap-start"
                 >
                   <LegacyRoomCard room={other} />
@@ -580,7 +585,7 @@ export function LegacyAccommodation() {
         {p.rooms.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {p.rooms.map((room) => (
-              <LegacyRoomCard key={room.id} room={room} />
+              <LegacyRoomCard key={room.offer_id ?? room.id} room={room} />
             ))}
           </div>
         ) : (

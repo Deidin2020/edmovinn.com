@@ -167,6 +167,7 @@ export function StudentDashboard() {
             {copy("Booking details", "تفاصيل الحجز", "Rezervasyon detayları")}
           </summary>
           <div className="space-y-2 py-3 text-sm">
+            {b.contract_type && <p>{c("Contract term:")} {c(b.contract_type)}</p>}
             <p>
               {c("Contract price")} {money(b.amount_cents / 100, b.currency)}
             </p>

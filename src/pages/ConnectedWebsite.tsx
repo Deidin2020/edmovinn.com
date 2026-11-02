@@ -187,6 +187,7 @@ export function ConnectedRoom() {
             onClick={() => {
               addToCart({
                 id: String(r.id),
+                price_id: r.price_id,
                 title: r.name,
                 location: r.city,
                 price: r.price!,
@@ -390,7 +391,7 @@ export function ConnectedCheckout() {
         ...fields,
         request_key: key,
         payment_method: "property",
-        items: items.map((i) => ({ room_id: Number(i.id), quantity: i.quantity })),
+        items: items.map((i) => ({ room_id: Number(i.id), price_id: i.price_id, payment_type: i.contract, quantity: i.quantity })),
       });
       clearCart();
       navigate("/dashboard");

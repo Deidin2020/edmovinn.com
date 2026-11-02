@@ -5,15 +5,15 @@ import { ArrowLeft, ShoppingCart, Minus, Plus, X, Building2, CreditCard } from "
 import { useCart, type CartItem } from "@/hooks/useCart";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookingCopy } from "@/content/booking-copy";
-import { api, type Session, type Room } from "@/lib/api";
+import { api, offerQuery, type Session, type Room } from "@/lib/api";
 import { bookingUnavailableMessage } from "@/lib/booking-availability";
 import { Button } from "@/components/ui/button";
 
 const cash = (n: number, currency: string) => `${Number(n.toFixed(2))} ${currency}`;
 function AccommodationName({ item }: { item: CartItem }) {
   const room = useQuery({
-    queryKey: ["cart-room", item.id],
-    queryFn: () => api<Room>("/public/rooms/" + item.id),
+    queryKey: ["cart-room", item.id, item.price_id],
+    queryFn: () => api<Room>("/public/rooms/" + item.id + offerQuery(item.price_id)),
     staleTime: 30000,
   });
   return <>{room.data?.property_name || item.accommodation || item.location}</>;
@@ -97,11 +97,12 @@ export function LegacyCart() {
                   </button>
                   <img src={i.image} alt={i.title} className="w-20 h-20 lg:w-16 lg:h-16 object-cover rounded-lg" />
                   <div>
-                    <Link to={`/room/${i.id}`} className="font-semibold">
+                    <Link to={`/room/${i.id}${offerQuery(i.price_id)}`} className="font-semibold">
                       {i.title}
                     </Link>
                     <p className="text-sm text-muted-foreground">
                       <AccommodationName item={i} />
+                      <span className="block text-primary font-medium">{c(i.contract)}</span>
                     </p>
                   </div>
                 </div>
@@ -188,8 +189,8 @@ export function LegacyCheckout() {
   const { items, clearCart } = useCart();
   const navigate = useNavigate();
   const availability = useQuery({
-    queryKey: ["checkout-availability", items.map(i => i.id)],
-    queryFn: () => Promise.all(items.map(i => api<Room>("/public/rooms/" + i.id))),
+    queryKey: ["checkout-availability", items.map(i => [i.id, i.price_id])],
+    queryFn: () => Promise.all(items.map(i => api<Room>("/public/rooms/" + i.id + offerQuery(i.price_id)))),
     enabled: items.length > 0,
     staleTime: 0,
     retry: false,
@@ -202,7 +203,7 @@ export function LegacyCheckout() {
       const issue = bookingUnavailableMessage(room);
       if (issue) return `${room.name}: ${c(issue)}`;
       if (item.quantity > room.capacity) return `${room.name}: ${c("Not enough beds for these dates.")}`;
-      if (item.price !== room.price || item.deposit !== room.deposit || item.currency !== room.currency || item.contract !== room.reservation_type)
+      if ((item.price_id != null && item.price_id !== room.price_id) || item.price !== room.price || item.deposit !== room.deposit || item.currency !== room.currency || item.contract !== room.reservation_type)
         return `${room.name}: ${c("The price or booking terms have changed. Remove this room from your cart and add it again to review the current offer.")}`;
     }
     return null;
@@ -274,7 +275,7 @@ export function LegacyCheckout() {
         checkout_details: details,
         request_key: key,
         payment_method: "property",
-        items: items.map((i) => ({ room_id: Number(i.id), quantity: i.quantity })),
+        items: items.map((i) => ({ room_id: Number(i.id), price_id: i.price_id, payment_type: i.contract, quantity: i.quantity, expected_price: i.price, expected_deposit: i.deposit, expected_currency: i.currency })),
       });
       clearCart();
       navigate("/dashboard");

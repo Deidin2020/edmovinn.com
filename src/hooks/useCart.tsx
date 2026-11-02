@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 export interface CartItem {
   id: string;
+  price_id?: number | null;
   title: string;
   location: string;
   accommodation?: string;
@@ -61,7 +62,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (existingItem) {
         return prevItems.map((item) =>
           item.id === newItem.id
-            ? { ...item, quantity: Math.min(item.quantity + 1, item.capacity) }
+            ? { ...item, ...newItem, quantity: item.price_id === newItem.price_id && item.contract === newItem.contract ? Math.min(item.quantity + 1, newItem.capacity ?? item.capacity) : 1 }
             : item,
         );
       }

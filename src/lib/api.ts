@@ -45,6 +45,8 @@ export type Student = {
 };
 export type Session = { user: Student; csrf: string };
 export type Room = {
+  price_id?: number | null;
+  offer_id?: string;
   slug: string;
   property_name: string;
   property_slug: string;
@@ -113,6 +115,7 @@ export type Catalog = {
   accommodations_pagination: { total_records: number; last_page: number };
 };
 export type Booking = {
+  contract_type?: string;
   id: number;
   property_name: string;
   room_number: string;
@@ -127,3 +130,6 @@ export type Booking = {
   payment_status: string;
   latest_payment_status: string | null;
 };
+
+export const offerQuery = (priceId?: number | null) => priceId ? `?price_id=${priceId}` : "";
+export const roomLink = (room: Room) => `/rooms/${room.slug || room.id}${offerQuery(room.price_id)}`;
