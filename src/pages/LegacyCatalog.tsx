@@ -14,6 +14,9 @@ import {
   Maximize,
   GraduationCap,
   Clock,
+  BedDouble,
+  ShieldCheck,
+  Wallet,
 } from "lucide-react";
 import { toast } from "sonner";
 import { api, mediaUrl, roomLink, type Room, type Catalog, type Accommodation } from "@/lib/api";
@@ -464,6 +467,46 @@ export function LegacyRoom() {
         </section>
         <section className="bg-card rounded-lg border p-6 mb-8">
           <h2 className="text-xl font-semibold mb-6">{c("About The Room :")}</h2>
+          <dl className="grid gap-3 sm:grid-cols-3 mb-6">
+            <div className="min-w-0 rounded-xl border border-primary/15 bg-primary/5 p-4 sm:p-5">
+              <dt className="flex items-center gap-2 text-sm font-medium text-primary">
+                <Wallet className="h-5 w-5 shrink-0" aria-hidden="true" />
+                {c("Price")}
+              </dt>
+              <dd className="mt-3">
+                <div className="text-2xl font-bold text-primary break-words">
+                  {r.price === null ? c("Not specified") : <bdi>{currency(r.price, r.currency)}</bdi>}
+                </div>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  {c("Full contract price / bed")}
+                </p>
+                <span className="mt-3 inline-block rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                  {c(r.reservation_type)}
+                </span>
+              </dd>
+            </div>
+            <div className="min-w-0 rounded-xl border bg-muted/30 p-4 sm:p-5">
+              <dt className="flex items-center gap-2 text-sm font-medium text-primary">
+                <BedDouble className="h-5 w-5 shrink-0" aria-hidden="true" />
+                {c("Room type")}
+              </dt>
+              <dd className="mt-3 text-xl font-semibold break-words">
+                {r.room_type ? c(r.room_type) : c("Not specified")}
+              </dd>
+            </div>
+            <div className="min-w-0 rounded-xl border border-accent/25 bg-accent/5 p-4 sm:p-5">
+              <dt className="flex items-center gap-2 text-sm font-medium text-primary">
+                <ShieldCheck className="h-5 w-5 shrink-0" aria-hidden="true" />
+                {c("Deposit")}
+              </dt>
+              <dd className="mt-3">
+                <div className="text-2xl font-bold break-words">
+                  <bdi>{currency(r.deposit, r.currency)}</bdi>
+                </div>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{c("Per bed")}</p>
+              </dd>
+            </div>
+          </dl>
           <div className="grid md:grid-cols-2 gap-x-6 gap-y-4">
             {[fields.slice(0, 3), fields.slice(3)].map((column, index) => (
               <div key={index} className="space-y-4">
