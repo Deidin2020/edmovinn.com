@@ -1027,6 +1027,22 @@
     "ar": "سمستر",
     "tr": "Dönemlik"
   },
+  "Price": {
+    "ar": "السعر",
+    "tr": "Fiyat"
+  },
+  "Room type": {
+    "ar": "نوع الغرفة",
+    "tr": "Oda tipi"
+  },
+  "Not specified": {
+    "ar": "غير محدد",
+    "tr": "Belirtilmemiş"
+  },
+  "Per bed": {
+    "ar": "لكل سرير",
+    "tr": "Yatak başına"
+  },
   "Full contract price / bed": {
     "ar": "سعر كامل مدة التعاقد / سرير",
     "tr": "Tam sözleşme fiyatı / yatak"
