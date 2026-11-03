@@ -258,7 +258,7 @@ export function LegacyCheckout() {
       if (latest.error || !latest.data) { setError(c("Unable to verify room availability. Please try again.")); return; }
       const issue = checkoutIssue(latest.data);
       if (issue) { setError(issue); return; }
-      if (paymentMethod === "bank_transfer" && !receiptFile) { setError(c("Upload a JPG, PNG or PDF receipt up to 5 MB.")); return; }
+      if (paymentMethod === "bank_transfer" && !receiptFile) { setError(c("Upload a JPG, PNG or PDF receipt up to 3 MB.")); return; }
       if (!review) {
         let limits;
         try { limits=await api<{today:string;latest_checkout:string}>("/public/booking-dates"); }
@@ -397,12 +397,12 @@ export function LegacyCheckout() {
                           <span>{c("Payment receipt")} *</span>
                           <input type="file" accept="image/jpeg,image/png,application/pdf" disabled={busy} className="block w-full min-w-0 text-sm" onChange={event => {
                             const file = event.target.files?.[0] || null;
-                            if (file && (file.size > 5 * 1024 * 1024 || file.size === 0 || !["image/jpeg", "image/png", "application/pdf"].includes(file.type))) {
-                              setReceiptFile(null); event.target.value = ""; setError(c("Upload a JPG, PNG or PDF receipt up to 5 MB.")); return;
+                            if (file && (file.size > 3 * 1024 * 1024 || file.size === 0 || !["image/jpeg", "image/png", "application/pdf"].includes(file.type))) {
+                              setReceiptFile(null); event.target.value = ""; setError(c("Upload a JPG, PNG or PDF receipt up to 3 MB.")); return;
                             }
                             setReceiptFile(file); setError("");
                           }} />
-                          <span className="block text-xs text-muted-foreground">{c("JPG, PNG or PDF, up to 5 MB.")}</span>
+                          <span className="block text-xs text-muted-foreground">{c("JPG, PNG or PDF, up to 3 MB.")}</span>
                           {receiptFile && <span className="block break-all">{receiptFile.name}</span>}
                         </label>}
                       </div>

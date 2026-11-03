@@ -1067,17 +1067,17 @@
     "ar": "سند الدفع",
     "tr": "Ödeme dekontu"
   },
-  "Upload a JPG, PNG or PDF receipt up to 5 MB.": {
-    "ar": "ارفع سندًا بصيغة JPG أو PNG أو PDF بحجم لا يتجاوز 5 ميغابايت.",
-    "tr": "En fazla 5 MB boyutunda JPG, PNG veya PDF dekont yükleyin."
+  "Upload a JPG, PNG or PDF receipt up to 3 MB.": {
+    "ar": "ارفع سندًا بصيغة JPG أو PNG أو PDF بحجم لا يتجاوز 3 ميغابايت.",
+    "tr": "En fazla 3 MB boyutunda JPG, PNG veya PDF dekont yükleyin."
   },
   "Upload a valid receipt image.": {
     "ar": "ارفع صورة سند صالحة.",
     "tr": "Geçerli bir dekont görseli yükleyin."
   },
-  "JPG, PNG or PDF, up to 5 MB.": {
-    "ar": "JPG أو PNG أو PDF، بحد أقصى 5 ميغابايت.",
-    "tr": "JPG, PNG veya PDF, en fazla 5 MB."
+  "JPG, PNG or PDF, up to 3 MB.": {
+    "ar": "JPG أو PNG أو PDF، بحد أقصى 3 ميغابايت.",
+    "tr": "JPG, PNG veya PDF, en fazla 3 MB."
   },
   "Awaiting receipt review": {
     "ar": "بانتظار مراجعة السند",
