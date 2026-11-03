@@ -50,6 +50,7 @@ export type Room = {
   slug: string;
   property_name: string;
   property_slug: string;
+  property_type: string;
   area: string;
   available_from: string;
   available_to: string;
