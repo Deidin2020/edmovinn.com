@@ -424,7 +424,7 @@ export function LegacyRoom() {
     );
   const bookingIssue = bookingUnavailableMessage(r);
   const fields = [
-    [Home, "Housing Type", r.property_name],
+    [Home, "Housing Type", r.property_type ? c(r.property_type) : ""],
     [Building2, "Accommodation Type", c(r.reservation_type)],
     [Layers, "Floor", r.floor],
     [Maximize, "Area", r.area ? `${r.area}m²` : ""],

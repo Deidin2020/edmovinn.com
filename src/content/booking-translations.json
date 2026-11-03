@@ -120,8 +120,20 @@
     "tr": "Oda hakkında:"
   },
   "Housing Type": {
-    "ar": "السكن",
-    "tr": "Konaklama yeri"
+    "ar": "نوع السكن",
+    "tr": "Konaklama türü"
+  },
+  "Student residence": {
+    "ar": "سكن طلابي",
+    "tr": "Öğrenci yurdu"
+  },
+  "Private dormitory": {
+    "ar": "سكن خاص",
+    "tr": "Özel yurt"
+  },
+  "Shared apartment": {
+    "ar": "شقة مشتركة",
+    "tr": "Paylaşımlı daire"
   },
   "Accommodation Type": {
     "ar": "نوع الإقامة",
