@@ -252,7 +252,7 @@ export function LegacySearch({ propertiesOnly = false }: { propertiesOnly?: bool
                         </label>
                       </>
                     ) : (
-                      (result.data?.facets?.[field] || []).map((option) => (
+                      (field === "gender" ? ["Male", "Female"] : result.data?.facets?.[field] || []).map((option) => (
                         <label key={option} className="flex gap-2 text-sm">
                           <input
                             type="checkbox"
@@ -268,7 +268,7 @@ export function LegacySearch({ propertiesOnly = false }: { propertiesOnly?: bool
                               );
                             }}
                           />
-                          {c(option)}
+                          {c(field === "gender" ? option === "Male" ? "Males accommodation" : "Females accommodation" : option)}
                         </label>
                       ))
                     )}
