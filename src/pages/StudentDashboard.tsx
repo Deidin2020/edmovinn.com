@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookingCopy } from "@/content/booking-copy";
-import { api, money, ApiError, type Session, type Booking } from "@/lib/api";
+import { API_BASE, api, money, ApiError, type Session, type Booking } from "@/lib/api";
 
 const field = "mt-2 w-full rounded-xl border bg-background px-4 py-3 focus-visible:outline-primary";
 export function StudentDashboard() {
@@ -92,7 +92,7 @@ export function StudentDashboard() {
   }
   function bookingCard(b: Booking) {
     const canPay =
-      payment.data?.enabled &&
+      payment.data?.enabled && b.payment_method !== "bank_transfer" &&
       b.status === "confirmed" &&
       b.payment_status === "unpaid" &&
       (b.quote_cents || 0) > 0 &&
@@ -140,7 +140,7 @@ export function StudentDashboard() {
             <dt className="text-xs text-muted-foreground">
               {copy("Payment status", "حالة الدفع", "Ödeme durumu")}
             </dt>
-            <dd className="mt-1 font-medium">{c(b.payment_status)}</dd>
+            <dd className="mt-1 font-medium">{b.receipt?.status === "pending" ? c("Awaiting receipt review") : c(b.payment_status)}</dd>
           </div>
         </dl>
         <div className="flex flex-wrap items-center justify-between gap-3 bg-muted/40 px-5 py-4">
@@ -162,6 +162,12 @@ export function StudentDashboard() {
             </Button>
           )}
         </div>
+        {b.receipt && <div className="space-y-2 border-t px-5 py-4 text-sm">
+          <p className="font-medium">{c("Bank transfer")} — {c(b.receipt.status === "pending" ? "Awaiting receipt review" : b.receipt.status === "accepted" ? "Receipt accepted" : "Receipt rejected")}</p>
+          {b.receipt.review_note && <p className="whitespace-pre-wrap break-words">{b.receipt.review_note}</p>}
+          {b.receipt.status === "rejected" && <p>{c("Please contact the residence to correct your payment receipt.")}</p>}
+          <a href={`${API_BASE}/api/v1/tenant/bookings/${b.id}/receipt`} target="_blank" rel="noopener noreferrer" className="inline-block underline">{c("Download receipt")}</a>
+        </div>}
         <details className="border-t px-5 py-3">
           <summary className="cursor-pointer text-sm font-medium text-primary">
             {copy("Booking details", "تفاصيل الحجز", "Rezervasyon detayları")}

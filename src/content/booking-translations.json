@@ -1042,5 +1042,45 @@
   "Full contract price / bed": {
     "ar": "سعر كامل مدة التعاقد / سرير",
     "tr": "Tam sözleşme fiyatı / yatak"
+  },
+  "Upload your payment receipt. Payment remains pending until our team verifies it.": {
+    "ar": "ارفع سند الدفع وأكمل الطلب. يبقى الدفع بانتظار المراجعة حتى يتحقق فريقنا من السند.",
+    "tr": "Ödeme dekontunuzu yükleyip talebinizi tamamlayın. Ekibimiz doğrulayana kadar ödeme incelemede kalır."
+  },
+  "Payment receipt": {
+    "ar": "سند الدفع",
+    "tr": "Ödeme dekontu"
+  },
+  "Upload a JPG, PNG or PDF receipt up to 5 MB.": {
+    "ar": "ارفع سندًا بصيغة JPG أو PNG أو PDF بحجم لا يتجاوز 5 ميغابايت.",
+    "tr": "En fazla 5 MB boyutunda JPG, PNG veya PDF dekont yükleyin."
+  },
+  "Upload a valid receipt image.": {
+    "ar": "ارفع صورة سند صالحة.",
+    "tr": "Geçerli bir dekont görseli yükleyin."
+  },
+  "JPG, PNG or PDF, up to 5 MB.": {
+    "ar": "JPG أو PNG أو PDF، بحد أقصى 5 ميغابايت.",
+    "tr": "JPG, PNG veya PDF, en fazla 5 MB."
+  },
+  "Awaiting receipt review": {
+    "ar": "بانتظار مراجعة السند",
+    "tr": "Dekont incelemesi bekleniyor"
+  },
+  "Receipt accepted": {
+    "ar": "تم قبول السند",
+    "tr": "Dekont kabul edildi"
+  },
+  "Receipt rejected": {
+    "ar": "تم رفض السند",
+    "tr": "Dekont reddedildi"
+  },
+  "Download receipt": {
+    "ar": "تحميل السند",
+    "tr": "Dekontu indir"
+  },
+  "Please contact the residence to correct your payment receipt.": {
+    "ar": "يرجى التواصل مع السكن لتصحيح سند الدفع.",
+    "tr": "Ödeme dekontunuzu düzeltmek için lütfen konaklama yeriyle iletişime geçin."
   }
 }

@@ -220,6 +220,8 @@ export function LegacyCheckout() {
   const [review, setReview] = useState(false),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("property");
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [details, setDetails] = useState<Record<string, string>>({});
   const [key] = useState(() => crypto.randomUUID());
   const [selectedDates, setSelectedDates] = useState<Record<string, string>>({});
@@ -256,6 +258,7 @@ export function LegacyCheckout() {
       if (latest.error || !latest.data) { setError(c("Unable to verify room availability. Please try again.")); return; }
       const issue = checkoutIssue(latest.data);
       if (issue) { setError(issue); return; }
+      if (paymentMethod === "bank_transfer" && !receiptFile) { setError(c("Upload a JPG, PNG or PDF receipt up to 5 MB.")); return; }
       if (!review) {
         let limits;
         try { limits=await api<{today:string;latest_checkout:string}>("/public/booking-dates"); }
@@ -268,15 +271,19 @@ export function LegacyCheckout() {
         setReview(true);
         return;
       }
-      await api("/tenant/bookings", "POST", {
+      const booking = {
         start_date: details.start_date,
         end_date: details.end_date,
         notes: details.notes || "",
         checkout_details: details,
         request_key: key,
-        payment_method: "property",
+        payment_method: paymentMethod,
         items: items.map((i) => ({ room_id: Number(i.id), price_id: i.price_id, payment_type: i.contract, quantity: i.quantity, expected_price: i.price, expected_deposit: i.deposit, expected_currency: i.currency })),
-      });
+      };
+      const upload = new FormData();
+      upload.append("booking", JSON.stringify(booking));
+      if (receiptFile) upload.append("receipt", receiptFile);
+      await api("/tenant/bookings", "POST", paymentMethod === "bank_transfer" ? upload : booking);
       clearCart();
       navigate("/dashboard");
     } catch (e) {
@@ -346,12 +353,12 @@ export function LegacyCheckout() {
                       title={t("pages.checkout.payment_method_title")}
                       description={t("pages.checkout.payment_method_description")}
                     >
-                      <div className="border border-primary rounded-lg p-4 space-y-3">
+                      <div className={`border rounded-lg p-4 space-y-3 ${paymentMethod === "property" ? "border-primary" : ""}`}>
                         <label className="flex gap-3 items-center">
                           <input
                             type="radio"
-                            checked
-                            readOnly
+                            checked={paymentMethod === "property"}
+                            onChange={() => setPaymentMethod("property")}
                             name="payment_method"
                             value="property"
                           />
@@ -380,9 +387,24 @@ export function LegacyCheckout() {
                           </small>
                         </span>
                       </div>
-                      <div className="border rounded-lg p-4 flex gap-3 items-center opacity-60" aria-disabled="true">
-                        <Building2 className="w-5 h-5" />
-                        <span>{c("Bank transfer")}<small className="block">{c("Bank transfers are currently disabled.")}</small></span>
+                      <div className={`border rounded-lg p-4 space-y-4 ${paymentMethod === "bank_transfer" ? "border-primary" : ""}`}>
+                        <label className="flex gap-3 items-center cursor-pointer">
+                          <input type="radio" name="payment_method" value="bank_transfer" checked={paymentMethod === "bank_transfer"} onChange={() => setPaymentMethod("bank_transfer")} />
+                          <Building2 className="w-5 h-5" />
+                          <span><strong className="block">{c("Bank transfer")}</strong><small className="block">{c("Upload your payment receipt. Payment remains pending until our team verifies it.")}</small></span>
+                        </label>
+                        {paymentMethod === "bank_transfer" && <label className="block space-y-2 text-sm font-medium">
+                          <span>{c("Payment receipt")} *</span>
+                          <input type="file" accept="image/jpeg,image/png,application/pdf" disabled={busy} className="block w-full min-w-0 text-sm" onChange={event => {
+                            const file = event.target.files?.[0] || null;
+                            if (file && (file.size > 5 * 1024 * 1024 || file.size === 0 || !["image/jpeg", "image/png", "application/pdf"].includes(file.type))) {
+                              setReceiptFile(null); event.target.value = ""; setError(c("Upload a JPG, PNG or PDF receipt up to 5 MB.")); return;
+                            }
+                            setReceiptFile(file); setError("");
+                          }} />
+                          <span className="block text-xs text-muted-foreground">{c("JPG, PNG or PDF, up to 5 MB.")}</span>
+                          {receiptFile && <span className="block break-all">{receiptFile.name}</span>}
+                        </label>}
                       </div>
                     </Panel>
                     <Panel
@@ -446,6 +468,8 @@ export function LegacyCheckout() {
                   </div>
                   {review && (
                     <Panel title={c("Review your booking request")}>
+                      <p className="font-medium">{paymentMethod === "bank_transfer" ? c("Bank transfer") : t("payment.method_pay_at_property_label")}</p>
+                      {paymentMethod === "bank_transfer" && <div className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900"><p className="break-all">{c("Payment receipt")}: {receiptFile?.name}</p><p>{c("Upload your payment receipt. Payment remains pending until our team verifies it.")}</p></div>}
                       <p>
                         {details.first_name} {details.last_name}
                       </p>

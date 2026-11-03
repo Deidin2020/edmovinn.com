@@ -12,14 +12,15 @@ export class ApiError extends Error {
   }
 }
 export async function api<T>(path: string, method = "GET", data?: unknown): Promise<T> {
+  const form = data instanceof FormData;
   const response = await fetch(`${API_BASE}/api/v1${path}`, {
     method,
     credentials: "include",
     headers: {
-      ...(data === undefined ? {} : { "Content-Type": "application/json" }),
+      ...(data === undefined || form ? {} : { "Content-Type": "application/json" }),
       ...(method === "GET" ? {} : { "X-CSRF-Token": csrf }),
     },
-    ...(data === undefined ? {} : { body: JSON.stringify(data) }),
+    ...(data === undefined ? {} : { body: form ? data : JSON.stringify(data) }),
   });
   const result = await response.json().catch(() => null);
   if (!response.ok)
@@ -129,6 +130,8 @@ export type Booking = {
   quote_cents: number | null;
   status: string;
   payment_status: string;
+  payment_method?: string;
+  receipt?: { status: "pending" | "accepted" | "rejected"; review_note: string } | null;
   latest_payment_status: string | null;
 };
 
