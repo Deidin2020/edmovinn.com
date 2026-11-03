@@ -200,7 +200,6 @@ export function LegacySearch({ propertiesOnly = false }: { propertiesOnly?: bool
     ["reservation_type", "filter.reservation.title"],
     ["room_type", "filter.room.title"],
     ["gender", "filter.gender.title"],
-    ["university_name", "filter.university_name.title"],
     ["price", "filter.tuitionFees.title"],
   ];
   return (
