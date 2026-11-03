@@ -64,11 +64,11 @@
     "tr": "Bu yurda henüz oda eklenmedi."
   },
   "Males accommodation": {
-    "ar": "سكن الذكور",
+    "ar": "سكن طلاب",
     "tr": "Erkek öğrenci yurdu"
   },
   "Females accommodation": {
-    "ar": "سكن الإناث",
+    "ar": "سكن طالبات",
     "tr": "Kız öğrenci yurdu"
   },
   "Mixed accommodation": {
@@ -732,11 +732,11 @@
     "tr": "Dört kişilik"
   },
   "male": {
-    "ar": "ذكور",
+    "ar": "سكن طلاب",
     "tr": "Erkek"
   },
   "female": {
-    "ar": "إناث",
+    "ar": "سكن طالبات",
     "tr": "Kadın"
   },
   "mixed": {
