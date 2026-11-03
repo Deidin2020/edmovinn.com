@@ -23,6 +23,7 @@ import { api, mediaUrl, roomLink, type Room, type Catalog, type Accommodation } 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookingCopy } from "@/content/booking-copy";
 import { bookingUnavailableMessage } from "@/lib/booking-availability";
+import { HousingTerms } from "@/components/HousingTerms";
 import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -93,7 +94,9 @@ export function LegacyRoomCard({ room: r }: { room: Room }) {
         </span>
       </Link>
       <div className="p-3 sm:p-4">
-        <span className="inline-block mb-3 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-bold">{c(r.reservation_type)}</span>
+        <span className="inline-block mb-3 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-bold">
+          {c(r.reservation_type)}
+        </span>
         <h3 className="font-semibold text-base sm:text-lg mb-2 sm:mb-3 line-clamp-2">
           <Link to={roomLink(r)}>{r.name}</Link> {c("in")}{" "}
           <Link to={`/accommodations/${r.property_slug}`}>{r.property_name}</Link>
@@ -200,7 +203,6 @@ export function LegacySearch({ propertiesOnly = false }: { propertiesOnly?: bool
     ["reservation_type", "filter.reservation.title"],
     ["room_type", "filter.room.title"],
     ["gender", "filter.gender.title"],
-    ["university_name", "filter.university_name.title"],
     ["price", "filter.tuitionFees.title"],
   ];
   return (
@@ -403,13 +405,18 @@ function Gallery({
 export function LegacyRoom() {
   const { slug, id } = useParams();
   const [params] = useSearchParams();
-  const selection = params.has("price_id") ? `?price_id=${encodeURIComponent(params.get("price_id")!)}` : "";
+  const selection = params.has("price_id")
+    ? `?price_id=${encodeURIComponent(params.get("price_id")!)}`
+    : "";
   const c = useBookingCopy();
   const book = useBook();
   const result = useQuery({
     queryKey: ["legacy-room", slug || id, selection],
     queryFn: () =>
-      api<Room>((slug ? `/public/rooms/by-slug/${encodeURIComponent(slug)}` : `/public/rooms/${id}`) + selection),
+      api<Room>(
+        (slug ? `/public/rooms/by-slug/${encodeURIComponent(slug)}` : `/public/rooms/${id}`) +
+          selection,
+      ),
   });
   const related = useQuery({
     queryKey: ["related-rooms"],
@@ -459,8 +466,22 @@ export function LegacyRoom() {
             </Link>
           </p>
         )}
-        <div className="mb-5 rounded-xl bg-primary/5 p-4 flex flex-wrap gap-5 text-sm"><strong>{c(r.reservation_type)}</strong><span>{c("Full contract price / bed")}: {currency(r.price, r.currency)}</span><span>{c("Deposit:")} {currency(r.deposit, r.currency)} {c("/ bed")}</span></div>
+        <div className="mb-5 rounded-xl bg-primary/5 p-4 flex flex-wrap gap-5 text-sm">
+          <strong>{c(r.reservation_type)}</strong>
+          <span>
+            {c("Full contract price / bed")}: {currency(r.price, r.currency)}
+          </span>
+          <span>
+            {c("Deposit:")} {currency(r.deposit, r.currency)} {c("/ bed")}
+          </span>
+        </div>
         <Gallery key={r.id} images={r.media} name={r.name} />
+        <div className="mb-8">
+          <HousingTerms
+            name={c("Housing terms") + " — " + r.property_name}
+            document={r.housing_terms}
+          />
+        </div>
         <section className="bg-secondary/20 rounded-lg p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">{c("Room Summary")}</h2>
           <p className="text-muted-foreground">{r.description}</p>
@@ -475,7 +496,11 @@ export function LegacyRoom() {
               </dt>
               <dd className="mt-3">
                 <div className="text-2xl font-bold text-primary break-words">
-                  {r.price === null ? c("Not specified") : <bdi>{currency(r.price, r.currency)}</bdi>}
+                  {r.price === null ? (
+                    c("Not specified")
+                  ) : (
+                    <bdi>{currency(r.price, r.currency)}</bdi>
+                  )}
                 </div>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                   {c("Full contract price / bed")}
@@ -604,6 +629,9 @@ export function LegacyAccommodation() {
           <Gallery key={p.id} images={p.media} name={p.name} className="" />
         </div>
       </section>
+      <div className="mb-8">
+        <HousingTerms name={c("Housing terms") + " — " + p.name} document={p.housing_terms} />
+      </div>
       <section
         id="residence-rooms"
         aria-labelledby="residence-rooms-title"

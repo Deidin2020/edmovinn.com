@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import BankPayment from "./pages/BankPayment";
 import { ManagedPage } from "./components/ManagedPage";
+import { HousingTermsPage } from "./components/HousingTerms";
 import { LegacyRedirect, LegacyLanguageRoute } from "./components/LegacyRoute";
 import { LegacyHome, LegacyAbout, LegacyContact } from "./pages/LegacyPages";
 import { LegacySearch, LegacyRoom, LegacyAccommodation } from "./pages/LegacyCatalog";
@@ -42,7 +43,7 @@ const App = () => (
                   <Route path="/accommodations/:slug" element={<LegacyAccommodation />} />
                   <Route path="/dormitory/:id" element={<LegacyAccommodation />} />
                   <Route path="/about" element={<LegacyAbout />} />
-                  <Route path="/terms" element={<ManagedPage slug="terms" />} />
+                  <Route path="/terms" element={<HousingTermsPage />} />
                   <Route path="/privacy" element={<ManagedPage slug="privacy" />} />
                   <Route path="/contact" element={<LegacyContact />} />
                   <Route path="/cart" element={<LegacyCart />} />

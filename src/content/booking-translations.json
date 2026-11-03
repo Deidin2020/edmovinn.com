@@ -1,4 +1,16 @@
 {
+  "Deposit": {
+    "ar": "التأمين",
+    "tr": "Depozito"
+  },
+  "Room price": {
+    "ar": "سعر الغرفة",
+    "tr": "Oda fiyatı"
+  },
+  "Total including deposit": {
+    "ar": "الإجمالي شامل التأمين",
+    "tr": "Depozito dahil toplam"
+  },
   "View residence and rooms": {
     "ar": "عرض السكن والغرف",
     "tr": "Yurdu ve odaları incele"
@@ -1098,5 +1110,45 @@
   "Please contact the residence to correct your payment receipt.": {
     "ar": "يرجى التواصل مع السكن لتصحيح سند الدفع.",
     "tr": "Ödeme dekontunuzu düzeltmek için lütfen konaklama yeriyle iletişime geçin."
+  },
+  "Housing terms": {
+    "ar": "شروط السكن",
+    "tr": "Konaklama koşulları"
+  },
+  "Read housing terms (PDF)": {
+    "ar": "قراءة شروط السكن (PDF)",
+    "tr": "Konaklama koşullarını oku (PDF)"
+  },
+  "I have read and agree to the housing terms for this accommodation.": {
+    "ar": "قرأت شروط هذا السكن وأوافق عليها.",
+    "tr": "Bu konaklamanın koşullarını okudum ve kabul ediyorum."
+  },
+  "No housing terms document has been uploaded for this accommodation.": {
+    "ar": "لم يُرفع مستند شروط لهذا السكن بعد.",
+    "tr": "Bu konaklama için henüz koşul belgesi yüklenmedi."
+  },
+  "Housing terms for each accommodation": {
+    "ar": "شروط جميع السكنات",
+    "tr": "Her konaklamanın koşulları"
+  },
+  "Each accommodation has its own terms. Read the document for your selected residence before booking.": {
+    "ar": "لكل سكن شروطه الخاصة. اقرأ مستند السكن الذي اخترته قبل الحجز.",
+    "tr": "Her konaklamanın kendine ait koşulları vardır. Rezervasyondan önce seçtiğiniz konaklamanın belgesini okuyun."
+  },
+  "Unable to load housing terms. Please try again.": {
+    "ar": "تعذّر تحميل شروط السكن. يرجى المحاولة مرة أخرى.",
+    "tr": "Konaklama koşulları yüklenemedi. Lütfen tekrar deneyin."
+  },
+  "No housing terms documents have been published yet.": {
+    "ar": "لم تُنشر مستندات شروط السكن بعد.",
+    "tr": "Henüz konaklama koşulları belgesi yayımlanmadı."
+  },
+  "Read and accept each accommodation’s housing terms": {
+    "ar": "اقرأ شروط كل سكن ووافق عليها",
+    "tr": "Her konaklamanın koşullarını okuyun ve kabul edin"
+  },
+  "Housing terms have not been accepted or have changed. Review and accept the current terms for each accommodation.": {
+    "ar": "لم تتم الموافقة على شروط السكن أو تم تحديثها. راجع الشروط الحالية لكل سكن ووافق عليها.",
+    "tr": "Konaklama koşulları kabul edilmedi veya değişti. Her konaklamanın güncel koşullarını inceleyip kabul edin."
   }
 }

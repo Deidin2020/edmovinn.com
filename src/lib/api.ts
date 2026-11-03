@@ -45,7 +45,15 @@ export type Student = {
   date_of_birth?: string;
 };
 export type Session = { user: Student; csrf: string };
+export type HousingTermsDocument = {
+  id: number;
+  name: string;
+  size: number;
+  uploaded_at: string;
+  url: string;
+};
 export type Room = {
+  housing_terms?: HousingTermsDocument | null;
   price_id?: number | null;
   offer_id?: string;
   slug: string;
@@ -83,6 +91,7 @@ export type Room = {
   review_required?: boolean;
 };
 export type Accommodation = {
+  housing_terms?: HousingTermsDocument | null;
   slug: string;
   media: { url: string; caption: string }[];
   id: number;
@@ -135,5 +144,6 @@ export type Booking = {
   latest_payment_status: string | null;
 };
 
-export const offerQuery = (priceId?: number | null) => priceId ? `?price_id=${priceId}` : "";
-export const roomLink = (room: Room) => `/rooms/${room.slug || room.id}${offerQuery(room.price_id)}`;
+export const offerQuery = (priceId?: number | null) => (priceId ? `?price_id=${priceId}` : "");
+export const roomLink = (room: Room) =>
+  `/rooms/${room.slug || room.id}${offerQuery(room.price_id)}`;

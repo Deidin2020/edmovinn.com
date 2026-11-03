@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSiteContent } from "./ManagedPage";
+import { useBookingCopy } from "@/content/booking-copy";
 
 export function Footer() {
   const { t, setLanguage } = useLanguage();
+  const c = useBookingCopy();
   const contact = useSiteContent("contact");
   const footer = useSiteContent("footer");
   const phone = contact.data?.phone || t("footer.contact.phone");
@@ -34,14 +36,12 @@ export function Footer() {
                   {t(key)}
                 </Link>
               ))}
-              <a
+              <Link
                 className="block text-sm text-white/80 hover:text-white"
-                href="/documents/movinn-housing-contract-and-regulations-2026-09-15.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+                to="/terms"
               >
-                {t("footer.housingContract")}
-              </a>
+                {c("Housing terms")}
+              </Link>
             </div>
           </div>
           <div className="space-y-3">
