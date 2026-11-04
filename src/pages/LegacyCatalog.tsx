@@ -487,16 +487,6 @@ export function LegacyRoom() {
           </span>
         </div>
         <Gallery key={r.id} images={r.media} name={r.name} />
-        {residence.data ? (
-          <ResidenceAmenities property={residence.data} />
-        ) : residence.isError ? (
-          <div role="alert" className="mb-8 space-y-3 rounded-lg border p-6">
-            <p>{c("We could not load the residence facilities and transportation.")}</p>
-            <Button variant="outline" onClick={() => void residence.refetch()}>
-              {c("Try again")}
-            </Button>
-          </div>
-        ) : null}
         {r.housing_terms && (
           <div className="mb-8">
             <HousingTerms
@@ -573,6 +563,16 @@ export function LegacyRoom() {
             ))}
           </div>
         </section>
+        {residence.data ? (
+          <ResidenceAmenities property={residence.data} />
+        ) : residence.isError ? (
+          <div role="alert" className="mb-8 space-y-3 rounded-lg border p-6">
+            <p>{c("We could not load the residence facilities and transportation.")}</p>
+            <Button variant="outline" onClick={() => void residence.refetch()}>
+              {c("Try again")}
+            </Button>
+          </div>
+        ) : null}
         <section>
           <div className="flex justify-between mb-6">
             <h2 className="text-xl font-semibold">{c("Similar Rooms")}</h2>

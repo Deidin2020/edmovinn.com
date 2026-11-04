@@ -95,13 +95,13 @@ export function ResidenceAmenities({ property }: { property: Accommodation }) {
         </section>
       )}
       {journeys.length > 0 && (
-        <section aria-labelledby="residence-transport-title">
-          <h2 id="residence-transport-title" className="mb-2 text-2xl font-semibold text-primary">
+        <section aria-labelledby="residence-transport-title" className="rounded-lg border bg-card p-6">
+          <h2 id="residence-transport-title" className="mb-6 text-xl font-semibold">
             {c("Transportation")}
           </h2>
-          <ul className="divide-y divide-border">
+          <ul className="grid gap-3 md:grid-cols-2">
             {journeys.map((journey, index) => (
-              <li key={index} className="flex items-start gap-3 py-4">
+              <li key={index} className="flex min-w-0 items-start gap-3 rounded-xl border border-primary/15 bg-primary/5 p-4 sm:p-5">
                 <MapPin aria-hidden="true" className="mt-1 size-5 shrink-0 text-primary" strokeWidth={1.65} />
                 <div className="min-w-0 flex-1 break-words">
                   {journey.destination && <h3 className="font-semibold">{journey.destination}</h3>}
