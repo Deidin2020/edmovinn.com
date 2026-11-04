@@ -283,7 +283,8 @@ export function LegacyCheckout() {
   const residences = [
     ...new Map((availability.data ?? []).map((room) => [room.property_id, room])).values(),
   ];
-  const allTermsAccepted = residences.every(
+  const residencesWithTerms = residences.filter((room) => room.housing_terms);
+  const allTermsAccepted = residencesWithTerms.every(
     (room) => !room.housing_terms || acceptedTerms[room.property_id] === room.housing_terms.id,
   );
   const [key] = useState(() => crypto.randomUUID());
@@ -718,28 +719,30 @@ export function LegacyCheckout() {
                         {readableDate(details.start_date)} — {readableDate(details.end_date)}
                       </p>
                       <BookingTotals items={items} />
-                      <div className="space-y-4">
-                        <h3 className="font-semibold">
-                          {c("Read and accept each accommodation’s housing terms")}
-                        </h3>
-                        {residences.map((room) => (
-                          <HousingTerms
-                            key={`${room.property_id}:${room.housing_terms?.id ?? 0}`}
-                            name={room.property_name}
-                            document={room.housing_terms}
-                            checked={
-                              !!room.housing_terms &&
-                              acceptedTerms[room.property_id] === room.housing_terms.id
-                            }
-                            onAccept={(accepted) =>
-                              setAcceptedTerms((previous) => ({
-                                ...previous,
-                                [room.property_id]: accepted ? room.housing_terms!.id : 0,
-                              }))
-                            }
-                          />
-                        ))}
-                      </div>
+                      {residencesWithTerms.length > 0 && (
+                        <div className="space-y-4">
+                          <h3 className="font-semibold">
+                            {c("Read and accept each accommodation’s housing terms")}
+                          </h3>
+                          {residencesWithTerms.map((room) => (
+                            <HousingTerms
+                              key={`${room.property_id}:${room.housing_terms?.id ?? 0}`}
+                              name={room.property_name}
+                              document={room.housing_terms}
+                              checked={
+                                !!room.housing_terms &&
+                                acceptedTerms[room.property_id] === room.housing_terms.id
+                              }
+                              onAccept={(accepted) =>
+                                setAcceptedTerms((previous) => ({
+                                  ...previous,
+                                  [room.property_id]: accepted ? room.housing_terms!.id : 0,
+                                }))
+                              }
+                            />
+                          ))}
+                        </div>
+                      )}
                       <p className="text-sm text-muted-foreground">
                         {c(
                           "Prices and available beds will be checked when you submit. Final stay pricing is confirmed by the property.",

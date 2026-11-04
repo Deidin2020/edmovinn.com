@@ -595,7 +595,7 @@
       "clear_all": "مسح الكل"
     },
     "accommodation": {
-      "title": "الإقامات",
+      "title": "السكنات",
       "room_summary": "ملخص الغرفة",
       "room_about": "حول الغرفة",
       "about_room": "حول الغرفة",
@@ -627,7 +627,7 @@
       "Results": "النتائج",
       "Room": "غرفة",
       "Accommodation": "الإقامة",
-      "accommodations": "الإقامات",
+      "accommodations": "السكنات",
       "no_results_try_agin": "لم يتم العثور على نتائج. يرجى المحاولة باستخدام فلاتر مختلفة."
     },
     "actions": {
