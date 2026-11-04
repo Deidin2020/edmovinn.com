@@ -1,8 +1,23 @@
-import { MapPin } from "lucide-react";
+import { Bath, BellRing, BookOpen, Check, Clock3, Coffee, Dumbbell, Footprints, Heater, MapPin, MoonStar, Refrigerator, Utensils, WashingMachine, Waves, Wifi, type LucideIcon } from "lucide-react";
 import { useBookingCopy } from "@/content/booking-copy";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Accommodation } from "@/lib/api";
 
+const facilityIcons: Record<string, LucideIcon> = {
+  "laundry room": WashingMachine,
+  gym: Dumbbell,
+  heating: Heater,
+  refrigerator: Refrigerator,
+  library: BookOpen,
+  sauna: Waves,
+  "turkish bath": Bath,
+  mosque: MoonStar,
+  cafeteria: Coffee,
+  buffet: Utensils,
+  "reception hall": BellRing,
+  wifi: Wifi,
+  "wi-fi": Wifi,
+};
 type Journey = { destination: string; service: string; duration: string; walk?: string };
 
 function residenceJourneys(
@@ -60,62 +75,46 @@ export function ResidenceAmenities({ property }: { property: Accommodation }) {
       {property.facilities.length > 0 && (
         <section
           aria-labelledby="residence-facilities-title"
-          className="rounded-lg border bg-card text-card-foreground shadow-sm"
         >
-          <h2
-            id="residence-facilities-title"
-            className="p-6 text-2xl font-semibold leading-none tracking-tight text-primary"
-          >
+          <h2 id="residence-facilities-title" className="mb-5 text-2xl font-semibold text-primary">
             {c("Facilities")}
           </h2>
-          <ul className="grid grid-cols-2 gap-4 px-6 pb-6 sm:grid-cols-3 lg:grid-cols-6">
-            {property.facilities.map((facility) => (
-              <li
-                key={facility}
-                className="flex min-w-0 flex-col items-center p-2 text-center sm:p-4"
-              >
-                <span className="max-w-full break-words rounded-full bg-green-100 p-3 text-sm font-medium text-foreground">
-                  {c(facility)}
-                </span>
-              </li>
-            ))}
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-4">
+            {property.facilities.map((facility) => {
+              const Icon = facilityIcons[facility.trim().toLowerCase()] ?? Check;
+              return (
+                <li key={facility} className="flex min-w-0 items-center gap-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary/[0.07] text-primary">
+                    <Icon aria-hidden="true" className="size-5" strokeWidth={1.65} />
+                  </span>
+                  <span className="min-w-0 break-words text-sm font-medium">{c(facility)}</span>
+                </li>
+              );
+            })}
           </ul>
         </section>
       )}
       {journeys.length > 0 && (
-        <section
-          aria-labelledby="residence-transport-title"
-          className="rounded-lg border border-primary/20 bg-primary/10 text-card-foreground shadow-sm"
-        >
-          <h2
-            id="residence-transport-title"
-            className="p-6 text-2xl font-semibold leading-none tracking-tight text-primary"
-          >
+        <section aria-labelledby="residence-transport-title">
+          <h2 id="residence-transport-title" className="mb-2 text-2xl font-semibold text-primary">
             {c("Transportation")}
           </h2>
-          <ul className="space-y-4 px-6 pb-6">
+          <ul className="divide-y divide-border">
             {journeys.map((journey, index) => (
-              <li
-                key={index}
-                className={`grid items-center gap-4 rounded-lg border border-primary/10 bg-white p-4 shadow-sm ${journey.destination ? "grid-cols-[minmax(0,3fr)_minmax(0,2fr)]" : ""}`}
-              >
-                {journey.destination && (
-                  <div className="flex min-w-0 items-center gap-3">
-                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 sm:size-12">
-                      <MapPin aria-hidden="true" className="size-6 text-primary" />
-                    </span>
-                    <div className="min-w-0 break-words">
-                      <h3 className="font-semibold text-foreground">{journey.destination}</h3>
-                      <p className="text-sm text-muted-foreground">{c(property.country)}</p>
-                    </div>
+              <li key={index} className="flex items-start gap-3 py-4">
+                <MapPin aria-hidden="true" className="mt-1 size-5 shrink-0 text-primary" strokeWidth={1.65} />
+                <div className="min-w-0 flex-1 break-words">
+                  {journey.destination && <h3 className="font-semibold">{journey.destination}</h3>}
+                  <div className="flex flex-wrap items-baseline gap-x-2 whitespace-pre-line text-sm text-muted-foreground">
+                    <span>{journey.service}</span>
+                    {journey.destination && property.country && <span>{c(property.country)}</span>}
                   </div>
-                )}
-                <div
-                  className={`min-w-0 whitespace-pre-line break-words text-sm ${journey.destination ? "text-end" : ""}`}
-                >
-                  <p className="text-primary">{journey.service}</p>
-                  {journey.duration && <p className="text-muted-foreground">{journey.duration}</p>}
-                  {journey.walk && <p className="text-muted-foreground">{journey.walk}</p>}
+                  {(journey.duration || journey.walk) && (
+                    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-foreground">
+                      {journey.duration && <span className="inline-flex items-center gap-1.5"><Clock3 aria-hidden="true" className="size-4 text-primary" />{journey.duration}</span>}
+                      {journey.walk && <span className="inline-flex items-center gap-1.5"><Footprints aria-hidden="true" className="size-4 text-primary" />{journey.walk}</span>}
+                    </div>
+                  )}
                 </div>
               </li>
             ))}
