@@ -975,6 +975,10 @@
     "ar": "المرافق والمواصلات",
     "tr": "Olanaklar ve ulaşım"
   },
+  "We could not load the residence facilities and transportation.": {
+    "ar": "تعذّر تحميل مرافق السكن ومواصلاته.",
+    "tr": "Konaklamanın olanakları ve ulaşım bilgileri yüklenemedi."
+  },
   "View rooms, facilities and transportation": {
     "ar": "عرض الغرف والمرافق والمواصلات",
     "tr": "Odaları, olanakları ve ulaşımı görüntüle"

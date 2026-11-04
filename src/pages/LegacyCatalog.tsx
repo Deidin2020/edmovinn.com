@@ -401,6 +401,17 @@ function Gallery({
     </>
   );
 }
+function usePublicResidence(slug?: string, id?: string | number) {
+  const path = slug
+    ? `/public/properties/by-slug/${encodeURIComponent(slug)}`
+    : `/public/properties/${id}`;
+  return useQuery({
+    queryKey: ["legacy-accommodation", path],
+    queryFn: () => api<Accommodation>(path),
+    enabled: Boolean(slug || id),
+  });
+}
+
 export function LegacyRoom() {
   const { slug, id } = useParams();
   const [params] = useSearchParams();
@@ -422,6 +433,7 @@ export function LegacyRoom() {
     queryFn: () => api<Catalog>("/public/catalog?per_page=100"),
   });
   const r = result.data;
+  const residence = usePublicResidence(r?.property_slug, r?.property_id);
   if (!r)
     return (
       <div className="max-w-7xl mx-auto p-6" role={result.error ? "alert" : undefined}>
@@ -475,6 +487,16 @@ export function LegacyRoom() {
           </span>
         </div>
         <Gallery key={r.id} images={r.media} name={r.name} />
+        {residence.data ? (
+          <ResidenceAmenities property={residence.data} />
+        ) : residence.isError ? (
+          <div role="alert" className="mb-8 space-y-3 rounded-lg border p-6">
+            <p>{c("We could not load the residence facilities and transportation.")}</p>
+            <Button variant="outline" onClick={() => void residence.refetch()}>
+              {c("Try again")}
+            </Button>
+          </div>
+        ) : null}
         {r.housing_terms && (
           <div className="mb-8">
             <HousingTerms
@@ -580,15 +602,7 @@ export function LegacyRoom() {
 export function LegacyAccommodation() {
   const { slug, id } = useParams();
   const c = useBookingCopy();
-  const result = useQuery({
-    queryKey: ["legacy-accommodation", slug || id],
-    queryFn: () =>
-      api<Accommodation>(
-        slug
-          ? `/public/properties/by-slug/${encodeURIComponent(slug)}`
-          : `/public/properties/${id}`,
-      ),
-  });
+  const result = usePublicResidence(slug, id);
   const p = result.data;
   useEffect(() => {
     if (!p) return;
