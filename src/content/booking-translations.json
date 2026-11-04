@@ -819,9 +819,9 @@
     "ar": "كلمتا المرور غير متطابقتين.",
     "tr": "Şifreler eşleşmiyor."
   },
-  "Use at least 12 characters for your password.": {
-    "ar": "استخدم 12 حرفًا على الأقل لكلمة المرور.",
-    "tr": "Şifreniz en az 12 karakter olmalıdır."
+  "Password must be exactly 8 characters.": {
+    "ar": "يجب أن تتكوّن كلمة المرور من ٨ أحرف بالضبط.",
+    "tr": "Şifreniz tam 8 karakter olmalıdır."
   },
   "Show password": {
     "ar": "إظهار كلمة المرور",
@@ -931,9 +931,9 @@
     "ar": "رابط الاستعادة انتهت صلاحيته أو استُخدم من قبل.",
     "tr": "Bu sıfırlama bağlantısının süresi dolmuş veya zaten kullanılmış."
   },
-  "Use matching passwords of 12 to 72 characters.": {
-    "ar": "أدخل كلمتي مرور متطابقتين بطول ١٢ إلى ٧٢ حرفًا.",
-    "tr": "12–72 karakter uzunluğunda eşleşen şifreler kullanın."
+  "Use matching passwords of exactly 8 characters.": {
+    "ar": "أدخل كلمتي مرور متطابقتين بطول ٨ أحرف بالضبط.",
+    "tr": "Tam 8 karakter uzunluğunda eşleşen şifreler kullanın."
   },
   "Google sign-in is temporarily unavailable. Please use your email or phone number.": {
     "ar": "الدخول باستخدام Google غير متاح مؤقتًا. استخدم البريد أو رقم الهاتف.",

@@ -79,7 +79,7 @@ export function LegacyAuth() {
             type={show ? "text" : "password"}
             autoComplete={register || recovery ? "new-password" : "current-password"}
             required
-            minLength={register || recovery ? 12 : 1}
+            pattern={register || recovery ? ".{8}" : undefined}
             maxLength={72}
             className={input + " ps-10 pe-12"}
           />
@@ -110,7 +110,7 @@ export function LegacyAuth() {
             {mode === "forgot" ? <label className="block space-y-2 text-sm">{t("inputs.email")}<input className={input} name="email" type="email" required autoComplete="email" maxLength={254}/></label> : <>
               {password("password",t("inputs.password"))}
               {password("password_confirmation",t("inputs.password_confirmation"))}
-              <p className="text-xs text-muted-foreground">{c("Use at least 12 characters for your password.")}</p>
+              <p className="text-xs text-muted-foreground">{c("Password must be exactly 8 characters.")}</p>
             </>}
             {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
             <Button disabled={busy} className="w-full">{c(busy ? "Please wait…" : mode === "reset" ? "Save password" : "Send reset link")}</Button>
@@ -180,7 +180,7 @@ export function LegacyAuth() {
                   <>
                     {password("password_confirmation", t("inputs.password_confirmation"))}
                     <p className="text-xs text-muted-foreground">
-                      {c("Use at least 12 characters for your password.")}
+                      {c("Password must be exactly 8 characters.")}
                     </p>
                   </>
                 )}
