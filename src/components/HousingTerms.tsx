@@ -18,41 +18,34 @@ export function HousingTerms({
   onAccept?: (accepted: boolean) => void;
 }) {
   const c = useBookingCopy();
+  if (!document) return null;
   return (
     <section className="min-w-0 space-y-3 rounded-xl border bg-card p-5">
       <h3 className="flex items-start gap-2 font-semibold">
         <FileText aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" />
         <span>{name}</span>
       </h3>
-      {document ? (
-        <>
-          <a
-            href={mediaUrl(document.url)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary underline underline-offset-4"
-          >
-            {c("Read housing terms (PDF)")}
-            <ExternalLink aria-hidden="true" className="h-4 w-4 shrink-0" />
-          </a>
-          <p className="break-all text-xs text-muted-foreground">{document.name}</p>
-          {onAccept && (
-            <label className="flex items-start gap-3 text-sm leading-6">
-              <input
-                type="checkbox"
-                required
-                checked={checked ?? false}
-                onChange={(event) => onAccept(event.target.checked)}
-                className="mt-1 h-4 w-4 shrink-0 accent-primary"
-              />
-              <span>{c("I have read and agree to the housing terms for this accommodation.")}</span>
-            </label>
-          )}
-        </>
-      ) : (
-        <p className="text-sm text-muted-foreground">
-          {c("No housing terms document has been uploaded for this accommodation.")}
-        </p>
+      <a
+        href={mediaUrl(document.url)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 text-sm font-medium text-primary underline underline-offset-4"
+      >
+        {c("Read housing terms (PDF)")}
+        <ExternalLink aria-hidden="true" className="h-4 w-4 shrink-0" />
+      </a>
+      <p className="break-all text-xs text-muted-foreground">{document.name}</p>
+      {onAccept && (
+        <label className="flex items-start gap-3 text-sm leading-6">
+          <input
+            type="checkbox"
+            required
+            checked={checked ?? false}
+            onChange={(event) => onAccept(event.target.checked)}
+            className="mt-1 h-4 w-4 shrink-0 accent-primary"
+          />
+          <span>{c("I have read and agree to the housing terms for this accommodation.")}</span>
+        </label>
       )}
     </section>
   );

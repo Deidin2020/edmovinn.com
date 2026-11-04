@@ -476,12 +476,14 @@ export function LegacyRoom() {
           </span>
         </div>
         <Gallery key={r.id} images={r.media} name={r.name} />
-        <div className="mb-8">
-          <HousingTerms
-            name={c("Housing terms") + " — " + r.property_name}
-            document={r.housing_terms}
-          />
-        </div>
+        {r.housing_terms && (
+          <div className="mb-8">
+            <HousingTerms
+              name={c("Housing terms") + " — " + r.property_name}
+              document={r.housing_terms}
+            />
+          </div>
+        )}
         <section className="bg-secondary/20 rounded-lg p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">{c("Room Summary")}</h2>
           <p className="text-muted-foreground">{r.description}</p>
@@ -629,9 +631,11 @@ export function LegacyAccommodation() {
           <Gallery key={p.id} images={p.media} name={p.name} className="" />
         </div>
       </section>
-      <div className="mb-8">
-        <HousingTerms name={c("Housing terms") + " — " + p.name} document={p.housing_terms} />
-      </div>
+      {p.housing_terms && (
+        <div className="mb-8">
+          <HousingTerms name={c("Housing terms") + " — " + p.name} document={p.housing_terms} />
+        </div>
+      )}
       <section
         id="residence-rooms"
         aria-labelledby="residence-rooms-title"
