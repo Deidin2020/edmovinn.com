@@ -72,28 +72,6 @@ export function ResidenceAmenities({ property }: { property: Accommodation }) {
       aria-label={c("Facilities and transportation")}
       className="mb-8 scroll-mt-24 space-y-8"
     >
-      {property.facilities.length > 0 && (
-        <section
-          aria-labelledby="residence-facilities-title"
-        >
-          <h2 id="residence-facilities-title" className="mb-5 text-2xl font-semibold text-primary">
-            {c("Facilities")}
-          </h2>
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-4">
-            {property.facilities.map((facility) => {
-              const Icon = facilityIcons[facility.trim().toLowerCase()] ?? Check;
-              return (
-                <li key={facility} className="flex min-w-0 items-center gap-3">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary/[0.07] text-primary">
-                    <Icon aria-hidden="true" className="size-5" strokeWidth={1.65} />
-                  </span>
-                  <span className="min-w-0 break-words text-sm font-medium">{c(facility)}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      )}
       {journeys.length > 0 && (
         <section aria-labelledby="residence-transport-title" className="rounded-lg border bg-card p-6">
           <h2 id="residence-transport-title" className="mb-6 text-xl font-semibold">
@@ -118,6 +96,28 @@ export function ResidenceAmenities({ property }: { property: Accommodation }) {
                 </div>
               </li>
             ))}
+          </ul>
+        </section>
+      )}
+      {property.facilities.length > 0 && (
+        <section
+          aria-labelledby="residence-facilities-title"
+        >
+          <h2 id="residence-facilities-title" className="mb-5 text-2xl font-semibold text-primary">
+            {c("Facilities")}
+          </h2>
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-3 lg:grid-cols-4">
+            {property.facilities.map((facility) => {
+              const Icon = facilityIcons[facility.trim().toLowerCase()] ?? Check;
+              return (
+                <li key={facility} className="flex min-w-0 items-center gap-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-primary/[0.07] text-primary">
+                    <Icon aria-hidden="true" className="size-5" strokeWidth={1.65} />
+                  </span>
+                  <span className="min-w-0 break-words text-sm font-medium">{c(facility)}</span>
+                </li>
+              );
+            })}
           </ul>
         </section>
       )}
