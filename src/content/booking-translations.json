@@ -971,6 +971,46 @@
     "ar": "المرافق",
     "tr": "Olanaklar"
   },
+  "Facilities and transportation": {
+    "ar": "المرافق والمواصلات",
+    "tr": "Olanaklar ve ulaşım"
+  },
+  "View rooms, facilities and transportation": {
+    "ar": "عرض الغرف والمرافق والمواصلات",
+    "tr": "Odaları, olanakları ve ulaşımı görüntüle"
+  },
+  "on foot": {
+    "ar": "مشيًا",
+    "tr": "yürüyerek"
+  },
+  "Transportation": {
+    "ar": "المواصلات",
+    "tr": "Ulaşım"
+  },
+  "Metro": {
+    "ar": "مترو",
+    "tr": "Metro"
+  },
+  "Bus": {
+    "ar": "حافلة",
+    "tr": "Otobüs"
+  },
+  "Metrobus": {
+    "ar": "متروبوس",
+    "tr": "Metrobüs"
+  },
+  "Tram": {
+    "ar": "ترام",
+    "tr": "Tramvay"
+  },
+  "Walking": {
+    "ar": "مشيًا",
+    "tr": "Yürüyerek"
+  },
+  "Turkey": {
+    "ar": "تركيا",
+    "tr": "Türkiye"
+  },
   "Reservation Types": {
     "ar": "أنواع الإقامة",
     "tr": "Konaklama Türleri"

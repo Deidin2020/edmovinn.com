@@ -12,8 +12,6 @@ import {
   Layers,
   MapPin,
   Maximize,
-  GraduationCap,
-  Clock,
   BedDouble,
   ShieldCheck,
   Wallet,
@@ -23,6 +21,7 @@ import { api, mediaUrl, roomLink, type Room, type Catalog, type Accommodation } 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBookingCopy } from "@/content/booking-copy";
 import { bookingUnavailableMessage } from "@/lib/booking-availability";
+import { ResidenceAmenities } from "@/components/ResidenceAmenities";
 import { HousingTerms } from "@/components/HousingTerms";
 import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
@@ -598,7 +597,7 @@ export function LegacyAccommodation() {
     };
   }, [p]);
   if (!p) return <p className="p-8">{result.error ? result.error.message : c("Loading…")}</p>;
-  const transportNotes = [...new Set(p.rooms.map((room) => room.transport_notes).filter(Boolean))];
+  const hasAmenities = p.facilities.length > 0 || p.transportation.length > 0 || p.rooms.some((room) => room.transport_notes?.trim());
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -615,6 +614,11 @@ export function LegacyAccommodation() {
               {c("View all rooms")} ({p.rooms.length})
             </a>
           </Button>
+          {hasAmenities && (
+            <Button asChild variant="outline">
+              <a href="#residence-amenities">{c("Facilities and transportation")}</a>
+            </Button>
+          )}
           <Button asChild variant="outline">
             <Link to="/accommodations">{c("All residences")}</Link>
           </Button>
@@ -627,6 +631,23 @@ export function LegacyAccommodation() {
         <div className="p-6 pt-0">
           <p className="text-muted-foreground mb-6">{p.description}</p>
           <Gallery key={p.id} images={p.media} name={p.name} className="" />
+        </div>
+      </section>
+      <ResidenceAmenities property={p} />
+      <section className="rounded-lg border bg-card shadow-sm mb-8">
+        <h2 className="p-6 text-2xl font-semibold leading-none tracking-tight text-primary">
+          {c("Reservation Types")}
+        </h2>
+        <div className="p-6 pt-0 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <span className="rounded-full bg-secondary/50 text-secondary-foreground text-xs font-semibold text-center py-2 px-2.5">
+            {c(
+              p.gender === "Male"
+                ? "Males accommodation"
+                : p.gender === "Female"
+                  ? "Females accommodation"
+                  : "Mixed accommodation",
+            )}
+          </span>
         </div>
       </section>
       <div className="mb-8">
@@ -665,93 +686,6 @@ export function LegacyAccommodation() {
           </p>
         )}
       </section>
-      {p.facilities.length > 0 && (
-        <section className="rounded-lg border bg-card shadow-sm mb-8">
-          <h2 className="p-6 text-2xl font-semibold leading-none tracking-tight text-primary">
-            {c("Facilities")}
-          </h2>
-          <div className="p-6 pt-0 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {p.facilities.map((f) => (
-              <div className="flex items-center justify-center text-center p-2 sm:p-4" key={f}>
-                <span className="p-3 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                  {c(f)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-      <section className="rounded-lg border bg-card shadow-sm mb-8">
-        <h2 className="p-6 text-2xl font-semibold leading-none tracking-tight text-primary">
-          {c("Reservation Types")}
-        </h2>
-        <div className="p-6 pt-0 grid grid-cols-2 md:grid-cols-4 gap-3">
-          <span className="rounded-full bg-secondary/50 text-secondary-foreground text-xs font-semibold text-center py-2 px-2.5">
-            {c(
-              p.gender === "Male"
-                ? "Males accommodation"
-                : p.gender === "Female"
-                  ? "Females accommodation"
-                  : "Mixed accommodation",
-            )}
-          </span>
-        </div>
-      </section>
-      {(p.transportation.length > 0 || transportNotes.length > 0) && (
-        <section className="rounded-lg border bg-primary/10 border-primary/20 shadow-sm">
-          <h2 className="p-6 text-2xl font-semibold leading-none tracking-tight text-primary">
-            {c("Nearest Universities To The Residence")}
-          </h2>
-          <div className="p-6 pt-0 space-y-4">
-            {p.transportation.map((route, index) => (
-              <article
-                className="rounded-lg border border-primary/10 bg-white shadow-sm p-4 flex flex-wrap items-center justify-between gap-4"
-                key={`${route.destination}-${index}`}
-              >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
-                    <GraduationCap className="text-primary w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">{route.destination}</h3>
-                    <p className="text-sm text-muted-foreground">{p.country}</p>
-                  </div>
-                </div>
-                <div className="text-primary text-sm space-y-1">
-                  <p>
-                    {c(route.type)}
-                    {route.name && route.name !== route.type ? ` · ${route.name}` : ""}
-                  </p>
-                  <p className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    {route.travel_minutes} {c("min")}
-                  </p>
-                  {route.walking_minutes > 0 && (
-                    <p>
-                      {route.walking_minutes} {c("min walk")}
-                    </p>
-                  )}
-                </div>
-              </article>
-            ))}
-            {p.transportation.length === 0 &&
-              transportNotes.map((note) => (
-                <article
-                  key={note}
-                  className="rounded-lg border border-primary/10 bg-white shadow-sm p-4"
-                >
-                  {p.university && (
-                    <h3 className="font-semibold flex items-center gap-3 mb-2">
-                      <GraduationCap className="w-6 h-6 text-primary shrink-0" />
-                      {p.university}
-                    </h3>
-                  )}
-                  <p className="text-sm text-primary whitespace-pre-line">{note}</p>
-                </article>
-              ))}
-          </div>
-        </section>
-      )}
     </div>
   );
 }

@@ -37,7 +37,7 @@ export function ResidenceCard({ property: p }: { property: Accommodation }) {
             <p className="line-clamp-2 text-sm text-muted-foreground">{p.description}</p>
           )}
           <span className="flex items-center gap-2 pt-2 font-semibold text-primary">
-            {c("View residence and rooms")} <ArrowUpRight className="h-4 w-4 rtl:-rotate-90" />
+            {c("View rooms, facilities and transportation")} <ArrowUpRight className="h-4 w-4 rtl:-rotate-90" />
           </span>
         </div>
       </Link>
