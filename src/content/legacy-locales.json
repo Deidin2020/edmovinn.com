@@ -555,8 +555,8 @@
         "placeholder": "اختر المدينة"
       },
       "gender": {
-        "title": "الجنس",
-        "placeholder": "اختر الجنس"
+        "title": "نوع السكن",
+        "placeholder": "اختر نوع السكن"
       },
       "room": {
         "title": "نوع الغرفة",
