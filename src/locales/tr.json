@@ -56,7 +56,8 @@
     "cities": {
       "istanbul": "İstanbul"
     },
-    "searchUnavailable": "İlanlar sayfası bağlandığında arama sonuçları burada kullanılabilir olacak."
+    "searchUnavailable": "İlanlar sayfası bağlandığında arama sonuçları burada kullanılabilir olacak.",
+    "apartment": "Daire"
   },
   "quickBenefits": {
     "studentFocused": {
@@ -275,5 +276,51 @@
     "sampleRoomIntro": "Örnek oda bilgileri · oda seçimi rezervasyon oluşturmaz.",
     "sampleSafety": "Konforlu odaları ve ortak hizmetleri olan öğrenci odaklı bir yaşam ortamı.",
     "sampleRoomTerms": "Yatak ve konum bilgileri örnektir; fiyat, depozito, alan ve tarih sağlanan karttan alınmıştır."
+  },
+  "results": {
+    "title": "{city} Öğrenci Konaklamaları",
+    "allCities": "Türkiye",
+    "count": "Aramanıza uygun {count} yurt",
+    "demoCount": "Aramanıza uygun {count} örnek yurt",
+    "previewNotice": "Geliştirme önizlemesi · Örnek yurtların fiyatları ve müsaitliği temsilidir. Rezervasyon yapılamaz.",
+    "filters": "Filtreler",
+    "clearAll": "Tümünü Temizle",
+    "sort": "Sırala",
+    "recommended": "Önerilen",
+    "low": "Fiyat: Düşükten Yükseğe",
+    "high": "Fiyat: Yüksekten Düşüğe",
+    "map": "Haritayı Göster",
+    "mapTitle": "Yurt Haritası",
+    "mapNotice": "Eşleşen yurtların doğrulanmış koordinatları yok. Doğrulanmış konumlar sağlandığında yurt haritası burada gösterilecek.",
+    "price": "Aylık Fiyat (USD)",
+    "university": "Üniversite",
+    "universitySearch": "Üniversite ara",
+    "universityNotice": "Bu şehir için doğrulanmış üniversite konumları sağlanmadı.",
+    "distance": "Üniversiteye Mesafe",
+    "anyDistance": "Tüm Mesafeler",
+    "within": "{km} km içinde",
+    "facilities": "Olanaklar",
+    "moreFacilities": "Daha Fazla Olanak",
+    "lessFacilities": "Daha Az Olanak",
+    "matchingRoom": "Eşleşen Oda",
+    "roomsFrom": "Oda başlangıç fiyatı",
+    "viewRooms": "Odaları Gör",
+    "empty": "Konaklama bulunamadı",
+    "emptyText": "Daha fazla müsait öğrenci konaklaması keşfetmek için filtrelerinizi değiştirin.",
+    "clearFilters": "Filtreleri Temizle",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "page": "Sayfa {page}",
+    "reference": "Tesis sahibinin sağladığı bilgiler · müsait sonuçlara dahil değil",
+    "referenceNote": "Moveinn’in oda müsaitliği teyit edilmedi. Sağlanan oda koşulları müsait arama sonuçlarından ayrı gösterilir. Galeri fotoğrafı temsilidir.",
+    "demoDescription": "Özel ve paylaşımlı yaşam seçenekleri sunan kurgusal öğrenci yurdu.",
+    "moveinnDescription": "Mall of Istanbul karşısında Basın Ekspres üzerinde; spor salonu, kütüphane ve bildirilen on iki olanağı olan öğrenci yurdu.",
+    "anyGender": "Tüm Yurt Türleri",
+    "allCitiesOption": "Tüm Şehirler",
+    "apply": "Sonuçları Göster",
+    "close": "Filtreleri Kapat",
+    "sampleBadge": "Örnek yurt",
+    "range": "{min} – {max}",
+    "referencePrice": "Bildirilen aylık fiyat"
   }
 }

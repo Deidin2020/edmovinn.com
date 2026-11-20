@@ -40,4 +40,6 @@ use the editor.
 - Use a separate display model for explicitly labeled sample details; never mutate owner records or claim actual verification from a model badge.
 - Share preview favorites through a typed session-only external store keyed by residence and room identifiers; account persistence and dashboard sync require a future authenticated integration.
 - Render all housing gender labels through the shared HousingLabel component to keep their meaning and color consistent.
+- Keep results filtering and URL validation in a browser-safe module; available room matches exclude unconfirmed owner references and sample detail coordinates, so counts and prices never imply live availability.
+- Use an index leaf for accommodation results alongside the existing dynamic detail route, with page-scoped styles, so existing detail URLs and page layouts stay unchanged.
 - Pre-optimize homepage UI dependencies alongside React and reject outdated optimizer requests; mixed dependency generations in an open preview can create separate React dispatchers and crash hooks.

@@ -6,7 +6,8 @@ import { budgetOptions, cities, initialFilters, prepareSearchParams, roomTypes, 
 import logo from '@/assets/edmovinn-logo.png.asset.json';
 import hero from '@/assets/student-istanbul.png.asset.json';
 import { DemoAccommodations } from './demo-accommodations';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { validateResultsSearch } from '@/lib/accommodation-results';
 
 function Logo({ footer = false }: { footer?: boolean }) {
   const { t } = useLanguage();
@@ -18,7 +19,7 @@ function LanguageSwitcher({ footer = false }: { footer?: boolean }) {
 }
 function Navigation({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useLanguage();
-  return <nav aria-label={t('header.menu')} className="main-navigation"><Button variant="link" asChild><Link to="/" hash="home" onClick={onNavigate}>{t('header.home')}</Link></Button><Button variant="ghost" asChild><Link to="/" hash="accommodations" onClick={onNavigate}>{t('header.accommodations')}</Link></Button><Button variant="ghost" disabled>{t('header.universities')}</Button><Button variant="ghost" asChild><Link to="/" hash="how-it-works" onClick={onNavigate}>{t('header.howItWorks')}</Link></Button><Button variant="ghost" disabled>{t('header.about')}</Button></nav>;
+  return <nav aria-label={t('header.menu')} className="main-navigation"><Button variant="link" asChild><Link to="/" hash="home" onClick={onNavigate}>{t('header.home')}</Link></Button><Button variant="ghost" asChild><Link to="/accommodations" onClick={onNavigate}>{t('header.accommodations')}</Link></Button><Button variant="ghost" disabled>{t('header.universities')}</Button><Button variant="ghost" asChild><Link to="/" hash="how-it-works" onClick={onNavigate}>{t('header.howItWorks')}</Link></Button><Button variant="ghost" disabled>{t('header.about')}</Button></nav>;
 }
 export function Header() {
   const { t } = useLanguage();
@@ -40,6 +41,7 @@ export function Hero() {
 }
 export function AccommodationSearch() {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const [filters, setFilters] = useState<SearchFilters>(initialFilters);
   const [message, setMessage] = useState<string | null>(null);
   const [cityOpen, setCityOpen] = useState(false);
@@ -47,7 +49,7 @@ export function AccommodationSearch() {
   const cityRef = useRef<HTMLDivElement>(null);
   useEffect(() => { function outside(e: MouseEvent) { if (e.target instanceof Node && !cityRef.current?.contains(e.target)) setCityOpen(false); } document.addEventListener('mousedown', outside); return () => document.removeEventListener('mousedown', outside); }, []);
   function update(key: keyof SearchFilters, value: string) { setFilters(old => ({ ...old, [key]: value })); setMessage(null); }
-  function submit(e: FormEvent) { e.preventDefault(); const error = validateFilters(filters); if (error) { setMessage(error); return; } prepareSearchParams(filters); setMessage('search.searchUnavailable'); }
+  function submit(e: FormEvent) { e.preventDefault(); const error = validateFilters(filters); if (error) { setMessage(error); return; } void navigate({ to: '/accommodations', search: validateResultsSearch(Object.fromEntries(prepareSearchParams(filters))) }); }
   const fields: { key: 'gender' | 'roomType' | 'budget'; label: string; placeholder: string; icon: LucideIcon; options: readonly string[] }[] = [
     { key: 'gender', label: 'search.gender', placeholder: 'search.genderPlaceholder', icon: UsersRound, options: ['male', 'female'] },
     { key: 'roomType', label: 'search.roomType', placeholder: 'search.anyRoom', icon: BedDouble, options: roomTypes },
@@ -62,7 +64,7 @@ export function QuickBenefits() {
 }
 export function FeaturedAccommodations() {
   const { t } = useLanguage();
-  return <section id="accommodations" className="page-container featured-section" aria-labelledby="featured-title"><div className="section-heading"><h2 id="featured-title">{t('featured.title')}</h2><Button variant="link" disabled>{t('featured.viewAll')}<ArrowRight /></Button></div><DemoAccommodations /></section>;
+  return <section id="accommodations" className="page-container featured-section" aria-labelledby="featured-title"><div className="section-heading"><h2 id="featured-title">{t('featured.title')}</h2><Button variant="link" asChild><Link to="/accommodations">{t('featured.viewAll')}<ArrowRight /></Link></Button></div><DemoAccommodations /></section>;
 }
 const whyBenefits: { key: string; icon: LucideIcon }[] = [{ key: 'smartSearch', icon: Search }, { key: 'verified', icon: MapPin }, { key: 'tracking', icon: ShieldCheck }, { key: 'payments', icon: Star }, { key: 'support', icon: UsersRound }, { key: 'ai', icon: Sparkles }];
 export function WhyChooseEdmovinn() {

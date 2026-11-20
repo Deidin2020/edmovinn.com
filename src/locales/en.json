@@ -56,7 +56,8 @@
     "cities": {
       "istanbul": "Istanbul"
     },
-    "searchUnavailable": "Search results will be available once the listings page is connected."
+    "searchUnavailable": "Search results will be available once the listings page is connected.",
+    "apartment": "Apartment"
   },
   "quickBenefits": {
     "studentFocused": {
@@ -275,5 +276,51 @@
     "sampleRoomIntro": "Sample room information · selection does not create a booking.",
     "sampleSafety": "A student-focused living environment with comfortable rooms and shared services.",
     "sampleRoomTerms": "Sample bed and location details; price, deposit, size and date follow the supplied card."
+  },
+  "results": {
+    "title": "Student Accommodation in {city}",
+    "allCities": "Turkey",
+    "count": "{count} residences match your search",
+    "demoCount": "{count} sample residences match your search",
+    "previewNotice": "Development preview · Demo residences have illustrative prices and availability. No booking is available.",
+    "filters": "Filters",
+    "clearAll": "Clear All",
+    "sort": "Sort by",
+    "recommended": "Recommended",
+    "low": "Price: Low to High",
+    "high": "Price: High to Low",
+    "map": "Show Map",
+    "mapTitle": "Residence Map",
+    "mapNotice": "No matching residences have confirmed coordinates. A residence map will appear here when verified locations are supplied.",
+    "price": "Monthly Price (USD)",
+    "university": "University",
+    "universitySearch": "Search universities",
+    "universityNotice": "No confirmed university locations are supplied for this city.",
+    "distance": "Distance to University",
+    "anyDistance": "Any Distance",
+    "within": "Within {km} km",
+    "facilities": "Facilities",
+    "moreFacilities": "More Facilities",
+    "lessFacilities": "Fewer Facilities",
+    "matchingRoom": "Matching Room",
+    "roomsFrom": "Rooms from",
+    "viewRooms": "View Rooms",
+    "empty": "No accommodations found",
+    "emptyText": "Try adjusting your filters to discover more available student housing options.",
+    "clearFilters": "Clear Filters",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page}",
+    "reference": "Owner-supplied reference · not included in available results",
+    "referenceNote": "Moveinn’s room availability is unconfirmed. Supplied room terms are shown separately from available search results. Gallery photo is illustrative.",
+    "demoDescription": "A fictional student residence with private and shared living options.",
+    "moveinnDescription": "Student residence on Basın Ekspres, opposite Mall of Istanbul, with a gym, library and twelve supplied facilities.",
+    "anyGender": "Any Housing Type",
+    "allCitiesOption": "All Cities",
+    "apply": "Show Results",
+    "close": "Close Filters",
+    "sampleBadge": "Demo residence",
+    "range": "{min} – {max}",
+    "referencePrice": "Supplied monthly price"
   }
 }
