@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { canRequestBooking, getResidence, moveinn, prepareRoomSelection, type Residence } from '@/lib/residences';
+import { canRequestBooking, detailPreview, getResidence, moveinn, prepareRoomSelection, type Residence } from '@/lib/residences';
 
 describe('Accommodation details selection rules', () => {
   it('prepares the selected room with its actual record values', () => {
@@ -15,6 +15,17 @@ describe('Accommodation details selection rules', () => {
   it('does not present owner-supplied Moveinn as verified', () => { expect(moveinn.verified).toBe(false); expect(moveinn.isMock).toBe(false); expect(canRequestBooking(moveinn)).toBe(false); });
   it('does not invent coordinates or university distances', () => { expect(moveinn.coordinates).toBeUndefined(); expect(moveinn.universities).toEqual([]); });
   it('uses male housing for Moveinn', () => { expect(moveinn.genderKey).toBe('search.male'); });
+  it('provides mandatory gender for every demo residence', () => {
+    expect(['demo-twin', 'demo-single', 'demo-studio', 'demo-shared'].map(slug => getResidence(slug)?.genderKey)).toEqual(['search.male', 'search.female', 'search.female', 'search.male']);
+  });
+  it('fills only a separate display model without claiming real verification', () => {
+    const preview = detailPreview(moveinn);
+    expect(preview.coordinates).toEqual({ lat: 41.0628, lng: 28.8077 });
+    expect(preview.rooms[0]?.bed).toBe('details.sampleBed');
+    expect(moveinn.coordinates).toBeUndefined();
+    expect(moveinn.rooms[0]?.bed).toBeUndefined();
+    expect(preview.verified).toBe(false);
+  });
   it('uses the supplied location on Basın Ekspres opposite Mall of Istanbul', () => { expect(moveinn.address).toBe('Basın Ekspres, Küçükçekmece, Istanbul — opposite Mall of Istanbul'); });
   it('lists exactly the twelve owner-supplied services', () => { expect(moveinn.facilities).toEqual(['buffet', 'cafeteria', 'gym', 'heating', 'laundry', 'library', 'mosque', 'receptionHall', 'refrigerator', 'sauna', 'turkishBath', 'wifi']); });
   it('does not invent additional Moveinn room types', () => { expect(moveinn.rooms.map(room => room.type)).toEqual(['quadruple']); });

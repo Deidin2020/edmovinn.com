@@ -196,7 +196,7 @@
     "roomAvailability": "Oda Durumu",
     "request": "Rezervasyon Talebi",
     "support": "Destek ile İletişim",
-    "bookingUnavailable": "Rezervasyon ve destek henüz bağlı değil. Talep gönderilmeyecek.",
+    "bookingUnavailable": "Rezervasyon henüz bağlı değil. Rezervasyon oluşturulmayacak.",
     "selection": "Seçilen oda",
     "selectionReady": "Oda bu önizleme için seçildi. Rezervasyon oluşturulmadı.",
     "viewPhotos": "Tüm Fotoğrafları Gör",
@@ -265,6 +265,15 @@
     "ownerBenefitExperience": "Tesis sahibinin bildirdiği hizmetler arasında spor salonu, kütüphane, kafeterya, sauna ve Türk hamamı bulunur.",
     "suppliedRoomPhoto": "Sağlanan oda fotoğrafı",
     "primaryInfo": "Yurt bilgileri",
-    "servicesCount": "12 olanak"
+    "servicesCount": "12 olanak",
+    "getInTouch": "İletişime geç",
+    "sampleVerified": "Doğrulanmış Yurt · örnek",
+    "completePreviewNotice": "Örnek sayfa: ek konum, üniversite, yatak ve doğrulama bilgileri temsilidir; doğrulanmış Moveinn bilgileri değildir. Favoriler bu oturum için kaydedilir; öğrenci hesabı eşitlemesi daha sonra eklenecek.",
+    "sampleTransport": "Örnek ulaşım: metro bağlantıları ve Basın Ekspres boyunca otobüs hizmetleri.",
+    "sampleBed": "Tek kişilik yataklar",
+    "sampleAvailable": "Müsait · örnek",
+    "sampleRoomIntro": "Örnek oda bilgileri · oda seçimi rezervasyon oluşturmaz.",
+    "sampleSafety": "Konforlu odaları ve ortak hizmetleri olan öğrenci odaklı bir yaşam ortamı.",
+    "sampleRoomTerms": "Yatak ve konum bilgileri örnektir; fiyat, depozito, alan ve tarih sağlanan karttan alınmıştır."
   }
 }

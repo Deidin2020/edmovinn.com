@@ -591,3 +591,19 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
 .room-option-note { margin-top: 9px; font-size: 9px; color: var(--muted-foreground); line-height: 1.5; }
 @media (max-width: 1023px) { .room-option-grid { grid-template-columns: 1fr; } }
 @media (min-width: 640px) and (max-width: 767px) { .room-option-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+:root { --housing-female: oklch(0.48 0.19 355); --housing-female-surface: oklch(0.96 0.02 355); }
+.dark { --housing-female: oklch(0.8 0.13 355); --housing-female-surface: oklch(0.3 0.04 355); }
+.housing-label { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; font-size: 10px; line-height: 1.4; padding: 5px 7px; border-radius: 4px; }
+.housing-male { color: var(--primary); background: var(--accent); }
+.housing-female { color: var(--housing-female); background: var(--housing-female-surface); }
+.housing-label svg { flex-shrink: 0; }
+.card-gender { position: absolute; top: 9px; left: 8px; max-width: calc(100% - 56px); }
+.accommodation-image .demo-badge { top: auto; bottom: 8px; }
+.residence-title-row { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 12px; }
+.residence-title-row .favorite-button { position: static; flex-shrink: 0; border: 1px solid var(--border); }
+.residence-primary-gender .housing-label, .residence-booking-meta .housing-label { font-size: 12px; }
+.residence-columns { margin-top: 25px; }
+.residence-booking { border: 2px solid var(--primary); box-shadow: var(--shadow-soft); }
+.room-option-photo .favorite-button { width: 38px; height: 38px; }
+@media (max-width: 639px) { .room-option-photo .favorite-button { width: 44px; height: 44px; } }

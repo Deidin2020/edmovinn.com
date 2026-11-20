@@ -37,4 +37,7 @@ use the editor.
 - Keep residence records and booking-selection validation in a browser-safe data module; one dynamic detail route renders mock or supplied records without implying production verification or booking availability.
 - Scope detail-page styling to its own class names so the existing homepage remains visually unchanged.
 - Store supplied room-card terms separately from live availability and render optional fields without invented defaults; owner content and fictional demo records must not inherit each other's facts.
+- Use a separate display model for explicitly labeled sample details; never mutate owner records or claim actual verification from a model badge.
+- Share preview favorites through a typed session-only external store keyed by residence and room identifiers; account persistence and dashboard sync require a future authenticated integration.
+- Render all housing gender labels through the shared HousingLabel component to keep their meaning and color consistent.
 - Pre-optimize homepage UI dependencies alongside React and reject outdated optimizer requests; mixed dependency generations in an open preview can create separate React dispatchers and crash hooks.

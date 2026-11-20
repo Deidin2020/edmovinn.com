@@ -196,7 +196,7 @@
     "roomAvailability": "Room Availability",
     "request": "Request to Book",
     "support": "Contact Support",
-    "bookingUnavailable": "Booking and support are not connected yet. No request will be submitted.",
+    "bookingUnavailable": "Booking is not connected yet. No reservation will be created.",
     "selection": "Selected room",
     "selectionReady": "Room selected for this preview. No reservation has been created.",
     "viewPhotos": "View All Photos",
@@ -265,6 +265,15 @@
     "ownerBenefitExperience": "Gym, library, cafeteria, sauna and Turkish bath, among the services supplied by the owner.",
     "suppliedRoomPhoto": "Supplied room photo",
     "primaryInfo": "Residence information",
-    "servicesCount": "12 facilities"
+    "servicesCount": "12 facilities",
+    "getInTouch": "Get in touch",
+    "sampleVerified": "Verified Residence · sample",
+    "completePreviewNotice": "Model page: additional location, university, bed and verification details are illustrative, not verified Moveinn facts. Favorites are saved for this session; student-account sync comes later.",
+    "sampleTransport": "Example transport: metro connections and bus services along Basın Ekspres.",
+    "sampleBed": "Single beds",
+    "sampleAvailable": "Available · sample",
+    "sampleRoomIntro": "Sample room information · selection does not create a booking.",
+    "sampleSafety": "A student-focused living environment with comfortable rooms and shared services.",
+    "sampleRoomTerms": "Sample bed and location details; price, deposit, size and date follow the supplied card."
   }
 }

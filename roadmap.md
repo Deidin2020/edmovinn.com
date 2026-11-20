@@ -10,6 +10,9 @@
 - [ ] Confirm supplied business claims before public launch (awaiting owner confirmation).
 
 # Accommodation details
+- [x] Add consistent gender labels, remove duplicate feature strip, frame booking and add WhatsApp contact label.
+- [x] Fill clearly identified sample detail information and enable shared session favorites for residences and rooms.
+- [x] Connect WhatsApp contact to the supplied +905555555555 and verify its destination without sending a message.
 - [x] Add owner-supplied Moveinn gender, description and twelve facilities, and its homepage card.
 - [x] Match the uploaded room-card layout and supplied quadruple-room terms; verify EN/TR, selection and mobile.
 - [x] Build a reusable EN/TR Moveinn details page matching the uploaded reference without redesigning the homepage.
