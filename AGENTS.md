@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application architecture
+- Keep homepage sections in reusable presentation components and future page work behind explicit user approval; this pass is homepage-only.
+- Centralize interface translations in locale JSON through the language provider; load browser language preferences after hydration to keep SSR consistent.
+- Keep typed accommodation filter validation and URL preparation separate from presentation; no results integration or invented inventory until a real source is connected.
+- Disable unavailable destinations rather than creating additional routes or simulating authentication, booking, or other completed actions.

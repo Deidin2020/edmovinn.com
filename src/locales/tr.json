@@ -1,0 +1,157 @@
+{
+  "common": {
+    "brand": "edmovinn",
+    "language": "Dil",
+    "currency": "Para Birimi",
+    "english": "English",
+    "turkish": "Türkçe",
+    "usd": "USD",
+    "loading": "Yükleniyor...",
+    "error": "Bir sorun oluştu. Lütfen tekrar deneyin.",
+    "close": "Kapat",
+    "back": "Geri",
+    "apply": "Uygula",
+    "clear": "Temizle",
+    "noResults": "Aramanıza uygun konaklama bulunamadı. Filtrelerinizi değiştirmeyi deneyin."
+  },
+  "header": {
+    "home": "Ana Sayfa",
+    "accommodations": "Konaklama Seçenekleri",
+    "universities": "Üniversiteler",
+    "howItWorks": "Nasıl Çalışır?",
+    "about": "Hakkımızda",
+    "listProperty": "Tesisinizi Listeleyin",
+    "login": "Giriş Yap",
+    "signup": "Kayıt Ol",
+    "menu": "Menü",
+    "account": "Hesabım"
+  },
+  "hero": {
+    "title": "Türkiye’de Öğrenci Yurdunuzu Bulun",
+    "description": "Öğrenci konaklama seçeneklerini keşfedin, karşılaştırın ve üniversitenize yakın, size uygun bir yaşam alanı bulun."
+  },
+  "search": {
+    "city": "Şehir",
+    "cityPlaceholder": "Şehir seçin",
+    "gender": "Yurt Türü",
+    "genderPlaceholder": "Yurt türünü seçin",
+    "male": "Erkek Öğrenci Yurdu",
+    "female": "Kız Öğrenci Yurdu",
+    "roomType": "Oda Tipi",
+    "anyRoom": "Tüm Oda Tipleri",
+    "single": "Tek Kişilik Oda",
+    "double": "İki Kişilik Oda",
+    "triple": "Üç Kişilik Oda",
+    "quadruple": "Dört Kişilik Oda",
+    "studio": "Stüdyo",
+    "budget": "Aylık Bütçe (USD)",
+    "anyBudget": "Tüm Bütçeler",
+    "under300": "300 $ Altı",
+    "between300and600": "300–600 $",
+    "between600and1000": "600–1.000 $",
+    "above1000": "1.000 $ Üzeri",
+    "submit": "Ara",
+    "cityRequired": "Lütfen bir şehir seçin.",
+    "genderRequired": "Lütfen yurt türünü seçin.",
+    "cities": {
+      "istanbul": "İstanbul"
+    },
+    "searchUnavailable": "İlanlar sayfası bağlandığında arama sonuçları burada kullanılabilir olacak."
+  },
+  "quickBenefits": {
+    "studentFocused": {
+      "title": "Öğrencilere Özel Konaklama",
+      "description": "Öğrencilerin ihtiyaçlarına uygun seçenekler."
+    },
+    "verified": {
+      "title": "Doğrulanmış İlanlar",
+      "description": "Onaylı ve güvenilir seçenekleri keşfedin."
+    },
+    "easy": {
+      "title": "Kolay ve Hızlı",
+      "description": "Arayın, karşılaştırın ve yeni evinizi bulun."
+    },
+    "support": {
+      "title": "Özel Destek",
+      "description": "Süreç boyunca size yardımcı olmak için buradayız."
+    }
+  },
+  "featured": {
+    "title": "Öne Çıkan Konaklama Seçenekleri",
+    "viewAll": "Tüm Konaklama Seçeneklerini Gör",
+    "featured": "Öne Çıkan",
+    "popular": "Popüler",
+    "bestValue": "Avantajlı Seçenek",
+    "from": "Başlangıç",
+    "perMonth": "/ ay",
+    "roomTypes": "Oda Tipleri",
+    "facilities": "Olanaklar",
+    "viewDetails": "Detayları Gör",
+    "save": "Favorilere Ekle",
+    "removeSaved": "Favorilerden Çıkar",
+    "wifi": "Wi-Fi",
+    "meals": "Yemek",
+    "gym": "Spor Salonu",
+    "empty": "Öne çıkan konaklama seçenekleri, ilanlar eklendiğinde burada görünecek."
+  },
+  "why": {
+    "title": "Neden Edmovinn?",
+    "subtitle": "Güvenilir, kapsamlı ve öğrenci dostu bir konaklama deneyimi.",
+    "smartSearch": {
+      "title": "Akıllı Arama",
+      "description": "Oda tipi, bütçe, konum ve sunulan hizmetlere göre kişiselleştirilmiş filtrelerle size uygun seçenekleri hızla keşfedin."
+    },
+    "verified": {
+      "title": "Doğrulanmış Seçenekler",
+      "description": "Platformda listelenen tüm yurtlar Gençlik ve Spor Bakanlığı tarafından onaylanmış ve ruhsatlandırılmıştır; böylece güvenilir ve emniyetli bir deneyim sunulur."
+    },
+    "tracking": {
+      "title": "Kolay Takip",
+      "description": "Kullanımı kolay panelinizden rezervasyon, ödeme ve yurda giriş sürecinizin her adımını takip edin. Konaklamanız boyunca yurt hizmetlerini de doğrudan sistem üzerinden yönetebilirsiniz."
+    },
+    "payments": {
+      "title": "Güvenli Ödeme Yöntemleri",
+      "description": "Banka havalesi, platform üzerinden doğrudan ödeme veya tesiste ödeme gibi güvenli ve esnek seçeneklerle rezervasyonunuzu tamamlayın."
+    },
+    "support": {
+      "title": "7/24 Destek",
+      "description": "Özel destek ekibimiz, sorunsuz ve konforlu bir öğrencilik deneyimi yaşamanız için her zaman yanınızda."
+    },
+    "ai": {
+      "title": "Yapay Zekâ Destekli Öneriler",
+      "description": "Sistemimiz, üniversitenizin konumu, bütçeniz ve yaşam tarzınız gibi tercihlerinizi yapay zekâ ile analiz ederek size en uygun yurtları önerir. Edmovinn ile ideal konaklama seçeneğinizi daha hızlı ve akıllıca bulun."
+    }
+  },
+  "how": {
+    "title": "Nasıl Çalışır?",
+    "subtitle": "Edmovinn ile öğrenci yurdunuzu bulmak çok kolay.",
+    "search": {
+      "title": "Ara",
+      "description": "Şehrinizi ve konaklama tercihlerinizi seçin."
+    },
+    "compare": {
+      "title": "Karşılaştır",
+      "description": "Odaları, fiyatları, konumları ve olanakları inceleyin."
+    },
+    "book": {
+      "title": "Rezervasyon Talebi Oluştur",
+      "description": "Tercih ettiğiniz odayı seçin ve rezervasyon talebinizi gönderin."
+    }
+  },
+  "footer": {
+    "tagline": "Kendinize ait bir yer bulun. Evinizde hissedin.",
+    "explore": "Keşfet",
+    "partners": "İş Ortakları İçin",
+    "support": "Destek",
+    "company": "Kurumsal",
+    "legal": "Yasal",
+    "contact": "Bize Ulaşın",
+    "help": "Yardım Merkezi",
+    "about": "Edmovinn Hakkında",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Koşulları",
+    "cookies": "Çerez Politikası",
+    "copyright": "© 2026 Edmovinn. Tüm hakları saklıdır.",
+    "social": "Sosyal Medya"
+  }
+}

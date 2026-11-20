@@ -1,0 +1,9 @@
+{
+  "source": "Uploaded homepage brief and translations, not an existing application",
+  "capabilities": [
+    {"capability":"Homepage design and localization","source":"Uploaded brief, screenshot, en.json and tr.json","outcome":"Homepage implemented; desktop/mobile, persisted language, search validation and unavailable state verified; seven tests passed","status":"verified","next_action":"Await explicit approval for additional pages and real listing integration"},
+    {"capability":"Official logo","source":"Uploaded PNG","outcome":"Original CDN asset and derived square favicon rendered","status":"verified","next_action":"None"},
+    {"capability":"Database, records, authentication, providers and public endpoints","source":"No application code or data supplied","outcome":"Not part of this homepage pass","status":"not_applicable","next_action":"Await explicit approval for future pages"},
+    {"capability":"Business claims","source":"Supplied translation copy","outcome":"Preserve verbatim; not proof of active services","status":"pending","next_action":"Owner must confirm licensing, support, AI, payments and in-stay services before public launch"}
+  ]
+}

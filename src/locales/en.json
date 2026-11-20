@@ -1,0 +1,157 @@
+{
+  "common": {
+    "brand": "edmovinn",
+    "language": "Language",
+    "currency": "Currency",
+    "english": "English",
+    "turkish": "Türkçe",
+    "usd": "USD",
+    "loading": "Loading...",
+    "error": "Something went wrong. Please try again.",
+    "close": "Close",
+    "back": "Back",
+    "apply": "Apply",
+    "clear": "Clear",
+    "noResults": "No matching accommodations found. Try changing your search filters."
+  },
+  "header": {
+    "home": "Home",
+    "accommodations": "Accommodations",
+    "universities": "Universities",
+    "howItWorks": "How It Works",
+    "about": "About Us",
+    "listProperty": "List Your Property",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "menu": "Menu",
+    "account": "Account"
+  },
+  "hero": {
+    "title": "Find Your Student Home in Turkey",
+    "description": "Discover student accommodation, compare options, and find the right place to live near your university."
+  },
+  "search": {
+    "city": "City",
+    "cityPlaceholder": "Select a city",
+    "gender": "Residence Gender",
+    "genderPlaceholder": "Select housing type",
+    "male": "Male Housing",
+    "female": "Female Housing",
+    "roomType": "Room Type",
+    "anyRoom": "Any Room Type",
+    "single": "Single Room",
+    "double": "Double Room",
+    "triple": "Triple Room",
+    "quadruple": "Quadruple Room",
+    "studio": "Studio",
+    "budget": "Monthly Budget (USD)",
+    "anyBudget": "Any Budget",
+    "under300": "Under $300",
+    "between300and600": "$300–$600",
+    "between600and1000": "$600–$1,000",
+    "above1000": "Above $1,000",
+    "submit": "Search",
+    "cityRequired": "Please select a city.",
+    "genderRequired": "Please select a housing type.",
+    "cities": {
+      "istanbul": "Istanbul"
+    },
+    "searchUnavailable": "Search results will be available once the listings page is connected."
+  },
+  "quickBenefits": {
+    "studentFocused": {
+      "title": "Student-Focused Housing",
+      "description": "Designed around student needs."
+    },
+    "verified": {
+      "title": "Verified Listings",
+      "description": "Discover approved and reliable options."
+    },
+    "easy": {
+      "title": "Easy & Fast",
+      "description": "Search, compare, and find your next home."
+    },
+    "support": {
+      "title": "Dedicated Support",
+      "description": "We're here to help along the way."
+    }
+  },
+  "featured": {
+    "title": "Featured Accommodations",
+    "viewAll": "View All Accommodations",
+    "featured": "Featured",
+    "popular": "Popular",
+    "bestValue": "Best Value",
+    "from": "From",
+    "perMonth": "/ month",
+    "roomTypes": "Room Types",
+    "facilities": "Facilities",
+    "viewDetails": "View Details",
+    "save": "Save to Favorites",
+    "removeSaved": "Remove from Favorites",
+    "wifi": "Wi-Fi",
+    "meals": "Meals",
+    "gym": "Gym",
+    "empty": "Featured accommodations will appear here when listings are available."
+  },
+  "why": {
+    "title": "Why Choose Edmovinn?",
+    "subtitle": "A complete, reliable, and student-friendly housing experience.",
+    "smartSearch": {
+      "title": "Smart Search",
+      "description": "Use personalized filters to instantly explore options based on room type, budget, location, and available services."
+    },
+    "verified": {
+      "title": "Verified Options",
+      "description": "All dorms listed on the platform are approved and licensed by the Ministry of Youth and Sports, ensuring a reliable and safe experience."
+    },
+    "tracking": {
+      "title": "Easy Tracking",
+      "description": "Follow every step of your booking, payment, and check-in process through a simple, user-friendly dashboard. You can also manage housing services during your stay directly through the system."
+    },
+    "payments": {
+      "title": "Secure Payment Methods",
+      "description": "Complete your booking through the platform with safe and flexible payment options—Bank transfer, direct payment via the platform, or on-site payment."
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Our dedicated team is available at all times to provide full assistance and ensure a smooth, comfortable student living experience."
+    },
+    "ai": {
+      "title": "AI-Powered Recommendations",
+      "description": "Our system uses artificial intelligence to analyze your preferences—such as university location, budget, and lifestyle—to recommend the most suitable dorms for your needs. Find your ideal housing faster and smarter with Edmovinn."
+    }
+  },
+  "how": {
+    "title": "How It Works",
+    "subtitle": "Finding your student home is easy with Edmovinn.",
+    "search": {
+      "title": "Search",
+      "description": "Choose your city and housing preferences."
+    },
+    "compare": {
+      "title": "Compare",
+      "description": "Explore rooms, prices, locations, and facilities."
+    },
+    "book": {
+      "title": "Request to Book",
+      "description": "Select your preferred room and submit a booking request."
+    }
+  },
+  "footer": {
+    "tagline": "Find your place. Feel at home.",
+    "explore": "Explore",
+    "partners": "For Partners",
+    "support": "Support",
+    "company": "Company",
+    "legal": "Legal",
+    "contact": "Contact Us",
+    "help": "Help Center",
+    "about": "About Edmovinn",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "cookies": "Cookie Policy",
+    "copyright": "© 2026 Edmovinn. All rights reserved.",
+    "social": "Social Media"
+  }
+}
