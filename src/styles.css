@@ -376,3 +376,187 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
   .footer-language { flex-shrink: 0; min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
+
+/* Accommodation detail page: isolated from the homepage presentation. */
+.residence-page { padding-bottom: 34px; }
+.residence-page h1 { font-size: 30px; font-weight: 800; line-height: 1.15; }
+.residence-page h2 { font-size: 21px; }
+.residence-breadcrumb { display: flex; align-items: center; gap: 10px; font-size: 11px; padding-block: 21px 16px; color: var(--muted-foreground); }
+.residence-breadcrumb a { display: inline-flex; align-items: center; gap: 6px; }
+.residence-breadcrumb span { color: var(--foreground); min-width: 0; }
+.residence-preview-note { display: flex; align-items: center; gap: 9px; padding: 10px 13px; margin-bottom: 20px; background: var(--secondary); border-left: 3px solid var(--search); font-size: 11px; line-height: 1.6; }
+.residence-preview-note > svg { flex-shrink: 0; color: var(--primary); }
+.residence-preview-note > a { margin-left: auto; white-space: normal; height: auto; font-size: 11px; }
+.residence-overview { display: grid; grid-template-columns: minmax(230px, .78fr) minmax(0, 1.5fr); gap: 30px; align-items: start; }
+.residence-overview-copy { min-width: 0; padding-top: 10px; }
+.residence-verification { display: inline-flex; align-items: center; gap: 6px; margin-block: 12px; padding: 4px 8px; background: var(--secondary); color: var(--muted-foreground); border-radius: 4px; font-size: 11px; }
+.residence-address { display: flex; align-items: center; gap: 5px; font-size: 12px; margin-bottom: 12px; }
+.residence-address svg { color: var(--primary); flex-shrink: 0; }
+.residence-overview-copy > p:last-of-type { font-size: 13px; line-height: 1.65; color: var(--muted-foreground); }
+.residence-room-jump { display: inline-flex; align-items: center; gap: 7px; color: var(--primary); font-size: 12px; margin-top: 15px; min-height: 36px; }
+.residence-gallery-wrap { min-width: 0; position: relative; }
+.residence-gallery { display: grid; grid-template-columns: 1.7fr 1fr 1fr; grid-template-rows: repeat(2, minmax(0,1fr)); gap: 7px; height: 285px; overflow: hidden; border-radius: 7px; }
+.residence-photo { padding: 0; width: 100%; height: 100%; min-width: 0; border-radius: 0; overflow: hidden; }
+.residence-photo:first-child { grid-row: span 2; }
+.residence-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 200ms; }
+.residence-photo:hover img { transform: scale(1.025); }
+.residence-gallery-all { position: absolute; bottom: 10px; right: 10px; font-size: 10px; min-height: 36px; height: auto; padding-inline: 10px; }
+.residence-photo-label { position: absolute; left: 9px; top: 9px; padding: 4px 7px; border-radius: 3px; background: var(--background); color: var(--muted-foreground); font-size: 9px; pointer-events: none; }
+.residence-quick-bar { display: flex; align-items: center; justify-content: space-between; gap: 0; border: 1px solid var(--border); border-radius: 7px; background: var(--card); box-shadow: var(--shadow-small); margin-block: 22px; padding: 15px 7px; }
+.residence-quick-bar > div { display: flex; align-items: center; gap: 9px; padding-inline: 14px; border-right: 1px solid var(--border); min-width: 0; font-size: 10px; font-weight: 600; }
+.residence-quick-bar > div > svg { color: var(--primary); flex-shrink: 0; }
+.residence-quick-bar > div:first-child > svg { color: var(--search); }
+.residence-quick-bar > div:last-child { border: 0; }
+.residence-quick-bar .residence-quick-price { display: block; flex-shrink: 0; }
+.residence-quick-price > span { font-size: 9px; color: var(--muted-foreground); font-weight: 400; }
+.residence-quick-price strong { font-size: 22px; color: var(--primary); }
+.residence-columns { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 23px; align-items: start; }
+.residence-main { display: flex; flex-direction: column; gap: 15px; min-width: 0; }
+.residence-section { padding: 18px; border: 1px solid var(--border); border-radius: 7px; background: var(--card); box-shadow: var(--shadow-small); }
+.residence-section > p { color: var(--muted-foreground); font-size: 12px; line-height: 1.65; margin-top: 8px; }
+.residence-section-heading { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; align-items: center; }
+.residence-section-heading > span { font-size: 10px; color: var(--muted-foreground); }
+.residence-facilities { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 8px; margin-top: 13px; }
+.residence-facilities > div { border: 1px solid var(--border); border-radius: 5px; min-height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 8px 5px; text-align: center; font-size: 10px; }
+.residence-facilities svg { color: var(--primary); flex-shrink: 0; }
+.residence-location-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 18px; margin-top: 12px; }
+.residence-location-grid iframe { width: 100%; height: 180px; border-radius: 5px; }
+.residence-map-pending { min-height: 175px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; padding: 20px; background: var(--secondary); border: 1px dashed var(--border); border-radius: 5px; color: var(--muted-foreground); font-size: 12px; }
+.residence-map-pending svg { color: var(--primary); }
+.residence-location-info { display: flex; flex-direction: column; gap: 10px; font-size: 11px; color: var(--muted-foreground); line-height: 1.6; }
+.residence-location-info p, .residence-location-info h3 { display: flex; align-items: flex-start; gap: 7px; }
+.residence-location-info svg { width: 15px; height: 15px; margin-top: 2px; color: var(--primary); flex-shrink: 0; }
+.residence-location-info h3 { font-weight: 650; color: var(--foreground); }
+.residence-room-list { display: flex; flex-direction: column; gap: 7px; margin-top: 12px; }
+.residence-room { display: grid; grid-template-columns: 105px minmax(100px,1fr) minmax(100px,1.1fr) minmax(75px,.65fr) auto; gap: 12px; align-items: center; padding: 9px; border: 1px solid var(--border); border-radius: 5px; min-width: 0; }
+.residence-room.is-selected { border-color: var(--primary); background: var(--accent); }
+.residence-room > img { width: 105px; height: 75px; object-fit: cover; border-radius: 4px; }
+.residence-room h3 { font-size: 12px; font-weight: 750; line-height: 1.4; }
+.residence-room-title p { display: flex; align-items: center; gap: 4px; font-size: 10px; margin-top: 6px; }
+.residence-room-status { display: block; font-size: 9px; color: var(--muted-foreground); margin-top: 5px; }
+.residence-room ul { font-size: 9px; line-height: 1.7; }
+.residence-room li { display: flex; align-items: center; gap: 4px; }
+.residence-room li svg { color: var(--primary); flex-shrink: 0; }
+.residence-room-price { display: flex; flex-direction: column; font-size: 9px; border-left: 1px solid var(--border); padding-left: 10px; }
+.residence-room-price strong { color: var(--primary); font-size: 15px; white-space: nowrap; }
+.residence-room > button { font-size: 10px; padding-inline: 9px; min-height: 38px; }
+.residence-room > button svg { width: 12px; }
+.residence-booking { border: 1px solid var(--border); border-radius: 7px; background: var(--card); box-shadow: var(--shadow-small); padding: 16px; position: sticky; top: 105px; min-width: 0; }
+.residence-booking-photo { width: 100%; aspect-ratio: 1.6; object-fit: cover; border-radius: 5px; }
+.residence-booking h2 { font-size: 19px; margin-block: 13px 10px; }
+.residence-booking-meta { display: flex; align-items: flex-start; gap: 6px; font-size: 11px; margin-bottom: 8px; line-height: 1.5; }
+.residence-booking-meta svg { color: var(--primary); flex-shrink: 0; }
+.residence-booking-price { padding: 11px; background: var(--accent); border-radius: 5px; margin-block: 14px; font-size: 11px; }
+.residence-booking-price > span { font-size: 10px; color: var(--muted-foreground); }
+.residence-booking-price strong { font-size: 25px; color: var(--primary); }
+.residence-availability { border: 1px solid var(--border); border-radius: 5px; padding: 9px; margin-bottom: 15px; }
+.residence-availability h3 { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 7px; }
+.residence-availability h3 svg { color: var(--primary); }
+.residence-availability > div { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; padding-block: 5px; font-size: 10px; border-top: 1px solid var(--border); }
+.residence-availability > div > span:last-child { font-size: 9px; color: var(--muted-foreground); }
+.residence-booking-action { width: 100%; min-height: 43px; margin-bottom: 10px; font-weight: 700; white-space: normal; }
+.residence-booking-action:disabled { opacity: .7; }
+.residence-booking-disclaimer { font-size: 10px; color: var(--muted-foreground); line-height: 1.65; margin-top: 2px; }
+.residence-selection { padding: 10px; border-left: 3px solid var(--primary); background: var(--secondary); margin-bottom: 14px; font-size: 11px; }
+.residence-selection strong { display: flex; align-items: flex-start; gap: 5px; }
+.residence-selection svg { color: var(--primary); flex-shrink: 0; }
+.residence-selection p { color: var(--muted-foreground); font-size: 10px; line-height: 1.6; margin-top: 7px; }
+.residence-why { margin-top: 25px; padding-block: 22px 6px; border-top: 1px solid var(--border); }
+.residence-why > p { font-size: 10px; color: var(--muted-foreground); margin-top: 6px; }
+.residence-why > div { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin-top: 15px; }
+.residence-why .benefit-card { display: flex; align-items: flex-start; gap: 14px; padding: 18px; }
+.residence-why .benefit-card > svg { flex-shrink: 0; }
+.residence-why .benefit-card h3 { font-size: 13px; }
+.residence-why .benefit-card p { font-size: 11px; }
+.residence-lightbox { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; background: var(--background); color: var(--foreground); padding: 25px; }
+.residence-lightbox::backdrop { background: var(--background); }
+.residence-lightbox-inner { max-width: 1200px; height: 100%; margin: auto; display: flex; flex-direction: column; gap: 18px; }
+.residence-lightbox-heading { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: center; }
+.residence-lightbox-heading h2 { font-size: 20px; }
+.residence-lightbox-heading p { font-size: 12px; color: var(--muted-foreground); margin-top: 5px; }
+.residence-lightbox-heading button { width: 44px; height: 44px; }
+.residence-lightbox-image { flex: 1; min-height: 0; display: grid; place-items: center; }
+.residence-lightbox-image img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+.residence-lightbox-controls { display: flex; align-items: center; justify-content: center; gap: 25px; padding-bottom: 8px; }
+.residence-lightbox-controls button { width: 44px; height: 44px; }
+.residence-missing { min-height: 55vh; padding-block: 60px; }
+.residence-missing h1 { font-size: 30px; font-weight: 800; }
+.residence-missing p { margin-block: 15px 25px; }
+@media (max-width: 1250px) {
+  .residence-columns { grid-template-columns: minmax(0,1fr) 265px; gap: 18px; }
+  .residence-room { grid-template-columns: 88px minmax(90px,1fr) minmax(78px,.8fr) auto; gap: 9px; }
+  .residence-room > img { width: 88px; height: 76px; }
+  .residence-room ul { grid-column: 2; grid-row: 2; }
+  .residence-room-price { grid-column: 3; grid-row: 1 / span 2; }
+  .residence-room > button { grid-column: 4; grid-row: 1 / span 2; }
+  .residence-room > img { grid-row: 1 / span 2; }
+  .residence-quick-bar > div { padding-inline: 9px; gap: 6px; }
+  .residence-quick-price strong { font-size: 19px; }
+}
+@media (max-width: 1023px) {
+  .residence-overview { grid-template-columns: minmax(220px,.8fr) minmax(0,1.2fr); gap: 22px; }
+  .residence-gallery { height: 310px; grid-template-columns: 1.5fr 1fr; }
+  .residence-photo:nth-child(n+4) { display: none; }
+  .residence-quick-bar { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 15px 0; }
+  .residence-quick-bar > div { min-height: 35px; }
+  .residence-columns { grid-template-columns: minmax(0,1fr) 245px; gap: 15px; }
+  .residence-facilities { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .residence-room { grid-template-columns: 75px minmax(0,1fr); }
+  .residence-room > img { width: 75px; height: 75px; grid-row: 1; }
+  .residence-room ul { grid-column: 1 / -1; grid-row: auto; display: flex; flex-wrap: wrap; gap: 5px 9px; }
+  .residence-room-price { grid-column: 1; grid-row: auto; border: 0; padding: 0; }
+  .residence-room > button { grid-column: 2; grid-row: auto; min-height: 44px; justify-self: end; }
+  .residence-location-grid { grid-template-columns: 1fr; }
+  .residence-booking { top: 95px; padding: 13px; }
+  .residence-why .benefit-card { flex-direction: column; gap: 3px; }
+}
+@media (max-width: 767px) {
+  .residence-overview { grid-template-columns: 1fr; }
+  .residence-gallery { height: 300px; }
+  .residence-gallery .residence-photo:nth-child(n+4) { display: flex; }
+  .residence-gallery { grid-template-columns: 1.7fr 1fr 1fr; }
+  .residence-columns { grid-template-columns: 1fr; }
+  .residence-booking { position: static; display: grid; grid-template-columns: 115px minmax(0,1fr); gap: 5px 14px; }
+  .residence-booking-photo { width: 115px; height: 115px; grid-row: span 3; }
+  .residence-booking h2 { margin-block: 2px 6px; }
+  .residence-booking-meta { margin: 0; }
+  .residence-booking-price, .residence-availability, .residence-selection, .residence-booking-action, .residence-booking-disclaimer { grid-column: 1 / -1; }
+  .residence-availability { display: none; }
+  .residence-booking-price { margin-block: 10px; }
+  .residence-room { grid-template-columns: 115px minmax(0,1fr) auto; gap: 10px; }
+  .residence-room > img { width: 115px; height: 84px; grid-row: 1 / span 2; }
+  .residence-room ul { grid-column: 2 / -1; grid-row: 2; display: block; }
+  .residence-room-price { grid-column: 1; grid-row: 3; }
+  .residence-room > button { grid-column: 2 / -1; grid-row: 3; }
+  .residence-why > div { grid-template-columns: 1fr; gap: 10px; }
+  .residence-why .benefit-card { flex-direction: row; gap: 15px; }
+}
+@media (max-width: 639px) {
+  .residence-page h1 { font-size: 27px; }
+  .residence-page h2 { font-size: 19px; }
+  .residence-preview-note { align-items: flex-start; flex-wrap: wrap; font-size: 10px; margin-bottom: 13px; }
+  .residence-preview-note p { flex: 1; min-width: 0; }
+  .residence-preview-note > a { width: 100%; margin: 0; justify-content: flex-start; padding: 0; }
+  .residence-overview { gap: 15px; }
+  .residence-overview-copy { padding-top: 0; }
+  .residence-overview-copy > p:last-of-type { font-size: 12px; }
+  .residence-gallery { display: flex; height: 235px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; gap: 8px; border-radius: 5px; }
+  .residence-gallery .residence-photo { flex: 0 0 92%; scroll-snap-align: start; display: flex; }
+  .residence-gallery-all { font-size: 9px; bottom: 13px; }
+  .residence-quick-bar { grid-template-columns: repeat(2,minmax(0,1fr)); margin-block: 18px; }
+  .residence-quick-bar > div:nth-child(even) { border-right: 0; }
+  .residence-quick-bar .residence-quick-price { grid-column: 1 / -1; padding-top: 12px; border-top: 1px solid var(--border); }
+  .residence-section { padding: 14px; }
+  .residence-section-heading { grid-template-columns: 1fr; gap: 5px; }
+  .residence-facilities { gap: 6px; }
+  .residence-facilities > div { font-size: 9px; min-height: 73px; }
+  .residence-room { padding: 10px; grid-template-columns: 95px minmax(0,1fr); }
+  .residence-room > img { width: 95px; height: 105px; }
+  .residence-room ul { grid-column: 2; }
+  .residence-room > button { grid-column: 2; width: 100%; }
+  .residence-room > button svg:last-child { display: none; }
+  .residence-room h3 { font-size: 12px; }
+  .residence-booking h2 { font-size: 18px; }
+  .residence-lightbox { padding: 15px; }
+  .residence-breadcrumb { font-size: 10px; gap: 6px; flex-wrap: wrap; }
+}

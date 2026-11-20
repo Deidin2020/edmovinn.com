@@ -30,8 +30,10 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Application architecture
-- Keep homepage sections in reusable presentation components and future page work behind explicit user approval; this pass is homepage-only.
+- Keep homepage presentation unchanged when extending the app; the approved accommodation detail route reuses its Header and Footer.
 - Centralize interface translations in locale JSON through the language provider; load browser language preferences after hydration to keep SSR consistent.
 - Keep typed accommodation filter validation and URL preparation separate from presentation; explicitly labeled fictional preview cards are isolated from real inventory and cannot create bookings.
 - Disable unavailable destinations rather than creating additional routes or simulating authentication, booking, or other completed actions.
+- Keep residence records and booking-selection validation in a browser-safe data module; one dynamic detail route renders mock or supplied records without implying production verification or booking availability.
+- Scope detail-page styling to its own class names so the existing homepage remains visually unchanged.
 - Pre-optimize homepage UI dependencies alongside React and reject outdated optimizer requests; mixed dependency generations in an open preview can create separate React dispatchers and crash hooks.

@@ -6,10 +6,11 @@ import { budgetOptions, cities, initialFilters, prepareSearchParams, roomTypes, 
 import logo from '@/assets/edmovinn-logo.png.asset.json';
 import hero from '@/assets/student-istanbul.png.asset.json';
 import { DemoAccommodations } from './demo-accommodations';
+import { Link } from '@tanstack/react-router';
 
 function Logo({ footer = false }: { footer?: boolean }) {
   const { t } = useLanguage();
-  return <a href="#home" className={`brand-logo ${footer ? 'footer-logo' : ''}`} aria-label={t('common.brand')}><img src={logo.url} alt={t('common.brand')} /></a>;
+  return <Link to="/" hash="home" className={`brand-logo ${footer ? 'footer-logo' : ''}`} aria-label={t('common.brand')}><img src={logo.url} alt={t('common.brand')} /></Link>;
 }
 function LanguageSwitcher({ footer = false }: { footer?: boolean }) {
   const { t, language, setLanguage } = useLanguage();
@@ -17,7 +18,7 @@ function LanguageSwitcher({ footer = false }: { footer?: boolean }) {
 }
 function Navigation({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useLanguage();
-  return <nav aria-label={t('header.menu')} className="main-navigation"><Button variant="link" asChild><a href="#home" onClick={onNavigate} aria-current="page">{t('header.home')}</a></Button><Button variant="ghost" asChild><a href="#accommodations" onClick={onNavigate}>{t('header.accommodations')}</a></Button><Button variant="ghost" disabled>{t('header.universities')}</Button><Button variant="ghost" asChild><a href="#how-it-works" onClick={onNavigate}>{t('header.howItWorks')}</a></Button><Button variant="ghost" disabled>{t('header.about')}</Button></nav>;
+  return <nav aria-label={t('header.menu')} className="main-navigation"><Button variant="link" asChild><Link to="/" hash="home" onClick={onNavigate}>{t('header.home')}</Link></Button><Button variant="ghost" asChild><Link to="/" hash="accommodations" onClick={onNavigate}>{t('header.accommodations')}</Link></Button><Button variant="ghost" disabled>{t('header.universities')}</Button><Button variant="ghost" asChild><Link to="/" hash="how-it-works" onClick={onNavigate}>{t('header.howItWorks')}</Link></Button><Button variant="ghost" disabled>{t('header.about')}</Button></nav>;
 }
 export function Header() {
   const { t } = useLanguage();
@@ -76,5 +77,5 @@ export function HowItWorks() {
 export function Footer() {
   const { t } = useLanguage();
   const groups = [{ title: 'footer.explore', links: [{ key: 'header.accommodations', href: '#accommodations' }, { key: 'header.universities' }, { key: 'header.howItWorks', href: '#how-it-works' }] }, { title: 'footer.partners', links: [{ key: 'header.listProperty' }] }, { title: 'footer.support', links: [{ key: 'footer.contact' }, { key: 'footer.help' }] }, { title: 'footer.company', links: [{ key: 'footer.about' }] }, { title: 'footer.legal', links: [{ key: 'footer.privacy' }, { key: 'footer.terms' }, { key: 'footer.cookies' }] }];
-  return <footer className="site-footer"><div className="page-container"><div className="footer-top"><div className="footer-brand"><Logo footer /><p>{t('footer.tagline')}</p></div>{groups.map(group => <div className="footer-group" key={group.title}><h3>{t(group.title)}</h3>{group.links.map(link => 'href' in link && typeof link.href === 'string' ? <Button key={link.key} variant="link" asChild><a href={link.href}>{t(link.key)}</a></Button> : <Button key={link.key} variant="link" disabled>{t(link.key)}</Button>)}</div>)}</div><div className="footer-bottom"><p>{t('footer.copyright')}</p><LanguageSwitcher footer /></div></div></footer>;
+  return <footer className="site-footer"><div className="page-container"><div className="footer-top"><div className="footer-brand"><Logo footer /><p>{t('footer.tagline')}</p></div>{groups.map(group => <div className="footer-group" key={group.title}><h3>{t(group.title)}</h3>{group.links.map(link => 'href' in link && typeof link.href === 'string' ? <Button key={link.key} variant="link" asChild><Link to="/" hash={link.href.slice(1)}>{t(link.key)}</Link></Button> : <Button key={link.key} variant="link" disabled>{t(link.key)}</Button>)}</div>)}</div><div className="footer-bottom"><p>{t('footer.copyright')}</p><LanguageSwitcher footer /></div></div></footer>;
 }
