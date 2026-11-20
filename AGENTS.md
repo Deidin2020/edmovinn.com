@@ -32,6 +32,6 @@ use the editor.
 ## Application architecture
 - Keep homepage sections in reusable presentation components and future page work behind explicit user approval; this pass is homepage-only.
 - Centralize interface translations in locale JSON through the language provider; load browser language preferences after hydration to keep SSR consistent.
-- Keep typed accommodation filter validation and URL preparation separate from presentation; no results integration or invented inventory until a real source is connected.
+- Keep typed accommodation filter validation and URL preparation separate from presentation; explicitly labeled fictional preview cards are isolated from real inventory and cannot create bookings.
 - Disable unavailable destinations rather than creating additional routes or simulating authentication, booking, or other completed actions.
 - Pre-optimize homepage UI dependencies alongside React and reject outdated optimizer requests; mixed dependency generations in an open preview can create separate React dispatchers and crash hooks.

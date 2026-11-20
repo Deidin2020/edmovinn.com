@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/localization';
 import { budgetOptions, cities, initialFilters, prepareSearchParams, roomTypes, validateFilters, type SearchFilters } from '@/lib/accommodation-search';
 import logo from '@/assets/edmovinn-logo.png.asset.json';
 import hero from '@/assets/student-istanbul.png.asset.json';
+import { DemoAccommodations } from './demo-accommodations';
 
 function Logo({ footer = false }: { footer?: boolean }) {
   const { t } = useLanguage();
@@ -60,7 +61,7 @@ export function QuickBenefits() {
 }
 export function FeaturedAccommodations() {
   const { t } = useLanguage();
-  return <section id="accommodations" className="page-container featured-section" aria-labelledby="featured-title"><div className="section-heading"><h2 id="featured-title">{t('featured.title')}</h2><Button variant="link" disabled>{t('featured.viewAll')}<ArrowRight /></Button></div><div className="featured-empty"><div className="empty-symbol"><BedDouble size={34} strokeWidth={1.4} /></div><p>{t('featured.empty')}</p></div></section>;
+  return <section id="accommodations" className="page-container featured-section" aria-labelledby="featured-title"><div className="section-heading"><h2 id="featured-title">{t('featured.title')}</h2><Button variant="link" disabled>{t('featured.viewAll')}<ArrowRight /></Button></div><DemoAccommodations /></section>;
 }
 const whyBenefits: { key: string; icon: LucideIcon }[] = [{ key: 'smartSearch', icon: Search }, { key: 'verified', icon: MapPin }, { key: 'tracking', icon: ShieldCheck }, { key: 'payments', icon: Star }, { key: 'support', icon: UsersRound }, { key: 'ai', icon: Sparkles }];
 export function WhyChooseEdmovinn() {

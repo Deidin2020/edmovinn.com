@@ -77,6 +77,10 @@
     }
   },
   "featured": {
+    "demo": "Örnek konaklama",
+    "demoNotice": "Kurgusal örnekler · temsili fiyatlar · rezervasyona açık değildir",
+    "demoDetails": "Bu kurgusal bir konaklama örneğidir. Fotoğraflar, fiyatlar ve olanaklar temsilidir; rezervasyon yapılamaz.",
+    "demoNames": { "twin": "İki Kişilik Öğrenci Yurdu", "single": "Bahçe Öğrenci Yurdu", "studio": "Şehir Öğrenci Stüdyosu", "shared": "Paylaşımlı Öğrenci Yurdu" },
     "title": "Öne Çıkan Konaklama Seçenekleri",
     "viewAll": "Tüm Konaklama Seçeneklerini Gör",
     "featured": "Öne Çıkan",

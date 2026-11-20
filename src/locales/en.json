@@ -77,6 +77,10 @@
     }
   },
   "featured": {
+    "demo": "Demo accommodation",
+    "demoNotice": "Fictional examples · illustrative prices · not available to book",
+    "demoDetails": "This is a fictional accommodation preview. Photos, prices and facilities are illustrative; no booking is available.",
+    "demoNames": { "twin": "Student Twin Residence", "single": "Garden Student Residence", "studio": "City Student Studio", "shared": "Shared Student Residence" },
     "title": "Featured Accommodations",
     "viewAll": "View All Accommodations",
     "featured": "Featured",
