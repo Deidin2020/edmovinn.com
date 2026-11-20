@@ -10,6 +10,8 @@
 - [ ] Confirm supplied business claims before public launch (awaiting owner confirmation).
 
 # Accommodation details
+- [x] Add owner-supplied Moveinn gender, description and twelve facilities, and its homepage card.
+- [x] Match the uploaded room-card layout and supplied quadruple-room terms; verify EN/TR, selection and mobile.
 - [x] Build a reusable EN/TR Moveinn details page matching the uploaded reference without redesigning the homepage.
 - [x] Add clearly marked mock residence data, gallery, facilities, location, rooms and selection summary without booking integrations.
 - [x] Link existing fictional cards to their matching details and verify selection, languages, gallery, desktop and mobile.

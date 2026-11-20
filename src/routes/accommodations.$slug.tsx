@@ -8,8 +8,8 @@ import { LanguageProvider, useLanguage } from '@/lib/localization';
 export const Route = createFileRoute('/accommodations/$slug')({
   head: ({ params }) => {
     const residence = getResidence(params.slug);
-    const title = residence ? `${residence.name} — Residence Preview | Edmovinn` : 'Residence Unavailable | Edmovinn';
-    const description = 'Explore student residence photos, facilities and room options with Edmovinn. Temporary illustrative content; booking is not available.';
+    const title = residence ? `${residence.name} — ${residence.isMock ? 'Residence Preview' : 'Male Student Residence in Istanbul'} | Edmovinn` : 'Residence Unavailable | Edmovinn';
+    const description = residence && !residence.isMock ? 'Explore Moveinn male student housing in Küçükçekmece, opposite Mall of Istanbul, with twelve facilities and monthly room information. Booking is not yet available.' : 'Explore student residence photos, facilities and room options with Edmovinn. Temporary illustrative content; booking is not available.';
     return { meta: [{ title }, { name: 'description', content: description }, { property: 'og:title', content: title }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }, { name: 'robots', content: 'noindex, nofollow' }] };
   },
   component: AccommodationRoute,
