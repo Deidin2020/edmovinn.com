@@ -30,6 +30,11 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Keep booking forms public with explicit account-required states, but authenticate every private context, save and status read through server middleware; UI-only login never creates a booking identity.
+- Use date-specific administrator-configured booking quotes for academic rent, June contract end dates, plans and deposits; missing quotes block payment rather than inheriting sample terms or inventing prorating.
+- Persist bookings through the authenticated database RPC with server-owned financial snapshots and acceptance timestamps; clients have owner-read access only and cannot set payment, phone verification or progress states.
+- Keep booking fields in component memory during edits and verification; persist only authenticated validated submissions and display-only room IDs, never identity documents or credentials in browser storage.
+- Treat payment and WhatsApp verification as unavailable until trusted adapters are configured; no client-entered OTP, bank-transfer action or payment button may simulate success.
 - Render platform-localized country names only after hydration, with stable country codes first; server and browser ICU data can differ and otherwise break auth hydration.
 - Keep authentication UI in a scoped form/modal and preserve validated, display-only room IDs in session storage; never store credentials or simulate sessions while accounts are not activated.
 - Student profiles are private, and clients may update only their own name; phone verification is trusted server-owned state, not editable profile metadata.

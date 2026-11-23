@@ -14,6 +14,131 @@ export type Database = {
   }
   public: {
     Tables: {
+      booking_quotes: {
+        Row: {
+          active: boolean
+          contract_end: string
+          currency: string
+          deposit: number
+          id: string
+          move_in: string
+          payment_plan: string
+          residence_slug: string
+          room_id: string
+          total_rent: number
+        }
+        Insert: {
+          active?: boolean
+          contract_end: string
+          currency: string
+          deposit: number
+          id?: string
+          move_in: string
+          payment_plan: string
+          residence_slug: string
+          room_id: string
+          total_rent: number
+        }
+        Update: {
+          active?: boolean
+          contract_end?: string
+          currency?: string
+          deposit?: number
+          id?: string
+          move_in?: string
+          payment_plan?: string
+          residence_slug?: string
+          room_id?: string
+          total_rent?: number
+        }
+        Relationships: []
+      }
+      bookings: {
+        Row: {
+          check_in_status: string
+          contract_end: string
+          contract_status: string
+          created_at: string
+          currency: string
+          deposit: number
+          id: string
+          move_in: string
+          payment_plan: string
+          payment_status: string
+          quote_id: string
+          reference: string
+          refund_status: string
+          remaining_rent: number
+          residence_slug: string
+          residence_updates: Json
+          room_id: string
+          status: string
+          student_id: string
+          student_info: Json
+          terms_accepted_at: string
+          terms_version: string
+          total_rent: number
+        }
+        Insert: {
+          check_in_status?: string
+          contract_end: string
+          contract_status?: string
+          created_at?: string
+          currency: string
+          deposit: number
+          id?: string
+          move_in: string
+          payment_plan: string
+          payment_status?: string
+          quote_id: string
+          reference?: string
+          refund_status?: string
+          remaining_rent: number
+          residence_slug: string
+          residence_updates?: Json
+          room_id: string
+          status?: string
+          student_id: string
+          student_info: Json
+          terms_accepted_at?: string
+          terms_version: string
+          total_rent: number
+        }
+        Update: {
+          check_in_status?: string
+          contract_end?: string
+          contract_status?: string
+          created_at?: string
+          currency?: string
+          deposit?: number
+          id?: string
+          move_in?: string
+          payment_plan?: string
+          payment_status?: string
+          quote_id?: string
+          reference?: string
+          refund_status?: string
+          remaining_rent?: number
+          residence_slug?: string
+          residence_updates?: Json
+          room_id?: string
+          status?: string
+          student_id?: string
+          student_info?: Json
+          terms_accepted_at?: string
+          terms_version?: string
+          total_rent?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "booking_quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -43,7 +168,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      submit_student_booking: {
+        Args: {
+          p_quote_id: string
+          p_student_info: Json
+          p_terms_version: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

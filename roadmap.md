@@ -1,3 +1,9 @@
+# Room booking flow
+- [ ] Build EN/TR three-step booking form, account prefill, room preservation and scroll-gated agreement.
+- [ ] Add secure student-owned booking storage and booking-status view, with real-data quotation and no simulated payment/OTP.
+- [ ] Verify validation, signed-in storage and desktop/mobile interactions.
+- [ ] Activate payment and WhatsApp verification (requires configured providers); configure real contract/pricing/deposit data (requires owner/admin values).
+
 # Student authentication UI
 - [x] Resolve preview runtime errors: stale dependency URLs require a preview reload; country-selector hydration fixed and fresh loads plus desktop/mobile flow verified without runtime errors.
 - [x] Design EN/TR phone-and-password signup/login forms and selected-room modal without redesigning existing pages.

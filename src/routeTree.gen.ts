@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BookingRouteImport } from './routes/booking'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AccommodationsIndexRouteImport } from './routes/accommodations.index'
 import { Route as AccommodationsSlugRouteImport } from './routes/accommodations.$slug'
 
@@ -22,6 +24,16 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingRoute = BookingRouteImport.update({
+  id: '/booking',
+  path: '/booking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccommodationsIndexRoute = AccommodationsIndexRouteImport.update({
@@ -38,12 +50,16 @@ const AccommodationsSlugRoute = AccommodationsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/booking': typeof BookingRoute
+  '/dashboard': typeof DashboardRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations/': typeof AccommodationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/booking': typeof BookingRoute
+  '/dashboard': typeof DashboardRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations': typeof AccommodationsIndexRoute
 }
@@ -51,20 +67,43 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/booking': typeof BookingRoute
+  '/dashboard': typeof DashboardRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations/': typeof AccommodationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/accommodations/$slug' | '/accommodations/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/booking'
+    | '/dashboard'
+    | '/accommodations/$slug'
+    | '/accommodations/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/accommodations/$slug' | '/accommodations'
-  id: '__root__' | '/' | '/auth' | '/accommodations/$slug' | '/accommodations/'
+  to:
+    | '/'
+    | '/auth'
+    | '/booking'
+    | '/dashboard'
+    | '/accommodations/$slug'
+    | '/accommodations'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/booking'
+    | '/dashboard'
+    | '/accommodations/$slug'
+    | '/accommodations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  BookingRoute: typeof BookingRoute
+  DashboardRoute: typeof DashboardRoute
   AccommodationsSlugRoute: typeof AccommodationsSlugRoute
   AccommodationsIndexRoute: typeof AccommodationsIndexRoute
 }
@@ -83,6 +122,20 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/booking': {
+      id: '/booking'
+      path: '/booking'
+      fullPath: '/booking'
+      preLoaderRoute: typeof BookingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accommodations/': {
@@ -105,6 +158,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  BookingRoute: BookingRoute,
+  DashboardRoute: DashboardRoute,
   AccommodationsSlugRoute: AccommodationsSlugRoute,
   AccommodationsIndexRoute: AccommodationsIndexRoute,
 }

@@ -1,9 +1,10 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { RoomBookingSidebar, RoomPhotoGallery, roomPhotos } from '@/components/edmovinn/room-interactions';
 import { moveinn, type Residence } from '@/lib/residences';
 
 afterEach(cleanup);
+vi.mock('@tanstack/react-router', () => ({ useNavigate: () => vi.fn() }));
 
 describe('Detail-page room interactions', () => {
   it('uses only the existing room image when no extra room photos are supplied', () => {

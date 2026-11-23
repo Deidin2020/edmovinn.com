@@ -7,6 +7,7 @@ import { WHATSAPP_URL } from '@/lib/contact';
 import { HousingLabel } from './housing-label';
 import { WhatsAppIcon } from './favorite-button';
 import { useAuthUI } from '@/lib/auth-ui';
+import { useNavigate } from '@tanstack/react-router';
 
 // Only room-owned images are eligible; never borrow residence or other room photos.
 export function roomPhotos(room: Room & { photos?: readonly string[] }): readonly string[] {
@@ -74,7 +75,7 @@ export function RoomDetailsPopup({ room, residence, open, onClose }: { room: Roo
 
 export function RoomBookingSidebar({ residence, selectedId }: { residence: Residence; selectedId: string | null }) {
   const { t, language } = useLanguage();
-  const { openAuth } = useAuthUI();
+  const navigate = useNavigate();
   const selection = selectedId ? prepareRoomSelection(residence, selectedId) : null;
   const room = selection ? residence.rooms.find(item => item.id === selection.roomId) : undefined;
   const title = room ? (room.nameKey ? t(room.nameKey) : t(`search.${room.type}`)) : t('details.selectToContinue');
@@ -87,8 +88,7 @@ export function RoomBookingSidebar({ residence, selectedId }: { residence: Resid
       <div className="residence-selected-room-facts"><RoomFacts room={room} /></div>
       <div className="residence-selection" role="status"><strong><Check size={16} />{t('details.selection')}: {title}</strong><p>{room.occupancy} {t(room.occupancy === 1 ? 'details.person' : 'details.people')} · {room.contract ? t('details.monthly') : t('details.notProvided')}</p><p>{t('details.selectionReady')}</p></div>
     </>}
-    {/* Opens authentication UI only; no booking or payment is created. */}
-    <Button variant="search" className="residence-booking-action" disabled={!selection} data-room-id={selection?.roomId} onClick={() => { if (selection) openAuth('signup', { residenceSlug: residence.slug, roomId: selection.roomId }); }}>{t('details.bookNowAction')}</Button>
+    <Button variant="search" className="residence-booking-action" disabled={!selection} data-room-id={selection?.roomId} onClick={() => { if (selection) void navigate({ to: '/booking', search: { residenceSlug: residence.slug, roomId: selection.roomId } }); }}>{t('details.bookNowAction')}</Button>
     <Button variant="brandOutline" className="residence-booking-action" asChild><a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{t('details.getInTouch')}</a></Button>
     <p className="residence-booking-disclaimer">{t('details.bookingUnavailable')}</p>
   </aside>;
