@@ -1,10 +1,32 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { act } from 'react';
+import { renderToString } from 'react-dom/server';
+import { hydrateRoot } from 'react-dom/client';
 import { AUTH_UI_ONLY, AuthUIProvider, PHONE_VERIFIED_ON_REGISTRATION, ROOM_INTENT_KEY, normalizePhone, readRoomIntent, saveRoomIntent, signupFields, useAuthUI, validateRoomIntent } from '@/lib/auth-ui';
 import { AuthForm } from '@/components/edmovinn/authentication';
 
 afterEach(() => { cleanup(); sessionStorage.clear(); });
 describe('Student authentication UI', () => {
+  it('hydrates without errors when browser country names differ from the server', async () => {
+    const container = document.createElement('div');
+    container.innerHTML = renderToString(<AuthForm initialMode="signup" />);
+    document.body.appendChild(container);
+    const realDisplayNames = Intl.DisplayNames;
+    const differentNames = vi.spyOn(Intl, 'DisplayNames').mockImplementation(function (locales, options) {
+      const names = new realDisplayNames(locales, options);
+      const original = names.of.bind(names);
+      names.of = code => `Browser region: ${original(code) ?? code}`;
+      return names;
+    });
+    const onRecoverableError = vi.fn();
+    try {
+      let root: ReturnType<typeof hydrateRoot> | undefined;
+      await act(async () => { root = hydrateRoot(container, <AuthForm initialMode="signup" />, { onRecoverableError }); });
+      await act(async () => { root?.unmount(); });
+      expect(onRecoverableError).not.toHaveBeenCalled();
+    } finally { differentNames.mockRestore(); container.remove(); }
+  });
   it('accepts a signup with name and phone, without requiring email', () => {
     expect(signupFields.safeParse({ fullName: 'Test Student', phone: '+905551234567', password: 'Student123', confirmPassword: 'Student123' }).success).toBe(true);
   });

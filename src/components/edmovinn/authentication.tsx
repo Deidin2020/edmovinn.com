@@ -8,6 +8,7 @@ import { detailPreview, getResidence } from '@/lib/residences';
 import { WHATSAPP_URL } from '@/lib/contact';
 import logo from '@/assets/edmovinn-logo.png.asset.json';
 import { WhatsAppIcon } from './favorite-button';
+import { useHydrated } from '@tanstack/react-router';
 
 function SelectedRoom({ intent }: { intent: RoomIntent }) {
   const { t, language } = useLanguage();
@@ -34,8 +35,10 @@ export function AuthForm({ initialMode, intent = null }: { initialMode: AuthMode
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [notice, setNotice] = useState(false);
-  const countryNames = new Intl.DisplayNames([language], { type: 'region' });
-  const countries = getCountries().sort((a, b) => (countryNames.of(a) ?? a).localeCompare(countryNames.of(b) ?? b, language));
+  const hydrated = useHydrated();
+  // ICU country names differ between server and browser; initial render uses stable codes.
+  const countryNames = hydrated && typeof Intl.DisplayNames === 'function' ? new Intl.DisplayNames([language], { type: 'region' }) : null;
+  const countries = getCountries().sort((a, b) => countryNames ? (countryNames.of(a) ?? a).localeCompare(countryNames.of(b) ?? b, language) : a < b ? -1 : a > b ? 1 : 0);
   function switchMode(next: typeof mode) { setMode(next); setErrors({}); setNotice(false); setPassword(''); setConfirmPassword(''); }
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -52,7 +55,7 @@ export function AuthForm({ initialMode, intent = null }: { initialMode: AuthMode
     {intent && <SelectedRoom intent={intent} />}
     {mode === 'forgot' ? <div className="auth-recovery"><LockKeyhole size={28} /><p>{t('auth.recoveryUnavailable')}</p><Button variant="brandOutline" onClick={() => switchMode('login')}>{t('auth.backToLogin')}</Button></div> : <form onSubmit={submit} noValidate>
       {mode === 'signup' && <div className="auth-field"><label htmlFor={`${id}-name`}>{t('auth.fullName')}</label><input id={`${id}-name`} value={fullName} onChange={event => { setFullName(event.target.value); setNotice(false); }} autoComplete="name" maxLength={100} placeholder={t('auth.namePlaceholder')} aria-invalid={Boolean(errors['fullName'])} aria-describedby={errors['fullName'] ? `${id}-name-error` : undefined} />{errors['fullName'] && <p className="auth-field-error" id={`${id}-name-error`}>{errors['fullName']}</p>}</div>}
-      <div className="auth-field"><label htmlFor={`${id}-phone`}>{t('auth.phone')}</label><div className="auth-phone"><select aria-label={t('auth.countryCode')} value={country} onChange={event => { setCountry(event.target.value as CountryCode); setNotice(false); }}>{countries.map(code => <option key={code} value={code}>{countryNames.of(code)} (+{getCountryCallingCode(code)})</option>)}</select><input id={`${id}-phone`} type="tel" inputMode="tel" autoComplete="tel-national" maxLength={24} value={phone} placeholder="5XX XXX XX XX" onChange={event => { setPhone(event.target.value); setNotice(false); }} aria-invalid={Boolean(errors['phone'])} aria-describedby={errors['phone'] ? `${id}-phone-error` : undefined} /></div>{errors['phone'] && <p className="auth-field-error" id={`${id}-phone-error`}>{errors['phone']}</p>}</div>
+      <div className="auth-field"><label htmlFor={`${id}-phone`}>{t('auth.phone')}</label><div className="auth-phone"><select aria-label={t('auth.countryCode')} value={country} onChange={event => { setCountry(event.target.value as CountryCode); setNotice(false); }}>{countries.map(code => <option key={code} value={code}>{countryNames?.of(code) ?? code} (+{getCountryCallingCode(code)})</option>)}</select><input id={`${id}-phone`} type="tel" inputMode="tel" autoComplete="tel-national" maxLength={24} value={phone} placeholder="5XX XXX XX XX" onChange={event => { setPhone(event.target.value); setNotice(false); }} aria-invalid={Boolean(errors['phone'])} aria-describedby={errors['phone'] ? `${id}-phone-error` : undefined} /></div>{errors['phone'] && <p className="auth-field-error" id={`${id}-phone-error`}>{errors['phone']}</p>}</div>
       <PasswordField id={`${id}-password`} label={t('auth.password')} newPassword={mode === 'signup'} value={password} setValue={value => { setPassword(value); setNotice(false); }} {...(errors['password'] ? { error: errors['password'] } : {})} />
       {mode === 'signup' ? <><p className="auth-password-hint">{t('auth.passwordHint')}</p><PasswordField id={`${id}-confirm`} label={t('auth.confirmPassword')} value={confirmPassword} setValue={value => { setConfirmPassword(value); setNotice(false); }} confirm {...(errors['confirmPassword'] ? { error: errors['confirmPassword'] } : {})} /></> : <Button type="button" variant="link" className="auth-forgot" onClick={() => switchMode('forgot')}>{t('auth.forgotPassword')}</Button>}
       {notice && <p className="auth-notice" role="status">{t('auth.notConnected')}</p>}

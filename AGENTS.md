@@ -30,6 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Render platform-localized country names only after hydration, with stable country codes first; server and browser ICU data can differ and otherwise break auth hydration.
 - Keep authentication UI in a scoped form/modal and preserve validated, display-only room IDs in session storage; never store credentials or simulate sessions while accounts are not activated.
 - Student profiles are private, and clients may update only their own name; phone verification is trusted server-owned state, not editable profile metadata.
 - Keep detail-page room galleries and popups limited to room-owned photos, and derive booking summaries from the validated selected room in the source record; selection must not alter the disconnected booking workflow.

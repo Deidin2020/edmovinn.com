@@ -1,4 +1,5 @@
 # Student authentication UI
+- [x] Resolve preview runtime errors: stale dependency URLs require a preview reload; country-selector hydration fixed and fresh loads plus desktop/mobile flow verified without runtime errors.
 - [x] Design EN/TR phone-and-password signup/login forms and selected-room modal without redesigning existing pages.
 - [x] Prepare private student-profile storage; account creation is not activated.
 - [x] Owner chose interfaces only: no live signup, login, password reset, OTP, dashboard or payments in this task.
