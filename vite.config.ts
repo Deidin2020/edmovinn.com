@@ -16,6 +16,13 @@ export default defineConfig({
       // Late optimization otherwise leaves open tabs with mixed React module URLs.
       include: [
         "@radix-ui/react-slot",
+        "@radix-ui/react-checkbox",
+        "@radix-ui/react-popover",
+        "react-day-picker",
+        "date-fns",
+        "date-fns/locale",
+        "@tanstack/react-query",
+        "@tanstack/react-router",
         "class-variance-authority",
         "clsx",
         "lucide-react",

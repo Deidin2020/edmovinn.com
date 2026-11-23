@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/lib/localization';
 import { WHATSAPP_URL } from '@/lib/contact';
 import { WhatsAppIcon } from '../favorite-button';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 // Provider must verify the code and update the registered phone server-side before resolving.
 export type WhatsAppVerificationAdapter = {send:()=>Promise<void>;verify:(code:string)=>Promise<boolean>;correctPhone:(phone:string)=>Promise<void>};
 export function PhoneVerification({open,phone,onClose,onVerified,adapter}: {open:boolean;phone:string;onClose:()=>void;onVerified:()=>void;adapter?:WhatsAppVerificationAdapter}) {
@@ -12,6 +13,7 @@ export function PhoneVerification({open,phone,onClose,onVerified,adapter}: {open
  useEffect(()=>{if(!open)return;const timer=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(timer);},[open]);
  async function action(kind:'send'|'verify'|'correct') {
   if(!adapter){setMessage(t('booking.otpUnavailable'));return;}
+  if(kind==='correct' && !parsePhoneNumberFromString(newPhone)?.isValid()){setMessage(t('auth.phoneError'));return;}
   setBusy(true);setMessage('');
   try {if(kind==='send'){await adapter.send();setSent(true);setResendAt(Date.now()+60000);setNow(Date.now());}else if(kind==='correct'){await adapter.correctPhone(newPhone);setCorrect(false);setSent(false);setCode('');}else {if(await adapter.verify(code)){onVerified();onClose();}else setMessage(t('booking.otpInvalid'));}}catch{setMessage(t('common.error'));}finally{setBusy(false);}
  }

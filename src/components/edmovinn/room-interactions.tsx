@@ -6,7 +6,6 @@ import { prepareRoomSelection, type Residence, type Room } from '@/lib/residence
 import { WHATSAPP_URL } from '@/lib/contact';
 import { HousingLabel } from './housing-label';
 import { WhatsAppIcon } from './favorite-button';
-import { useAuthUI } from '@/lib/auth-ui';
 import { useNavigate } from '@tanstack/react-router';
 
 // Only room-owned images are eligible; never borrow residence or other room photos.

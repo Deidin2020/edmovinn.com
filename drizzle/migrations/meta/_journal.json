@@ -15,6 +15,20 @@
       "when": 1795445825367,
       "tag": "0001_student_booking_flow",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795446120865,
+      "tag": "0002_validate_booking_identity_and_progress",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795446282765,
+      "tag": "0003_restrict_booking_data_api_permissions",
+      "breakpoints": true
     }
   ]
 }

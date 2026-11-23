@@ -21,6 +21,7 @@ export function BookingFlow({residenceSlug,roomId}: {residenceSlug:string;roomId
  const [intent,setIntent]=useState(()=>validateRoomIntent({residenceSlug,roomId}));
  const [step,setStep]=useState(1);const [moveIn,setMoveIn]=useState('');const [student,setStudent]=useState<StudentInfo>(initialStudent);const [errors,setErrors]=useState<Record<string,string>>({});const [read,setRead]=useState(false);const [agreed,setAgreed]=useState(false);const [notice,setNotice]=useState('');const [busy,setBusy]=useState(false);const [otp,setOtp]=useState(false);const [bookingId,setBookingId]=useState<string|null>(null);
  const prefilling=useRef(false);const heading=useRef<HTMLHeadingElement>(null);
+ useEffect(()=>{setRead(false);setAgreed(false);},[language]);
  useEffect(()=>{const value=validateRoomIntent({residenceSlug,roomId})??readRoomIntent();setIntent(value);if(value)saveRoomIntent(value);},[residenceSlug,roomId]);
  const context=useQuery({queryKey:['booking-context',account.data?.id,intent],queryFn:()=>fetchContext({data:intent??{residenceSlug:'',roomId:''}}),enabled:Boolean(account.data && intent),retry:false});
  useEffect(()=>{if(context.data?.profile && !prefilling.current){prefilling.current=true;setStudent(old=>({...old,fullName:context.data?.profile?.full_name??'',phone:context.data?.profile?.phone??''}));}},[context.data]);

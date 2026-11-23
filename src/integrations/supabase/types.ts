@@ -55,6 +55,7 @@ export type Database = {
       }
       bookings: {
         Row: {
+          availability_status: string
           check_in_status: string
           contract_end: string
           contract_status: string
@@ -80,6 +81,7 @@ export type Database = {
           total_rent: number
         }
         Insert: {
+          availability_status?: string
           check_in_status?: string
           contract_end: string
           contract_status?: string
@@ -105,6 +107,7 @@ export type Database = {
           total_rent: number
         }
         Update: {
+          availability_status?: string
           check_in_status?: string
           contract_end?: string
           contract_status?: string
