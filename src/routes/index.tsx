@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider } from '@/lib/localization';
 import { AccommodationSearch, FeaturedAccommodations, Footer, Header, Hero, HowItWorks, QuickBenefits, WhyChooseEdmovinn } from '@/components/edmovinn/homepage';
+import hero from '@/assets/student-istanbul.png.asset.json';
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+// Use the same absolute cover image shown on the homepage for social sharing.
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
     { title: 'Edmovinn — Find Your Student Home in Turkey' },
@@ -12,6 +12,8 @@ export const Route = createFileRoute("/")({
     { property: 'og:description', content: 'Discover student accommodation and find your place near your university in Turkey.' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
+    { property: 'og:image', content: hero.url },
+    { name: 'twitter:image', content: hero.url },
   ] }),
   component: Index,
 });

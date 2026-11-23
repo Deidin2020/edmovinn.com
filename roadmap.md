@@ -1,3 +1,9 @@
+# Student authentication UI
+- [x] Design EN/TR phone-and-password signup/login forms and selected-room modal without redesigning existing pages.
+- [x] Prepare private student-profile storage; account creation is not activated.
+- [x] Owner chose interfaces only: no live signup, login, password reset, OTP, dashboard or payments in this task.
+- [x] Preserve room selection and verify validation, mode switching, cancellation and mobile layout; 54 tests passed.
+
 # Edmovinn homepage
 - [x] Add explicitly fictional accommodation preview cards.
 - [x] Change step numbers to white on royal blue.

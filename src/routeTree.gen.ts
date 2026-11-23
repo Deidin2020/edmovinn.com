@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AccommodationsIndexRouteImport } from './routes/accommodations.index'
 import { Route as AccommodationsSlugRouteImport } from './routes/accommodations.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccommodationsIndexRoute = AccommodationsIndexRouteImport.update({
@@ -31,30 +37,34 @@ const AccommodationsSlugRoute = AccommodationsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations/': typeof AccommodationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations': typeof AccommodationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations/': typeof AccommodationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/accommodations/$slug' | '/accommodations/'
+  fullPaths: '/' | '/auth' | '/accommodations/$slug' | '/accommodations/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/accommodations/$slug' | '/accommodations'
-  id: '__root__' | '/' | '/accommodations/$slug' | '/accommodations/'
+  to: '/' | '/auth' | '/accommodations/$slug' | '/accommodations'
+  id: '__root__' | '/' | '/auth' | '/accommodations/$slug' | '/accommodations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   AccommodationsSlugRoute: typeof AccommodationsSlugRoute
   AccommodationsIndexRoute: typeof AccommodationsIndexRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accommodations/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   AccommodationsSlugRoute: AccommodationsSlugRoute,
   AccommodationsIndexRoute: AccommodationsIndexRoute,
 }

@@ -10,7 +10,8 @@ export const Route = createFileRoute('/accommodations/$slug')({
     const residence = getResidence(params.slug);
     const title = residence ? `${residence.name} — ${residence.isMock ? 'Residence Preview' : 'Male Student Residence in Istanbul'} | Edmovinn` : 'Residence Unavailable | Edmovinn';
     const description = residence && !residence.isMock ? 'Explore Moveinn male student housing in Küçükçekmece, opposite Mall of Istanbul, with twelve facilities and monthly room information. Booking is not yet available.' : 'Explore student residence photos, facilities and room options with Edmovinn. Temporary illustrative content; booking is not available.';
-    return { meta: [{ title }, { name: 'description', content: description }, { property: 'og:title', content: title }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }, { name: 'robots', content: 'noindex, nofollow' }] };
+    const cover = residence?.photos[0];
+    return { meta: [{ title }, { name: 'description', content: description }, { property: 'og:title', content: title }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }, { name: 'robots', content: 'noindex, nofollow' }, ...(cover?.startsWith('https://') ? [{ property: 'og:image', content: cover }, { name: 'twitter:image', content: cover }] : [])] };
   },
   component: AccommodationRoute,
 });

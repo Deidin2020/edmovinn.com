@@ -49,7 +49,7 @@ describe('Detail-page room interactions', () => {
     expect(within(sidebar).getByText('$375')).toBeInTheDocument();
     expect(within(sidebar).getByText('$750')).toBeInTheDocument();
     expect(within(sidebar).getByRole('button', { name: 'Book Now' })).toHaveAttribute('data-room-id', 'quadruple-70');
-    expect(within(sidebar).getByRole('button', { name: 'Book Now' })).toBeDisabled();
+    expect(within(sidebar).getByRole('button', { name: 'Book Now' })).not.toBeDisabled();
     const residence: Residence = { ...moveinn, rooms: [...moveinn.rooms, { id: 'second', type: 'single', occupancy: 1, image: 'second.webp', price: 520, deposit: 900, availability: 'available', amenities: [] }] };
     rerender(<RoomBookingSidebar residence={residence} selectedId="second" />);
     expect(within(sidebar).getByRole('heading')).toHaveTextContent('Single Room');
