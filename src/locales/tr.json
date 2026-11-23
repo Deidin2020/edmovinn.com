@@ -165,6 +165,10 @@
     "social": "Sosyal Medya"
   },
   "details": {
+    "viewRoomDetails": "Oda Detaylarını Gör",
+    "roomDetails": "Oda Detayları",
+    "selectToContinue": "Devam Etmek İçin Bir Oda Seçin",
+    "bookNowAction": "Şimdi Rezervasyon Yap",
     "residences": "Yurtlar",
     "preview": "Geçici önizleme",
     "notice": "Fotoğraflar, olanaklar, oda seçenekleri ve fiyatlar temsilidir; doğrulanmış Moveinn bilgileri değildir. Rezervasyon yapılamaz.",

@@ -30,6 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Keep detail-page room galleries and popups limited to room-owned photos, and derive booking summaries from the validated selected room in the source record; selection must not alter the disconnected booking workflow.
 - Keep homepage presentation unchanged when extending the app; the approved accommodation detail route reuses its Header and Footer.
 - Centralize interface translations in locale JSON through the language provider; load browser language preferences after hydration to keep SSR consistent.
 - Keep typed accommodation filter validation and URL preparation separate from presentation; explicitly labeled fictional preview cards are isolated from real inventory and cannot create bookings.

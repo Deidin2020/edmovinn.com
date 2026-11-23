@@ -10,6 +10,8 @@
 - [ ] Confirm supplied business claims before public launch (awaiting owner confirmation).
 
 # Accommodation details
+- [x] Add room photo controls and a centered details popup without changing existing cards or room records; single-photo records retain disabled arrows.
+- [x] Update the existing booking sidebar from the selected room ID, preserve disconnected booking, and verify EN/TR and mobile interactions.
 - [x] Add the supplied results page with synchronized URL filters, matching-room prices, sorting, pagination, EN/TR and mobile drawer; unconfirmed Moveinn terms remain a separate reference.
 - [x] Verify results navigation and unchanged existing page layouts; university/distance filtering and real map pins await confirmed geographic data.
 - [x] Add consistent gender labels, remove duplicate feature strip, frame booking and add WhatsApp contact label.

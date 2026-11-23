@@ -165,6 +165,10 @@
     "social": "Social Media"
   },
   "details": {
+    "viewRoomDetails": "View Room Details",
+    "roomDetails": "Room Details",
+    "selectToContinue": "Select a Room to Continue",
+    "bookNowAction": "Book Now",
     "residences": "Residences",
     "preview": "Temporary preview",
     "notice": "Illustrative photos, facilities, room options and prices — not confirmed Moveinn information. No bookings are available.",

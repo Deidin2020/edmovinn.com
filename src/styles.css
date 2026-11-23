@@ -83,6 +83,7 @@
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
+  --overlay: oklch(0.28 0.1 265 / 0.4);
   --primary: oklch(0.471280897 0.255732299 265.5314104);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.98144861 0.00452731 258.32444);
@@ -124,6 +125,7 @@
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
+  --overlay: oklch(0.129 0.042 264.695 / 0.7);
   --primary: oklch(0.929 0.013 255.508);
   --primary-foreground: oklch(0.208 0.042 265.755);
   --secondary: oklch(0.279 0.041 260.031);
@@ -589,6 +591,20 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
 .room-option-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
 .room-option-actions button { min-height: 40px; height: auto; font-size: 11px; white-space: normal; padding: 7px; }
 .room-option-note { margin-top: 9px; font-size: 9px; color: var(--muted-foreground); line-height: 1.5; }
+.room-photo-browser { position: relative; width: 100%; height: 100%; touch-action: pan-y; }
+.room-photo-arrow { position: absolute; top: 50%; transform: translateY(-50%); }
+.room-photo-previous { left: 8px; }
+.room-photo-next { right: 8px; }
+.room-details-popup { position: fixed; inset: 0; margin: auto; width: min(620px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; border: 1px solid var(--border); border-radius: 7px; background: var(--card); color: var(--foreground); box-shadow: var(--shadow-soft); padding: 0; }
+.room-details-popup::backdrop { background: var(--overlay); }
+.room-details-popup-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px; }
+.room-details-popup-heading h2 { font-size: 19px; min-width: 0; }
+.room-details-popup-heading button { flex-shrink: 0; }
+.room-details-popup-gallery { aspect-ratio: 2.2; }
+.room-details-popup-gallery img { width: 100%; height: 100%; object-fit: contain; }
+.room-details-popup .room-option-facts { margin-top: 13px; }
+.residence-selected-room-facts { margin-bottom: 14px; grid-column: 1 / -1; }
+.residence-booking > h2:first-child { grid-column: 1 / -1; }
 @media (max-width: 1023px) { .room-option-grid { grid-template-columns: 1fr; } }
 @media (min-width: 640px) and (max-width: 767px) { .room-option-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 
