@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BedDouble, CalendarDays, Check, MapPin, Maximize } from 'lucide-react';
+import { X, BedDouble, CalendarDays, Check, MapPin, Maximize } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/lib/localization';
 import { HousingLabel } from './housing-label';
@@ -20,7 +20,7 @@ export function RoomOptionCard({ room, residence, selected, onSelect }: { room: 
       <div className="room-option-terms"><div><span>{t('details.price')}</span><p><strong>{money(room.price)}</strong> <small>{t('details.month')}</small></p></div><div><span>{t('details.deposit')}</span><p>{room.deposit !== undefined ? money(room.deposit) : t('details.notProvided')}</p></div><div><span>{t('details.contract')}</span><p>{room.contract ? t('details.monthly') : t('details.notProvided')}</p></div></div>
       <div className="room-option-tags">{room.amenities.slice(0, 3).map(amenity => <span key={amenity}>{t(`details.${amenity}`)}</span>)}<Button variant="link" onClick={() => setExpanded(!expanded)} aria-expanded={expanded}>{t('details.more')}</Button></div>
       {expanded && <div className="room-option-extra"><p>{room.occupancy} {t(room.occupancy === 1 ? 'details.person' : 'details.people')} · {t(`details.${room.availability}`)}</p><p>{t(residence.isMock ? 'details.notice' : 'details.referenceTerms')}</p></div>}
-      <div className="room-option-actions"><Button variant="brandOutline" onClick={() => setDetailsOpen(true)} aria-haspopup="dialog">{t('details.viewRoomDetails')}</Button><Button variant={selected ? 'default' : 'search'} aria-pressed={selected} disabled={room.availability === 'unavailable'} onClick={onSelect}>{selected && <Check />}{t(selected ? 'details.selected' : 'details.select')}</Button></div>
+      <div className="room-option-actions"><Button variant="brandOutline" onClick={() => setDetailsOpen(true)} aria-haspopup="dialog">{t('details.viewRoomDetails')}</Button><Button variant={selected ? 'default' : 'search'} aria-pressed={selected} disabled={room.availability === 'unavailable'} onClick={onSelect}>{selected ? <X /> : <Check />}{t(selected ? 'details.cancelSelection' : 'details.select')}</Button></div>
       <p className="room-option-note">{t('details.bookingUnavailable')}</p>
     </div>
     <RoomDetailsPopup room={room} residence={residence} open={detailsOpen} onClose={() => setDetailsOpen(false)} />

@@ -190,7 +190,7 @@
     "roomIntro": "Bu yurttaki temsili oda seçeneklerini karşılaştırın.",
     "person": "kişi",
     "people": "kişi",
-    "select": "Oda Seç",
+    "select": "Hemen Rezerve Et",
     "selected": "Seçildi",
     "available": "Müsait · örnek",
     "limited": "Sınırlı · örnek",
@@ -279,7 +279,8 @@
     "sampleAvailable": "Müsait · örnek",
     "sampleRoomIntro": "Örnek oda bilgileri · oda seçimi rezervasyon oluşturmaz.",
     "sampleSafety": "Konforlu odaları ve ortak hizmetleri olan öğrenci odaklı bir yaşam ortamı.",
-    "sampleRoomTerms": "Yatak ve konum bilgileri örnektir; fiyat, depozito, alan ve tarih sağlanan karttan alınmıştır."
+    "sampleRoomTerms": "Yatak ve konum bilgileri örnektir; fiyat, depozito, alan ve tarih sağlanan karttan alınmıştır.",
+    "cancelSelection": "Seçimi İptal Et"
   },
   "results": {
     "title": "{city} Öğrenci Konaklamaları",

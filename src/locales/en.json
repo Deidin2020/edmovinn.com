@@ -190,7 +190,7 @@
     "roomIntro": "Compare illustrative room options at this residence.",
     "person": "person",
     "people": "people",
-    "select": "Select Room",
+    "select": "Book Now",
     "selected": "Selected",
     "available": "Available · demo",
     "limited": "Limited · demo",
@@ -279,7 +279,8 @@
     "sampleAvailable": "Available · sample",
     "sampleRoomIntro": "Sample room information · selection does not create a booking.",
     "sampleSafety": "A student-focused living environment with comfortable rooms and shared services.",
-    "sampleRoomTerms": "Sample bed and location details; price, deposit, size and date follow the supplied card."
+    "sampleRoomTerms": "Sample bed and location details; price, deposit, size and date follow the supplied card.",
+    "cancelSelection": "Cancel Selection"
   },
   "results": {
     "title": "Student Accommodation in {city}",
