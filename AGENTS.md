@@ -52,3 +52,4 @@ use the editor.
 - Keep results filtering and URL validation in a browser-safe module; available room matches exclude unconfirmed owner references and sample detail coordinates, so counts and prices never imply live availability.
 - Use an index leaf for accommodation results alongside the existing dynamic detail route, with page-scoped styles, so existing detail URLs and page layouts stay unchanged.
 - Pre-optimize homepage UI dependencies alongside React and reject outdated optimizer requests; mixed dependency generations in an open preview can create separate React dispatchers and crash hooks.
+- In development only, strip optimizer-wide versions from exact existing content-hashed Rolldown runtime chunks; identical runtime bytes remain safe while React dependency entries retain version protection.

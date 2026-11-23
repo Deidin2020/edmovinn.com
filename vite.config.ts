@@ -8,9 +8,27 @@
 // hosting already compresses at the edge.
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { recoverRuntimeChunkUrl } from './src/lib/vite-dependency-url';
 
 export default defineConfig({
   vite: {
+    plugins: [{
+      name: 'recover-content-addressed-runtime',
+      apply: 'serve',
+      configureServer(server) {
+        server.middlewares.use((req, _res, next) => {
+          if (req.method === 'GET' && req.url) {
+            const recovered = recoverRuntimeChunkUrl(req.url);
+            // Only serve the exact existing content-hashed file. Missing old
+            // chunks and non-hashed dependency entries retain Vite's checks.
+            if (recovered && existsSync(resolve(server.config.root, `.${new URL(recovered, 'http://localhost').pathname}`))) req.url = recovered;
+          }
+          next();
+        });
+      },
+    }],
     optimizeDeps: {
       // Discover the homepage UI dependencies with React in the initial pass.
       // Late optimization otherwise leaves open tabs with mixed React module URLs.
