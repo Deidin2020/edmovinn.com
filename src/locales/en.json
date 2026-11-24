@@ -162,7 +162,16 @@
     "terms": "Terms & Conditions",
     "cookies": "Cookie Policy",
     "copyright": "© 2026 Edmovinn. All rights reserved.",
-    "social": "Social Media"
+    "social": "Social Media",
+    "followUs": "Follow us",
+    "whatsappChat": "Chat on WhatsApp",
+    "socialSoon": "Coming soon",
+    "socials": {
+      "instagram": "Edmovinn on Instagram",
+      "facebook": "Edmovinn on Facebook",
+      "x": "Edmovinn on X",
+      "linkedin": "Edmovinn on LinkedIn"
+    }
   },
   "details": {
     "viewRoomDetails": "View Room Details",

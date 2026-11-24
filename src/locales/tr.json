@@ -162,7 +162,16 @@
     "terms": "Kullanım Koşulları",
     "cookies": "Çerez Politikası",
     "copyright": "© 2026 Edmovinn. Tüm hakları saklıdır.",
-    "social": "Sosyal Medya"
+    "social": "Sosyal Medya",
+    "followUs": "Bizi takip edin",
+    "whatsappChat": "WhatsApp'tan yazın",
+    "socialSoon": "Çok yakında",
+    "socials": {
+      "instagram": "Edmovinn Instagram'da",
+      "facebook": "Edmovinn Facebook'ta",
+      "x": "Edmovinn X'te",
+      "linkedin": "Edmovinn LinkedIn'de"
+    }
   },
   "details": {
     "viewRoomDetails": "Oda Detaylarını Gör",
