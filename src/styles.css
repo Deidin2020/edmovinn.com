@@ -981,3 +981,12 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
  .portal-filter-tabs { gap: 0; }
  .portal-filter-tabs a { padding-inline: 12px; font-size: 12px; }
 }
+.booking-plan-options { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin-top: 8px; }
+.booking-plan-options button { border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-weight: 600; background: var(--background); }
+.booking-plan-options button.is-selected { border-color: var(--primary); background: color-mix(in oklab, var(--primary) 10%, transparent); color: var(--primary); }
+.booking-stay { margin-top: 20px; }
+.booking-schedule { margin-top: 16px; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.booking-schedule h3 { font-size: 14px; margin-bottom: 8px; }
+.booking-schedule p { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; padding-block: 4px; }
+.booking-schedule small { display: block; margin-top: 8px; color: var(--muted-foreground); }
+.booking-demo-badge { font-size: 11px; font-weight: 700; color: #9a3412; background: #ffedd5; border-radius: 8px; padding: 8px 10px; margin-top: 8px; }

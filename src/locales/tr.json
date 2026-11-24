@@ -390,7 +390,7 @@
     "duration": "Konaklama Süresi",
     "academicYear": "Akademik yıl konaklaması · Haziran’da sona erer",
     "contractEnd": "Sözleşme Bitiş Tarihi",
-    "paymentPlan": "Konaklama Ödeme Planı",
+    "paymentPlan": "Kira Ödeme Planı",
     "monthly": "Aylık",
     "annual": "Yıllık",
     "junePending": "Haziran · kesin sözleşme tarihi bekleniyor",
@@ -433,7 +433,7 @@
     "authRequired": "Rezervasyon yapmak için öğrenci hesabınıza giriş yapın.",
     "previewOnly": "Hesaba giriş henüz etkin değil. Adımları inceleyebilirsiniz; rezervasyon veya ödeme tamamlanamaz.",
     "quoteUnavailable": "Ödeme için doğrulanmış sözleşme tarihi, ödeme planı ve yönetici onaylı kira ve depozito teklifi gerekir. Tahmini toplam hesaplanmadı.",
-    "dateError": "Sözleşme teklifi tanımlanmış geçerli bir giriş tarihi seçin.",
+    "dateError": "Geçerli bir giriş tarihi ve kira ödeme planı seçin.",
     "fieldError": "Bu alan için geçerli bir değer girin.",
     "checkFields": "Lütfen işaretli alanları kontrol edin.",
     "noRoom": "Rezervasyona başlamak için bir oda seçin.",
@@ -483,7 +483,13 @@
       "processing": "İade İşleniyor",
       "refunded": "Tamamen İade Edildi",
       "failed": "İade İncelenmeli"
-    }
+    },
+    "monthsDays": "{months} ay + {days} gün",
+    "scheduleTitle": "Tahmini kira ödeme takvimi",
+    "upfrontRent": "Tek seferde peşin konaklama kirası",
+    "demo": "demo",
+    "demoEstimate": "DEMO TAHMİN · ödenecek tutar değildir. Kesin fiyatları yurt ve Edmovinn onaylar.",
+    "demoNote": "Demo tahmin: kısmi aylar kalınan gün sayısına göre hesaplanır. Ödeme adımında yalnızca Edmovinn depozitosunu ödersiniz."
   },
   "portal": {
     "dashboard": "Öğrenci Paneli",

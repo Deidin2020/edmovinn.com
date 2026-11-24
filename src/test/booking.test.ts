@@ -16,3 +16,27 @@ describe('Edmovinn booking rules',()=>{
  it('requires Turkish ID for Turkish citizens instead of passport information',()=>{expect(studentSchema.safeParse({...student,citizenship:'turkish',turkishId:''}).success).toBe(false);expect(studentSchema.safeParse({...student,citizenship:'turkish',turkishId:'12345678901',identity:'',nationality:''}).success).toBe(true);});
  it('requires international identity details while email stays optional',()=>{expect(studentSchema.safeParse(student).success).toBe(true);expect(studentSchema.safeParse({...student,identity:''}).success).toBe(false);});
 });
+
+import { contractEndFor, demoQuote } from '@/lib/booking-demo';
+describe('demo contract end and proration', () => {
+ it('uses the next June 24 after move-in', () => {
+  expect(contractEndFor('2026-12-24')).toBe('2027-06-24');
+  expect(contractEndFor('2027-03-10')).toBe('2027-06-24');
+  expect(contractEndFor('2027-05-01')).toBe('2027-06-24');
+  expect(contractEndFor('2027-07-15')).toBe('2028-06-24');
+  expect(contractEndFor('2027-06-24')).toBe('2028-06-24');
+ });
+ it('charges only the stay period, prorating partial months', () => {
+  const q = demoQuote('2026-12-24', 310);
+  expect(q.periods[0]).toMatchObject({ month: '2026-12', days: 8, amount: 80 });
+  expect(q.periods.at(-1)).toMatchObject({ month: '2027-06', days: 23 });
+  expect(q).toMatchObject({ fullMonths: 6, extraDays: 0 });
+  expect(demoQuote('2026-12-05', 310)).toMatchObject({ fullMonths: 6, extraDays: 19 });
+  expect(q.total).toBeCloseTo(80 + 310 * 5 + 310 * 23 / 30, 1);
+  expect(q.remaining).toBeCloseTo(q.total - q.deposit, 2);
+ });
+ it('prefers an administrator deposit and never exceeds the total', () => {
+  expect(demoQuote('2027-05-01', 300, 200)).toMatchObject({ deposit: 200, isDemoDeposit: false });
+  expect(demoQuote('2027-06-20', 300).deposit).toBeLessThanOrEqual(demoQuote('2027-06-20', 300).total);
+ });
+});
