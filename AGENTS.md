@@ -35,7 +35,7 @@ use the editor.
 - Booking shows only the admin-entered deposit (paid now) and full contract price plus read-only contract type from booking_quotes; students never choose a plan and no end date or prorating is computed.
 - Persist bookings through the authenticated database RPC with server-owned financial snapshots and acceptance timestamps; clients have owner-read access only and cannot set payment, phone verification or progress states.
 - Keep booking fields in component memory during edits and verification; persist only authenticated validated submissions and display-only room IDs, never identity documents or credentials in browser storage.
-- Payment never depends on phone verification. Owner-requested demo: Pay Deposit opens a clearly labelled demo card form and success screen that saves nothing and charges nothing; replace with a real gateway before launch.
+- Payment never depends on phone verification. Owner-requested demo: Pay Deposit opens a clearly labelled demo card form and success screen that charges nothing and saves only a labelled session-only demo booking (no identity or card data) shown in the dashboard; replace with a real gateway before launch.
 - Render platform-localized country names only after hydration, with stable country codes first; server and browser ICU data can differ and otherwise break auth hydration.
 - Use Cloud email/password auth with confirmation and scoped forms; preserve only validated room IDs in session storage, never credentials. Signup stores private contact phone unverified through the profile trigger.
 - Student profiles are private, and clients may update only their own name; phone verification is trusted server-owned state, not editable profile metadata.

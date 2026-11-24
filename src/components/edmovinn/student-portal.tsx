@@ -9,6 +9,7 @@ import { WHATSAPP_URL } from '@/lib/contact';
 import { getResidence } from '@/lib/residences';
 import { bookingProgress, filterStudentBookings, portalOverview, type BookingFilter, type PortalBooking } from '@/lib/student-portal';
 import { studentPortalQuery } from '@/lib/student-portal-query';
+import { isDemoBooking, useDemoBookings } from '@/lib/demo-bookings';
 import { Header, Footer } from './homepage';
 import { WhatsAppIcon } from './favorite-button';
 import { HousingLabel } from './housing-label';
@@ -70,7 +71,7 @@ function BookingCard({ booking, progress = false }: { booking: PortalBooking; pr
   const done = bookingProgress(booking);
   return <article className="portal-booking-card">
     <div className="portal-booking-content">{image ? <img src={image} alt={name} className="portal-booking-image" /> : <div className="portal-booking-image portal-image-fallback"><BedDouble size={36} /></div>}
-      <div className="portal-booking-info"><div className="portal-card-top"><p className="portal-reference">{t('booking.reference')} · {booking.reference}</p><span className={`portal-status ${booking.status === 'cancelled' ? 'is-cancelled' : ''}`}>{statusText(t, 'statuses', booking.status)}</span></div>
+      <div className="portal-booking-info"><div className="portal-card-top"><p className="portal-reference">{t('booking.reference')} · {booking.reference}</p><span className={`portal-status ${booking.status === 'cancelled' ? 'is-cancelled' : ''}`}>{statusText(t, 'statuses', booking.status)}</span></div>{isDemoBooking(booking) && <p className="booking-demo-badge">{t('booking.demoOnly')}</p>}
         <h3>{name}</h3><p className="portal-room"><BedDouble size={16} />{roomName}</p>{residence && <HousingLabel genderKey={residence.genderKey} />}
         <div className="portal-card-bottom"><p className="portal-deposit"><Wallet size={17} /><span>{t('booking.paymentStatus')}<strong>{statusText(t, 'payments', booking.payment_status)}</strong></span></p><Button variant="brandOutline" asChild><Link to="/my-bookings/$bookingId" params={{ bookingId: booking.id }}>{t('portal.viewDetails')}<ArrowRight /></Link></Button></div>
       </div>
@@ -80,7 +81,8 @@ function BookingCard({ booking, progress = false }: { booking: PortalBooking; pr
 }
 export function StudentDashboard({ studentId }: { studentId: string }) {
   const { t } = useLanguage();
-  const { data } = useSuspenseQuery(studentPortalQuery(studentId));
+  const { data: loaded } = useSuspenseQuery(studentPortalQuery(studentId));
+  const data = { ...loaded, bookings: useDemoBookings(studentId, loaded.bookings) };
   const overview = portalOverview(data.bookings);
   const welcome = data.name.trim() ? t('portal.welcomeName').replace('{name}', data.name.trim()) : t('portal.welcome');
   return <main className="page-container portal-page"><PortalHeading title={welcome} subtitle={t('portal.overviewSubtitle')} />
@@ -89,7 +91,7 @@ export function StudentDashboard({ studentId }: { studentId: string }) {
   </main>;
 }
 export function StudentBookings({ studentId, filter }: { studentId: string; filter: BookingFilter }) {
-  const { t } = useLanguage(); const { data } = useSuspenseQuery(studentPortalQuery(studentId));
+  const { t } = useLanguage(); const { data: loaded } = useSuspenseQuery(studentPortalQuery(studentId)); const data = { ...loaded, bookings: useDemoBookings(studentId, loaded.bookings) };
   const bookings = filterStudentBookings(data.bookings, filter);
   return <main className="page-container portal-page"><PortalHeading title={t('booking.myBookings')} subtitle={t('portal.bookingsSubtitle')} />
     <nav className="portal-filter-tabs" aria-label={t('portal.filterBookings')}>{(['all', 'pending', 'confirmed'] as const).map(key => <Button key={key} variant="ghost" asChild><Link to="/my-bookings" search={{ filter: key }} aria-current={filter === key ? 'page' : undefined} className={filter === key ? 'is-active' : ''}>{t(`portal.${key}`)}<span>{filterStudentBookings(data.bookings, key).length}</span></Link></Button>)}</nav>
@@ -97,7 +99,7 @@ export function StudentBookings({ studentId, filter }: { studentId: string; filt
   </main>;
 }
 export function BookingDetailsDestination({ studentId, bookingId }: { studentId: string; bookingId: string }) {
-  const { t } = useLanguage(); const { data } = useSuspenseQuery(studentPortalQuery(studentId));
+  const { t } = useLanguage(); const { data: loaded } = useSuspenseQuery(studentPortalQuery(studentId)); const data = { ...loaded, bookings: useDemoBookings(studentId, loaded.bookings) };
   const booking = data.bookings.find(b => b.id === bookingId);
   // Navigation destination only; the full Booking Details page is intentionally deferred.
   return <main className="page-container portal-page"><PortalHeading title={t('portal.viewDetails')} subtitle={booking ? booking.reference : t('portal.bookingNotFound')} /><div className="portal-empty"><p>{t(booking ? 'portal.detailsLater' : 'portal.bookingNotFoundText')}</p><Button asChild><Link to="/my-bookings" search={{ filter: 'all' }}>{t('portal.viewAll')}</Link></Button></div></main>;
