@@ -10,7 +10,7 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { recoverRuntimeChunkUrl } from './src/lib/vite-dependency-url';
+import { needsDependencyReload, recoverRuntimeChunkUrl } from './src/lib/vite-dependency-url';
 
 export default defineConfig({
   vite: {
@@ -18,29 +18,59 @@ export default defineConfig({
       name: 'recover-content-addressed-runtime',
       apply: 'serve',
       configureServer(server) {
+        let reloadScheduled = false;
         server.middlewares.use((req, _res, next) => {
           if (req.method === 'GET' && req.url) {
+            const pathname = new URL(req.url, 'http://localhost').pathname;
+            const file = resolve(server.config.root, `.${pathname}`);
+            const client = server.environments['client'];
+            const metadata = client?.depsOptimizer?.metadata;
             const recovered = recoverRuntimeChunkUrl(req.url);
-            // Only serve the exact existing content-hashed file. Missing old
-            // chunks and non-hashed dependency entries retain Vite's checks.
-            if (recovered && existsSync(resolve(server.config.root, `.${new URL(recovered, 'http://localhost').pathname}`))) req.url = recovered;
+            // Only metadata-registered, exact existing chunks may bypass a stale
+            // optimizer-wide version. Never redirect dependency entries to new bytes.
+            const chunk = metadata && Object.values(metadata.chunks).find(info => info.file === file);
+            if (recovered && chunk && existsSync(file)) req.url = recovered;
+            else {
+              const info = metadata?.depInfoList.find(dep => dep.file === file);
+              // Vite rejects stale entries with 504 but does not notify a tab
+              // that missed the optimizer's earlier reload. Recover that tab via
+              // a full document reload, preserving React's version protection.
+              if (needsDependencyReload(req.url, info?.browserHash ?? metadata?.browserHash) && !reloadScheduled) {
+                reloadScheduled = true;
+                setTimeout(() => {
+                  client?.hot.send({ type: 'full-reload', path: '*' });
+                  reloadScheduled = false;
+                }, 150);
+              }
+            }
           }
           next();
         });
       },
     }],
     optimizeDeps: {
-      // Discover the homepage UI dependencies with React in the initial pass.
+      // Discover all current page dependencies with React in the initial pass.
       // Late optimization otherwise leaves open tabs with mixed React module URLs.
       include: [
         "@radix-ui/react-slot",
         "@radix-ui/react-checkbox",
         "@radix-ui/react-popover",
+        "@radix-ui/react-slider",
+        "@supabase/supabase-js",
+        "libphonenumber-js",
+        "zod",
         "react-day-picker",
         "date-fns",
         "date-fns/locale",
         "@tanstack/react-query",
         "@tanstack/react-router",
+        "@tanstack/history",
+        "@tanstack/router-core",
+        "@tanstack/router-core/isServer",
+        "@tanstack/router-core/ssr/client",
+        "@tanstack/router-core/ssr/server",
+        "h3-v2",
+        "seroval",
         "class-variance-authority",
         "clsx",
         "lucide-react",

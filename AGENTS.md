@@ -52,5 +52,5 @@ use the editor.
 - Render all housing gender labels through the shared HousingLabel component to keep their meaning and color consistent.
 - Keep results filtering and URL validation in a browser-safe module; available room matches exclude unconfirmed owner references and sample detail coordinates, so counts and prices never imply live availability.
 - Use an index leaf for accommodation results alongside the existing dynamic detail route, with page-scoped styles, so existing detail URLs and page layouts stay unchanged.
-- Pre-optimize homepage UI dependencies alongside React and reject outdated optimizer requests; mixed dependency generations in an open preview can create separate React dispatchers and crash hooks.
-- In development only, strip optimizer-wide versions from exact existing content-hashed Rolldown runtime chunks; identical runtime bytes remain safe while React dependency entries retain version protection.
+- Pre-optimize all page dependencies alongside React; notify stale-request tabs to reload the full document, never serve newer dependency entry bytes under old versions, to prevent mixed React dispatchers.
+- In development only, strip optimizer versions from exact existing content-hashed files registered as chunks in Vite metadata; identical bytes remain safe while dependency entries retain version protection.
