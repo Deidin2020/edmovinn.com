@@ -18,7 +18,7 @@ export const studentSchema = z.object({
 });
 export type StudentInfo = z.infer<typeof studentSchema>;
 export const initialStudent: StudentInfo = {fullName:'',birthDate:'',citizenship:'international',turkishId:'',nationality:'',identity:'',phone:'',email:'',university:'',enrollment:'enrolled',requests:''};
-export const quoteSchema = z.object({id:z.string().uuid(),residence_slug:z.string(),room_id:z.string(),move_in:z.string().date(),contract_end:z.string().date(),payment_plan:z.enum(['monthly','annual']),currency:z.enum(['USD','TRY']),total_rent:z.coerce.number().positive(),deposit:z.coerce.number().positive(),active:z.boolean()}).refine(v => v.active && v.deposit <= v.total_rent && v.contract_end.slice(5,7) === '06' && v.move_in < v.contract_end);
+export const quoteSchema = z.object({id:z.string().uuid(),residence_slug:z.string(),room_id:z.string(),move_in:z.string().date(),contract_end:z.string().date(),payment_plan:z.enum(['monthly','annual']),currency:z.enum(['USD','TRY']),total_rent:z.coerce.number().positive(),deposit:z.coerce.number().nonnegative(),active:z.boolean()}).refine(v => v.active);
 export type BookingQuote = z.infer<typeof quoteSchema>;
 export function quoteTotals(quote: BookingQuote) { const valid = quoteSchema.parse(quote); return {total: valid.total_rent, deposit: valid.deposit, remaining: Math.round((valid.total_rent - valid.deposit)*100)/100}; }
 export function realBookingRoom(intent: z.infer<typeof bookingIntentSchema>) { const residence = getResidence(intent.residenceSlug); const room = residence?.rooms.find(r => r.id === intent.roomId && r.availability !== 'unavailable'); return residence && !residence.isMock && room ? {residence,room} : null; }

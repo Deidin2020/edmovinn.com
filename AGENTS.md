@@ -32,7 +32,7 @@ use the editor.
 ## Application architecture
 - Keep Student Portal routes under the authenticated layout, use user-keyed Query data and narrow owner-scoped server reads; isolate portal styles and defer full booking details to preserve existing pages.
 - Keep booking forms public with explicit account-required states, but authenticate every private context, save and status read through server middleware; UI-only login never creates a booking identity.
-- Booking Details uses centralized temporary demo rules in src/lib/booking-demo.ts (next June 24 contract end, day-prorated room rent, demo deposit) until residence settings exist; demo amounts never reach payment, which still requires an administrator quote.
+- Booking shows only the admin-entered deposit (paid now) and full contract price plus read-only contract type from booking_quotes; students never choose a plan and no end date or prorating is computed.
 - Persist bookings through the authenticated database RPC with server-owned financial snapshots and acceptance timestamps; clients have owner-read access only and cannot set payment, phone verification or progress states.
 - Keep booking fields in component memory during edits and verification; persist only authenticated validated submissions and display-only room IDs, never identity documents or credentials in browser storage.
 - Payment never depends on phone verification; treat payment as unavailable until a trusted gateway is configured; no client-entered OTP, bank-transfer action or payment button may simulate success.

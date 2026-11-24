@@ -433,7 +433,7 @@
     "authRequired": "Log in to your student account to place a booking.",
     "previewOnly": "Account login is not activated yet. You may review the steps, but no reservation or payment can be completed.",
     "quoteUnavailable": "A confirmed contract date, payment plan and administrator-approved rent and deposit quote are required before payment. No total has been estimated.",
-    "dateError": "Select a valid move-in date and a rent payment plan.",
+    "dateError": "Select a valid move-in date.",
     "fieldError": "Enter a valid value for this field.",
     "checkFields": "Please check the highlighted fields.",
     "noRoom": "Select a room to start your booking.",
@@ -489,7 +489,10 @@
     "upfrontRent": "One upfront accommodation rent payment",
     "demo": "demo",
     "demoEstimate": "DEMO ESTIMATE · not a payable amount. Final prices are confirmed by the residence and Edmovinn.",
-    "demoNote": "Demo estimate: partial months are prorated by occupied days. You pay only the Edmovinn deposit at checkout."
+    "demoNote": "Demo estimate: partial months are prorated by occupied days. You pay only the Edmovinn deposit at checkout.",
+    "contractType": "Contract type",
+    "fullContract": "Full contract price",
+    "payOnlyDeposit": "Today you pay only the deposit. The rest of the contract is paid to the residence later."
   },
   "portal": {
     "dashboard": "Student Dashboard",
