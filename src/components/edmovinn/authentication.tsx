@@ -26,6 +26,17 @@ function PasswordField({ id, label, value, setValue, error, confirm = false, new
   const [visible, setVisible] = useState(false);
   return <div className="auth-field"><label htmlFor={id}>{label}</label><div className="auth-password"><input id={id} type={visible ? 'text' : 'password'} value={value} onChange={event => setValue(event.target.value)} autoComplete={confirm || newPassword ? 'new-password' : 'current-password'} maxLength={128} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} /><Button type="button" variant="ghost" size="icon" onClick={() => setVisible(!visible)} aria-label={t(visible ? 'auth.hidePassword' : 'auth.showPassword')} title={t(visible ? 'auth.hidePassword' : 'auth.showPassword')} aria-pressed={visible}>{visible ? <EyeOff /> : <Eye />}</Button></div>{error && <p className="auth-field-error" id={`${id}-error`}>{error}</p>}</div>;
 }
+export function authErrorNotice(error: unknown) {
+  const code = error && typeof error === 'object' && 'code' in error ? error.code : null;
+  if (code === 'weak_password') return 'auth.weakPassword';
+  if (code === 'same_password') return 'auth.samePassword';
+  if (code === 'user_already_exists') return 'auth.userExists';
+  if (code === 'invalid_credentials') return 'auth.invalidLogin';
+  if (code === 'email_not_confirmed') return 'auth.emailUnconfirmed';
+  if (code === 'over_email_send_rate_limit' || code === 'over_request_rate_limit') return 'auth.rateLimited';
+  return 'auth.authError';
+}
+
 export function AuthForm({ initialMode, intent = null }: { initialMode: AuthMode; intent?: RoomIntent | null }) {
   const { t, language, setLanguage } = useLanguage();
   const id = useId();
@@ -90,8 +101,7 @@ export function AuthForm({ initialMode, intent = null }: { initialMode: AuthMode
         await continueSignedIn();
       }
     } catch (error) {
-      const code = error && typeof error === 'object' && 'code' in error ? error.code : null;
-      setNotice(code === 'weak_password' ? 'auth.weakPassword' : code === 'user_already_exists' ? 'auth.userExists' : code === 'invalid_credentials' ? 'auth.invalidLogin' : code === 'email_not_confirmed' ? 'auth.emailUnconfirmed' : code === 'over_email_send_rate_limit' || code === 'over_request_rate_limit' ? 'auth.rateLimited' : 'auth.authError');
+      setNotice(authErrorNotice(error));
     } finally { setBusy(false); }
   }
   return <div className="auth-content"><div className="auth-brand-row"><img className="auth-logo" src={logo.url} alt="edmovinn" /><label className="auth-language"><span className="sr-only">{t('common.language')}</span><select aria-label={t('common.language')} value={language} onChange={event => setLanguage(event.target.value === 'tr' ? 'tr' : 'en')}><option value="en">EN</option><option value="tr">TR</option></select><ChevronDown size={14} /></label></div>
@@ -141,7 +151,7 @@ export function ResetPasswordForm() {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
       setPassword(''); setConfirm(''); setNotice('auth.resetSuccess'); setValid(false);
-    } catch { setNotice('auth.authError'); } finally { setBusy(false); }
+    } catch (error) { setNotice(authErrorNotice(error)); } finally { setBusy(false); }
   }
   return <div className="auth-content"><div className="auth-heading"><h1>{t('auth.resetTitle')}</h1><p>{t('auth.resetSubtitle')}</p></div>{valid ? <form onSubmit={event => void submit(event)}><PasswordField id={`${id}-password`} label={t('auth.password')} value={password} setValue={setPassword} newPassword /><PasswordField id={`${id}-confirm`} label={t('auth.confirmPassword')} value={confirm} setValue={setConfirm} confirm /><Button type="submit" disabled={busy} className="auth-submit">{t(busy ? 'auth.busy' : 'auth.savePassword')}</Button></form> : <p role="status">{t(notice ?? 'auth.resetInvalid')}</p>}{valid && notice && <p role="alert" className="auth-notice">{t(notice)}</p>}<Button variant="link" asChild><Link to="/auth" search={{ mode: 'login' }}>{t('auth.backToLogin')}</Link></Button></div>;
 }

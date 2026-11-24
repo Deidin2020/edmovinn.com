@@ -342,6 +342,7 @@
     "checkEmail": "Hesabınızı doğrulamak için e-postanızı kontrol edin, ardından giriş yapın. Henüz giriş yapılmadı.",
     "weakPassword": "Bu şifre çok yaygın veya bir veri sızıntısında yer almış. Daha güçlü bir şifre seçin, örneğin rakam içeren kısa bir ifade.",
     "userExists": "Bu e-posta ile zaten bir hesap var. Lütfen giriş yapın.",
+    "samePassword": "Yeni şifreniz mevcut şifrenizden farklı olmalıdır.",
     "authError": "İşlem tamamlanamadı. Lütfen tekrar deneyin.",
     "invalidLogin": "E-posta veya şifre yanlış.",
     "emailUnconfirmed": "Giriş yapmadan önce e-postanızı doğrulayın.",
