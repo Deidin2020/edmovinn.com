@@ -492,7 +492,16 @@
     "demoNote": "Demo estimate: partial months are prorated by occupied days. You pay only the Edmovinn deposit at checkout.",
     "contractType": "Contract type",
     "fullContract": "Full contract price",
-    "payOnlyDeposit": "Today you pay only the deposit. The rest of the contract is paid to the residence later."
+    "payOnlyDeposit": "Today you pay only the deposit. The rest of the contract is paid to the residence later.",
+    "choose": "Select…",
+    "otherUniversity": "Other university",
+    "paidTitle": "Payment Received — Pending Confirmation",
+    "paidText": "We received your deposit. The residence will confirm your room shortly; you can follow the status in My Bookings.",
+    "demoOnly": "Demo only — no real payment is taken.",
+    "goMyBookings": "Go to My Bookings",
+    "cardName": "Name on card",
+    "cardNumber": "Card number",
+    "cardExpiry": "Expiry (MM/YY)"
   },
   "portal": {
     "dashboard": "Student Dashboard",

@@ -492,7 +492,16 @@
     "demoNote": "Demo tahmin: kısmi aylar kalınan gün sayısına göre hesaplanır. Ödeme adımında yalnızca Edmovinn depozitosunu ödersiniz.",
     "contractType": "Sözleşme türü",
     "fullContract": "Toplam sözleşme bedeli",
-    "payOnlyDeposit": "Bugün yalnızca depozitoyu ödersiniz. Sözleşmenin geri kalanı daha sonra yurda ödenir."
+    "payOnlyDeposit": "Bugün yalnızca depozitoyu ödersiniz. Sözleşmenin geri kalanı daha sonra yurda ödenir.",
+    "choose": "Seçiniz…",
+    "otherUniversity": "Diğer üniversite",
+    "paidTitle": "Ödeme Alındı — Onay Bekleniyor",
+    "paidText": "Depozitonuz alındı. Yurt odanızı kısa süre içinde onaylayacak; durumu Rezervasyonlarım sayfasından takip edebilirsiniz.",
+    "demoOnly": "Yalnızca demo — gerçek ödeme alınmaz.",
+    "goMyBookings": "Rezervasyonlarıma Git",
+    "cardName": "Kart üzerindeki isim",
+    "cardNumber": "Kart numarası",
+    "cardExpiry": "Son kullanma (AA/YY)"
   },
   "portal": {
     "dashboard": "Öğrenci Paneli",
