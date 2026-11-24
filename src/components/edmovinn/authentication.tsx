@@ -91,7 +91,7 @@ export function AuthForm({ initialMode, intent = null }: { initialMode: AuthMode
       }
     } catch (error) {
       const code = error && typeof error === 'object' && 'code' in error ? error.code : null;
-      setNotice(code === 'invalid_credentials' ? 'auth.invalidLogin' : code === 'email_not_confirmed' ? 'auth.emailUnconfirmed' : code === 'over_email_send_rate_limit' || code === 'over_request_rate_limit' ? 'auth.rateLimited' : 'auth.authError');
+      setNotice(code === 'weak_password' ? 'auth.weakPassword' : code === 'user_already_exists' ? 'auth.userExists' : code === 'invalid_credentials' ? 'auth.invalidLogin' : code === 'email_not_confirmed' ? 'auth.emailUnconfirmed' : code === 'over_email_send_rate_limit' || code === 'over_request_rate_limit' ? 'auth.rateLimited' : 'auth.authError');
     } finally { setBusy(false); }
   }
   return <div className="auth-content"><div className="auth-brand-row"><img className="auth-logo" src={logo.url} alt="edmovinn" /><label className="auth-language"><span className="sr-only">{t('common.language')}</span><select aria-label={t('common.language')} value={language} onChange={event => setLanguage(event.target.value === 'tr' ? 'tr' : 'en')}><option value="en">EN</option><option value="tr">TR</option></select><ChevronDown size={14} /></label></div>
