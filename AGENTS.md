@@ -30,6 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Application architecture
+- Keep Student Portal routes under the authenticated layout, use user-keyed Query data and narrow owner-scoped server reads; isolate portal styles and defer full booking details to preserve existing pages.
 - Keep booking forms public with explicit account-required states, but authenticate every private context, save and status read through server middleware; UI-only login never creates a booking identity.
 - Use date-specific administrator-configured booking quotes for academic rent, June contract end dates, plans and deposits; missing quotes block payment rather than inheriting sample terms or inventing prorating.
 - Persist bookings through the authenticated database RPC with server-owned financial snapshots and acceptance timestamps; clients have owner-read access only and cannot set payment, phone verification or progress states.

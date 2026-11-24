@@ -1,3 +1,9 @@
+# Student Portal
+- [x] Build authenticated dashboard and My Bookings with owner-only real data, EN/TR, status filters and support.
+- [x] Prepare the specific booking-details destination without building the full details page.
+- [x] Verify lifecycle filters and independent payment/room/contract/check-in progress; all 77 tests pass. Desktop/mobile signed-out protection and unchanged homepage verified without runtime errors.
+- [ ] Verify signed-in portal data, booking navigation and visual layout: no auth users exist, live login remains UI-only, and no test account was created.
+
 # Room booking flow
 - [x] Build EN/TR three-step booking form, account prefill integration, room preservation and scroll-gated agreement.
 - [x] Add secure student-owned booking storage and booking-status view, with trusted date-specific quotes and no simulated payment/OTP; anonymous read and student direct writes explicitly denied.

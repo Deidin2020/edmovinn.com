@@ -10,15 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BookingRouteImport } from './routes/booking'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedMyBookingsRouteImport } from './routes/_authenticated/my-bookings'
 import { Route as AccommodationsIndexRouteImport } from './routes/accommodations.index'
 import { Route as AccommodationsSlugRouteImport } from './routes/accommodations.$slug'
+import { Route as AuthenticatedMyBookingsBookingIdRouteImport } from './routes/_authenticated/my-bookings_.$bookingId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -31,10 +38,15 @@ const BookingRoute = BookingRouteImport.update({
   path: '/booking',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMyBookingsRoute = AuthenticatedMyBookingsRouteImport.update({
+  id: '/my-bookings',
+  path: '/my-bookings',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AccommodationsIndexRoute = AccommodationsIndexRouteImport.update({
   id: '/accommodations/',
@@ -46,31 +58,44 @@ const AccommodationsSlugRoute = AccommodationsSlugRouteImport.update({
   path: '/accommodations/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedMyBookingsBookingIdRoute =
+  AuthenticatedMyBookingsBookingIdRouteImport.update({
+    id: '/my-bookings_/$bookingId',
+    path: '/my-bookings/$bookingId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/my-bookings': typeof AuthenticatedMyBookingsRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations/': typeof AccommodationsIndexRoute
+  '/my-bookings/$bookingId': typeof AuthenticatedMyBookingsBookingIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/my-bookings': typeof AuthenticatedMyBookingsRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations': typeof AccommodationsIndexRoute
+  '/my-bookings/$bookingId': typeof AuthenticatedMyBookingsBookingIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/booking': typeof BookingRoute
-  '/dashboard': typeof DashboardRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/my-bookings': typeof AuthenticatedMyBookingsRoute
   '/accommodations/$slug': typeof AccommodationsSlugRoute
   '/accommodations/': typeof AccommodationsIndexRoute
+  '/_authenticated/my-bookings_/$bookingId': typeof AuthenticatedMyBookingsBookingIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -79,31 +104,38 @@ export interface FileRouteTypes {
     | '/auth'
     | '/booking'
     | '/dashboard'
+    | '/my-bookings'
     | '/accommodations/$slug'
     | '/accommodations/'
+    | '/my-bookings/$bookingId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/booking'
     | '/dashboard'
+    | '/my-bookings'
     | '/accommodations/$slug'
     | '/accommodations'
+    | '/my-bookings/$bookingId'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/auth'
     | '/booking'
-    | '/dashboard'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/my-bookings'
     | '/accommodations/$slug'
     | '/accommodations/'
+    | '/_authenticated/my-bookings_/$bookingId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   BookingRoute: typeof BookingRoute
-  DashboardRoute: typeof DashboardRoute
   AccommodationsSlugRoute: typeof AccommodationsSlugRoute
   AccommodationsIndexRoute: typeof AccommodationsIndexRoute
 }
@@ -115,6 +147,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -131,12 +170,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/my-bookings': {
+      id: '/_authenticated/my-bookings'
+      path: '/my-bookings'
+      fullPath: '/my-bookings'
+      preLoaderRoute: typeof AuthenticatedMyBookingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/accommodations/': {
       id: '/accommodations/'
@@ -152,14 +198,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccommodationsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/my-bookings_/$bookingId': {
+      id: '/_authenticated/my-bookings_/$bookingId'
+      path: '/my-bookings/$bookingId'
+      fullPath: '/my-bookings/$bookingId'
+      preLoaderRoute: typeof AuthenticatedMyBookingsBookingIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMyBookingsRoute: typeof AuthenticatedMyBookingsRoute
+  AuthenticatedMyBookingsBookingIdRoute: typeof AuthenticatedMyBookingsBookingIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMyBookingsRoute: AuthenticatedMyBookingsRoute,
+  AuthenticatedMyBookingsBookingIdRoute: AuthenticatedMyBookingsBookingIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   BookingRoute: BookingRoute,
-  DashboardRoute: DashboardRoute,
   AccommodationsSlugRoute: AccommodationsSlugRoute,
   AccommodationsIndexRoute: AccommodationsIndexRoute,
 }
