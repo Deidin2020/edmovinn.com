@@ -29,6 +29,13 @@
       "when": 1795446282765,
       "tag": "0003_restrict_booking_data_api_permissions",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795506402845,
+      "tag": "0004_store_unverified_signup_contact",
+      "breakpoints": true
     }
   ]
 }

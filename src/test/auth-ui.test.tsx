@@ -1,10 +1,18 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act } from 'react';
 import { renderToString } from 'react-dom/server';
 import { hydrateRoot } from 'react-dom/client';
 import { AUTH_UI_ONLY, AuthUIProvider, PHONE_VERIFIED_ON_REGISTRATION, ROOM_INTENT_KEY, normalizePhone, readRoomIntent, saveRoomIntent, signupFields, useAuthUI, validateRoomIntent } from '@/lib/auth-ui';
 import { AuthForm } from '@/components/edmovinn/authentication';
+
+const mocks = vi.hoisted(() => ({
+  signUp: vi.fn(), signInWithPassword: vi.fn(), getUser: vi.fn(), resetPasswordForEmail: vi.fn(),
+  navigate: vi.fn(), invalidateQueries: vi.fn(),
+}));
+vi.mock('@/integrations/supabase/client', () => ({ supabase: { auth: mocks } }));
+vi.mock('@tanstack/react-query', async importOriginal => ({ ...await importOriginal<typeof import('@tanstack/react-query')>(), useQueryClient: () => ({ invalidateQueries: mocks.invalidateQueries }) }));
+vi.mock('@tanstack/react-router', async importOriginal => ({ ...await importOriginal<typeof import('@tanstack/react-router')>(), useNavigate: () => mocks.navigate }));
 
 afterEach(() => { cleanup(); sessionStorage.clear(); });
 describe('Student authentication UI', () => {
@@ -27,18 +35,21 @@ describe('Student authentication UI', () => {
       expect(onRecoverableError).not.toHaveBeenCalled();
     } finally { differentNames.mockRestore(); container.remove(); }
   });
-  it('accepts a signup with name and phone, without requiring email', () => {
-    expect(signupFields.safeParse({ fullName: 'Test Student', phone: '+905551234567', password: 'Student123', confirmPassword: 'Student123' }).success).toBe(true);
+  it('requires email for signup alongside private name and phone', () => {
+    expect(signupFields.safeParse({ fullName: 'Test Student', phone: '+905551234567', email: 'student@example.com', password: 'Student123', confirmPassword: 'Student123' }).success).toBe(true);
+  });
+  it('rejects signup without email', () => {
+    expect(signupFields.safeParse({ fullName: 'Test Student', phone: '+905551234567', password: 'Student123', confirmPassword: 'Student123' }).success).toBe(false);
   });
   it('rejects different confirmation passwords', () => {
-    expect(signupFields.safeParse({ fullName: 'Test Student', phone: '+905551234567', password: 'Student123', confirmPassword: 'Student456' }).success).toBe(false);
+    expect(signupFields.safeParse({ fullName: 'Test Student', phone: '+905551234567', email: 'student@example.com', password: 'Student123', confirmPassword: 'Student456' }).success).toBe(false);
   });
   it('validates country-specific phone numbers', () => {
     expect(normalizePhone('5551234567', 'TR')).toBe('+905551234567');
     expect(normalizePhone('123', 'TR')).toBeNull();
   });
-  it('keeps accounts UI-only and phone unverified', () => {
-    expect(AUTH_UI_ONLY).toBe(true);
+  it('activates accounts while keeping phone unverified', () => {
+    expect(AUTH_UI_ONLY).toBe(false);
     expect(PHONE_VERIFIED_ON_REGISTRATION).toBe(false);
   });
   it('preserves only validated room IDs, then clears them on cancellation', () => {
@@ -56,14 +67,32 @@ describe('Student authentication UI', () => {
     fireEvent.click(screen.getByText('Open')); fireEvent.click(screen.getByText('Close'));
     expect(readRoomIntent()?.roomId).toBe('quadruple-70');
   });
-  it('does not store credentials or simulate signup when submitting valid input', () => {
+  it('sends real signup but does not simulate a session before email confirmation', async () => {
+    mocks.signUp.mockResolvedValue({ data: { session: null }, error: null });
+    mocks.navigate.mockClear();
     render(<AuthForm initialMode="signup" />);
+    fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'student@example.com' } });
     fireEvent.change(screen.getByLabelText('Full Name'), { target: { value: 'Test Student' } });
     fireEvent.change(screen.getByLabelText('Phone Number'), { target: { value: '5551234567' } });
     fireEvent.change(screen.getByLabelText('Password', { exact: true }), { target: { value: 'Student123' } });
     fireEvent.change(screen.getByLabelText('Confirm Password'), { target: { value: 'Student123' } });
     fireEvent.click(screen.getByRole('button', { name: 'Create Account' }));
+    await waitFor(() => expect(mocks.signUp).toHaveBeenCalled());
+    expect(mocks.signUp).toHaveBeenCalledWith({ email: 'student@example.com', password: 'Student123', options: { emailRedirectTo: `${window.location.origin}/auth?mode=login`, data: { full_name: 'Test Student', contact_phone: '+905551234567' } } });
+    expect(mocks.navigate).not.toHaveBeenCalled();
     expect(sessionStorage.length).toBe(0);
     expect(screen.getByLabelText('Phone Number')).toHaveAttribute('aria-invalid', 'false');
+  });
+  it('signs in with email and continues to the preserved room', async () => {
+    mocks.signInWithPassword.mockResolvedValue({ error: null });
+    mocks.getUser.mockResolvedValue({ data: { user: { id: 'student-id' } }, error: null });
+    mocks.navigate.mockClear();
+    saveRoomIntent({ residenceSlug: 'moveinn', roomId: 'quadruple-70' });
+    render(<AuthForm initialMode="login" />);
+    fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'student@example.com' } });
+    fireEvent.change(screen.getByLabelText('Password', { exact: true }), { target: { value: 'Student123' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Log In', exact: true }));
+    await waitFor(() => expect(mocks.navigate).toHaveBeenCalledWith({ to: '/booking', search: { residenceSlug: 'moveinn', roomId: 'quadruple-70' } }));
+    expect(mocks.signInWithPassword).toHaveBeenCalledWith({ email: 'student@example.com', password: 'Student123' });
   });
 });

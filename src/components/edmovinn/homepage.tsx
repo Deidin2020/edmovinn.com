@@ -9,6 +9,7 @@ import { DemoAccommodations } from './demo-accommodations';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { validateResultsSearch } from '@/lib/accommodation-results';
 import { AuthenticationModal } from './authentication';
+import { useBookingAccount } from '@/lib/booking-account';
 
 function Logo({ footer = false }: { footer?: boolean }) {
   const { t } = useLanguage();
@@ -24,6 +25,8 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
 }
 export function Header({ studentPortal = false }: { studentPortal?: boolean } = {}) {
   const { t } = useLanguage();
+  const account = useBookingAccount();
+  const signedIn = studentPortal || Boolean(account.data);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -34,7 +37,7 @@ export function Header({ studentPortal = false }: { studentPortal?: boolean } = 
     document.addEventListener('keydown', closeOnEscape);
     return () => document.removeEventListener('keydown', closeOnEscape);
   }, [open]);
-  return <><header className="site-header"><div className="page-container header-inner"><Logo /><div className="desktop-navigation"><Navigation /></div><div className="header-actions"><LanguageSwitcher /><span className="currency" aria-label={t('common.currency')}>{t('common.usd')}</span><Button variant="brandOutline" disabled>{t('header.listProperty')}</Button>{studentPortal ? <Button variant="ghost" asChild><Link to="/dashboard"><UserRound />{t('portal.dashboard')}</Link></Button> : <><Button variant="ghost" asChild><Link to="/auth" search={{ mode: 'login' }}><UserRound />{t('header.login')}</Link></Button><Button asChild><Link to="/auth" search={{ mode: 'signup' }}>{t('header.signup')}</Link></Button></>}</div><div className="mobile-actions"><Button variant="ghost" size="icon" asChild>{studentPortal ? <Link to="/dashboard" aria-label={t('header.account')}><UserRound /></Link> : <Link to="/auth" search={{ mode: 'login' }} aria-label={t('header.account')}><UserRound /></Link>}</Button><Button ref={trigger} variant="ghost" size="icon" aria-label={open ? t('common.close') : t('header.menu')} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button></div></div>{open && <div id="mobile-navigation" ref={menuRef} className="mobile-navigation"><Navigation onNavigate={() => setOpen(false)} /><div className="mobile-menu-actions"><LanguageSwitcher /><span>{t('common.usd')}</span><Button variant="brandOutline" disabled>{t('header.listProperty')}</Button>{studentPortal ? <Button asChild><Link to="/dashboard">{t('portal.dashboard')}</Link></Button> : <><Button asChild><Link to="/auth" search={{ mode: 'signup' }}>{t('header.signup')}</Link></Button><Button variant="ghost" asChild><Link to="/auth" search={{ mode: 'login' }}>{t('header.login')}</Link></Button></>}</div></div>}</header><AuthenticationModal /></>;
+  return <><header className="site-header"><div className="page-container header-inner"><Logo /><div className="desktop-navigation"><Navigation /></div><div className="header-actions"><LanguageSwitcher /><span className="currency" aria-label={t('common.currency')}>{t('common.usd')}</span><Button variant="brandOutline" disabled>{t('header.listProperty')}</Button>{signedIn ? <Button variant="ghost" asChild><Link to="/dashboard"><UserRound />{t('portal.dashboard')}</Link></Button> : <><Button variant="ghost" asChild><Link to="/auth" search={{ mode: 'login' }}><UserRound />{t('header.login')}</Link></Button><Button asChild><Link to="/auth" search={{ mode: 'signup' }}>{t('header.signup')}</Link></Button></>}</div><div className="mobile-actions"><Button variant="ghost" size="icon" asChild>{signedIn ? <Link to="/dashboard" aria-label={t('header.account')}><UserRound /></Link> : <Link to="/auth" search={{ mode: 'login' }} aria-label={t('header.account')}><UserRound /></Link>}</Button><Button ref={trigger} variant="ghost" size="icon" aria-label={open ? t('common.close') : t('header.menu')} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button></div></div>{open && <div id="mobile-navigation" ref={menuRef} className="mobile-navigation"><Navigation onNavigate={() => setOpen(false)} /><div className="mobile-menu-actions"><LanguageSwitcher /><span>{t('common.usd')}</span><Button variant="brandOutline" disabled>{t('header.listProperty')}</Button>{signedIn ? <Button asChild><Link to="/dashboard">{t('portal.dashboard')}</Link></Button> : <><Button asChild><Link to="/auth" search={{ mode: 'signup' }}>{t('header.signup')}</Link></Button><Button variant="ghost" asChild><Link to="/auth" search={{ mode: 'login' }}>{t('header.login')}</Link></Button></>}</div></div>}</header><AuthenticationModal /></>;
 }
 export function Hero() {
   const { t } = useLanguage();

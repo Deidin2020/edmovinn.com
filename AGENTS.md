@@ -37,7 +37,7 @@ use the editor.
 - Keep booking fields in component memory during edits and verification; persist only authenticated validated submissions and display-only room IDs, never identity documents or credentials in browser storage.
 - Treat payment and WhatsApp verification as unavailable until trusted adapters are configured; no client-entered OTP, bank-transfer action or payment button may simulate success.
 - Render platform-localized country names only after hydration, with stable country codes first; server and browser ICU data can differ and otherwise break auth hydration.
-- Keep authentication UI in a scoped form/modal and preserve validated, display-only room IDs in session storage; never store credentials or simulate sessions while accounts are not activated.
+- Use Cloud email/password auth with confirmation and scoped forms; preserve only validated room IDs in session storage, never credentials. Signup stores private contact phone unverified through the profile trigger.
 - Student profiles are private, and clients may update only their own name; phone verification is trusted server-owned state, not editable profile metadata.
 - Keep detail-page room galleries and popups limited to room-owned photos, and derive booking summaries from the validated selected room in the source record; selection must not alter the disconnected booking workflow.
 - Keep homepage presentation unchanged when extending the app; the approved accommodation detail route reuses its Header and Footer.

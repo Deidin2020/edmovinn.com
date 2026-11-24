@@ -7,18 +7,20 @@ export type AuthMode = 'signup' | 'login';
 export type RoomIntent = { residenceSlug: string; roomId: string };
 export const ROOM_INTENT_KEY = 'edmovinn-auth-room';
 export const PHONE_VERIFIED_ON_REGISTRATION = false;
-export const AUTH_UI_ONLY = true;
+export const AUTH_UI_ONLY = false;
+export const emailField = z.string().trim().email('emailError').max(254, 'emailError');
 export function normalizePhone(value: string, country: CountryCode) {
   const number = parsePhoneNumberFromString(value.trim(), country);
   return number?.isValid() ? number.number : null;
 }
 export const signupFields = z.object({
   fullName: z.string().trim().min(2, 'nameError').max(100, 'nameError'),
+  email: emailField,
   phone: z.string().min(1, 'phoneError'),
   password: z.string().min(8, 'passwordError').max(128, 'passwordError'),
   confirmPassword: z.string(),
 }).refine(value => value.password === value.confirmPassword, { path: ['confirmPassword'], message: 'confirmError' });
-export const loginFields = z.object({ phone: z.string().min(1, 'phoneError'), password: z.string().min(1, 'requiredPassword').max(128, 'passwordError') });
+export const loginFields = z.object({ email: emailField, password: z.string().min(1, 'requiredPassword').max(128, 'passwordError') });
 // Display-only context may include explicitly illustrative rooms; it never authorizes a booking.
 export function validateRoomIntent(raw: unknown): RoomIntent | null {
   const parsed = z.object({ residenceSlug: z.string().max(100), roomId: z.string().max(100) }).safeParse(raw);

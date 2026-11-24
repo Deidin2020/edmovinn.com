@@ -1,5 +1,5 @@
 # Student Portal
-- [ ] Activate real student signup/login and verify dashboard access: awaiting choice of email/password or phone SMS; keep student names private and preserve room selection.
+- [ ] Activate real email/password student signup/login with email confirmation, private name/unverified phone, room selection preservation and dashboard verification.
 - [x] Build authenticated dashboard and My Bookings with owner-only real data, EN/TR, status filters and support.
 - [x] Prepare the specific booking-details destination without building the full details page.
 - [x] Verify lifecycle filters and independent payment/room/contract/check-in progress; all 77 tests pass. Desktop/mobile signed-out protection and unchanged homepage verified without runtime errors.
