@@ -55,3 +55,4 @@ use the editor.
 - Pre-optimize all page dependencies alongside React; notify stale-request tabs to reload the full document, never serve newer dependency entry bytes under old versions, to prevent mixed React dispatchers.
 - In development only, strip optimizer versions from exact existing content-hashed files registered as chunks in Vite metadata; identical bytes remain safe while dependency entries retain version protection.
 - University proximity uses campus-level coordinates from src/lib/universities.ts; residences match a university only when both verified campus and residence coordinates exist, so no nearby claim or distance is ever inferred.
+- About Us page lives at /about-us with copy only from owner-approved aboutPage locale keys; never add stats, partnerships or claims not in that copy.

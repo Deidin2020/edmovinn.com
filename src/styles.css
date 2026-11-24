@@ -1018,3 +1018,37 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
 .universities-empty { text-align: center; color: var(--muted-foreground); font-size: 14px; }
 @media (max-width: 900px) { .universities-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .universities-section { padding-top: 32px; } .universities-grid { grid-template-columns: 1fr; } }
+
+/* About Us page (scoped) */
+.about-page { color: #11245A; }
+.about-page h1 { font-size: clamp(32px, 4.4vw, 52px); line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; }
+.about-page h2 { font-size: clamp(26px, 3vw, 36px); line-height: 1.2; font-weight: 800; }
+.about-page h3 { font-size: 18px; font-weight: 700; }
+.about-page p { color: #667085; line-height: 1.75; max-width: 62ch; }
+.about-eyebrow { color: #173BE7 !important; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; margin-bottom: 14px; }
+.about-lead { font-size: 17px; margin-top: 20px; }
+.about-sub { color: #173BE7 !important; font-weight: 600; margin: 6px 0 14px; }
+.about-hero { display: grid; gap: 40px; align-items: center; padding-block: 64px; }
+.about-page img { width: 100%; height: auto; border-radius: 20px; object-fit: cover; aspect-ratio: 4 / 3; box-shadow: 0 24px 50px rgb(17 36 90 / 0.12); }
+.about-hero img { border-bottom: 6px solid #F3B431; }
+.about-split { display: grid; gap: 40px; align-items: center; padding-block: 64px; }
+.about-split p + p { margin-top: 14px; }
+.about-band { background: #F7F9FC; padding-block: 72px; }
+.about-mv, .about-services, .about-connect-cards { display: grid; gap: 20px; }
+.about-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 28px; }
+.about-card p { margin-top: 8px; }
+.about-icon { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: rgb(23 59 231 / 0.08); color: #173BE7; margin-bottom: 16px; }
+.about-icon svg { width: 24px; height: 24px; stroke-width: 1.7; }
+.about-what { padding-block: 72px; }
+.about-services { margin-top: 36px; }
+.about-connect { max-width: 820px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.about-connect p { margin-inline: auto; }
+.about-lead p + p, .about-card p + p { margin-top: 12px; }
+.about-connect p { margin-top: 14px; }
+.about-cta { text-align: center; padding-block: 80px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.about-cta p { margin-inline: auto; }
+.about-cta a { margin-top: 18px; }
+.about-cta-icon { width: 40px; height: 40px; color: #F3B431; margin-bottom: 6px; }
+@media (min-width: 768px) { .about-mv, .about-connect-cards { grid-template-columns: 1fr 1fr; } .about-services { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .about-hero, .about-split { grid-template-columns: 1fr 1fr; gap: 64px; } .about-services { grid-template-columns: repeat(3, 1fr); } .about-reverse img { order: 2; } }
+.about-page .center-heading p { margin-inline: auto; text-align: center; }
