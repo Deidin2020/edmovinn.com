@@ -326,7 +326,11 @@
     "close": "Filtreleri Kapat",
     "sampleBadge": "Örnek yurt",
     "range": "{min} – {max}",
-    "referencePrice": "Bildirilen aylık fiyat"
+    "referencePrice": "Bildirilen aylık fiyat",
+    "campus": "Kampüs",
+    "chooseCampus": "Kampüs seçin",
+    "universityPick": "Kampüsüne yakın arama yapmak için bir üniversite seçin.",
+    "universityLocationNotice": "Mesafeler yalnızca doğrulanmış kampüs ve yurt konumları olduğunda gösterilir. Henüz doğrulanmış konum yok."
   },
   "auth": {
     "account": "Öğrenci hesabı",
@@ -538,5 +542,16 @@
     "detailsLater": "Rezervasyon detayları sayfası henüz kullanılamıyor.",
     "bookingNotFound": "Rezervasyon bulunamadı",
     "bookingNotFoundText": "Bu rezervasyon öğrenci hesabınızda mevcut değil."
+  },
+  "universities": {
+    "title": "Üniversitene Yakın Konaklama Bul",
+    "subtitle": "Üniversiteni seç ve kampüsüne yakın öğrenci yurtlarını keşfet.",
+    "searchPlaceholder": "Üniversiteni ara",
+    "campus": "Kampüs",
+    "allCampuses": "Kampüs seç (isteğe bağlı)",
+    "explore": "Yakındaki Konaklamaları Keşfet",
+    "viewAll": "Tüm Üniversiteleri Gör",
+    "showFewer": "Daha Az Üniversite Göster",
+    "noMatch": "Aramanızla eşleşen üniversite yok."
   }
 }

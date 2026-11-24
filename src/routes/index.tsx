@@ -1,3 +1,4 @@
+import { UniversitiesSection } from '@/components/edmovinn/universities-section';
 import { createFileRoute } from "@tanstack/react-router";
 import { LanguageProvider } from '@/lib/localization';
 import { AccommodationSearch, FeaturedAccommodations, Footer, Header, Hero, HowItWorks, QuickBenefits, WhyChooseEdmovinn } from '@/components/edmovinn/homepage';
@@ -19,5 +20,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  return <LanguageProvider><div id="home"><Header /><main><Hero /><AccommodationSearch /><QuickBenefits /><FeaturedAccommodations /><WhyChooseEdmovinn /><HowItWorks /></main><Footer /></div></LanguageProvider>;
+  return <LanguageProvider><div id="home"><Header /><main><Hero /><AccommodationSearch /><QuickBenefits /><FeaturedAccommodations /><UniversitiesSection /><WhyChooseEdmovinn /><HowItWorks /></main><Footer /></div></LanguageProvider>;
 }

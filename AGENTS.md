@@ -54,3 +54,4 @@ use the editor.
 - Use an index leaf for accommodation results alongside the existing dynamic detail route, with page-scoped styles, so existing detail URLs and page layouts stay unchanged.
 - Pre-optimize all page dependencies alongside React; notify stale-request tabs to reload the full document, never serve newer dependency entry bytes under old versions, to prevent mixed React dispatchers.
 - In development only, strip optimizer versions from exact existing content-hashed files registered as chunks in Vite metadata; identical bytes remain safe while dependency entries retain version protection.
+- University proximity uses campus-level coordinates from src/lib/universities.ts; residences match a university only when both verified campus and residence coordinates exist, so no nearby claim or distance is ever inferred.

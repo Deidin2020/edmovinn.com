@@ -326,7 +326,11 @@
     "close": "Close Filters",
     "sampleBadge": "Demo residence",
     "range": "{min} – {max}",
-    "referencePrice": "Supplied monthly price"
+    "referencePrice": "Supplied monthly price",
+    "campus": "Campus",
+    "chooseCampus": "Choose a campus",
+    "universityPick": "Choose a university to search near its campus.",
+    "universityLocationNotice": "Distances appear only when verified campus and residence locations are available. None are confirmed yet."
   },
   "auth": {
     "account": "Student account",
@@ -538,5 +542,16 @@
     "detailsLater": "The full booking details page is not available yet.",
     "bookingNotFound": "Booking not found",
     "bookingNotFoundText": "This booking is not available in your student account."
+  },
+  "universities": {
+    "title": "Find Accommodation Near Your University",
+    "subtitle": "Choose your university and explore student residences near your campus.",
+    "searchPlaceholder": "Search your university",
+    "campus": "Campus",
+    "allCampuses": "Choose a campus (optional)",
+    "explore": "Explore Nearby Housing",
+    "viewAll": "View All Universities",
+    "showFewer": "Show Fewer Universities",
+    "noMatch": "No universities match your search."
   }
 }

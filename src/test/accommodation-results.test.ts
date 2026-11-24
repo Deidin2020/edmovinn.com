@@ -20,3 +20,14 @@ describe('Accommodation results rules', () => {
   it('clamps pagination and slices without duplicating residences', () => { expect(paginateResults([1, 2, 3, 4, 5], 20, 4)).toEqual({ page: 2, pages: 2, items: [5] }); expect(paginateResults([1, 2, 3, 4, 5], -1, 4).items).toEqual([1, 2, 3, 4]); });
   it('preserves homepage filters and does not silently reset unknown URL filters', () => { expect(validateResultsSearch({ city: 'istanbul', gender: 'female', roomType: 'apartment', monthlyBudget: 'between300and600', page: '2' })).toEqual({ city: 'istanbul', gender: 'female', roomType: 'apartment', monthlyBudget: 'between300and600', page: 2 }); expect(validateResultsSearch({ roomType: 'unknown' }).roomType).toBe('unknown'); });
 });
+import { filterResults as filterNear, resultsInventory as inventoryNear, validateResultsSearch as validateNear } from '@/lib/accommodation-results';
+import { campusCoordinates } from '@/lib/universities';
+describe('university proximity', () => {
+  it('keeps the chosen university and campus from the URL', () => {
+    expect(validateNear({ university: 'Boğaziçi University', campus: 'kilyos' })).toMatchObject({ university: 'Boğaziçi University', campus: 'kilyos' });
+  });
+  it('never claims a residence is near a university without verified locations', () => {
+    expect(campusCoordinates('Istanbul University')).toBeNull();
+    expect(filterNear(inventoryNear, { university: 'Istanbul University' })).toEqual([]);
+  });
+});
