@@ -3,12 +3,13 @@ import { getResidence, moveinn, type Facility, type Residence, type Room } from 
 
 export const resultRoomTypes = ['single', 'double', 'triple', 'quadruple', 'studio', 'apartment'] as const;
 export const resultsInventory = [moveinn, ...['demo-twin', 'demo-single', 'demo-studio', 'demo-shared'].flatMap(slug => { const record = getResidence(slug); return record ? [record] : []; })];
-export interface ResultsSearch { city?: string; district?: string; gender?: string; roomType?: string; monthlyBudget?: string; facilities?: string; min?: number; max?: number; sort?: string; page?: number; university?: string; campus?: string; distance?: number }
+export interface ResultsSearch { city?: string; district?: string; gender?: string; roomType?: string; monthlyBudget?: string; facilities?: string; min?: number; max?: number; sort?: string; page?: number; university?: string; campus?: string }
 export type ResultsPatch = { [K in keyof ResultsSearch]?: ResultsSearch[K] | undefined };
 export function validateResultsSearch(raw: Record<string, unknown>): ResultsSearch {
   const result: ResultsSearch = {};
   for (const key of ['city', 'district', 'gender', 'roomType', 'monthlyBudget', 'facilities', 'sort', 'university', 'campus'] as const) if (typeof raw[key] === 'string') result[key] = raw[key];
-  for (const key of ['min', 'max', 'page', 'distance'] as const) { const value = Number(raw[key]); if (raw[key] !== undefined && Number.isFinite(value)) result[key] = value; }
+  // Legacy `distance` URL params are ignored: the distance filter was removed.
+  for (const key of ['min', 'max', 'page'] as const) { const value = Number(raw[key]); if (raw[key] !== undefined && Number.isFinite(value)) result[key] = value; }
   return result;
 }
 export const splitFilter = (value?: string) => value?.split(',').filter(Boolean) ?? [];
@@ -34,7 +35,6 @@ export function matchingRooms(residence: Residence, search: ResultsSearch, refer
   if (!facilities.every(facility => residence.facilities.includes(facility as Facility))) return [];
   // Only verified campus and residence coordinates may place a residence near a university.
   if (search.university && residenceDistance(residence, search) == null) return [];
-  if (search.distance && (residenceDistance(residence, search) ?? Infinity) > search.distance) return [];
   return residence.rooms.filter(room => (room.availability === 'available' || room.availability === 'limited' || (reference && room.availability === 'unconfirmed')) && (!types.length || types.includes(room.type)) && withinBudget(room.price, search.monthlyBudget) && room.price >= (search.min ?? -Infinity) && room.price <= (search.max ?? Infinity)).sort((a, b) => a.price - b.price);
 }
 export function residenceDistance(residence: Residence, search: ResultsSearch) {
