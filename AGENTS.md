@@ -56,3 +56,5 @@ use the editor.
 - In development only, strip optimizer versions from exact existing content-hashed files registered as chunks in Vite metadata; identical bytes remain safe while dependency entries retain version protection.
 - University proximity uses campus-level coordinates from src/lib/universities.ts; residences match a university only when both verified campus and residence coordinates exist, so no nearby claim or distance is ever inferred.
 - About Us page lives at /about-us with copy only from owner-approved aboutPage locale keys; never add stats, partnerships or claims not in that copy.
+- Display currency (USD/TRY) lives in the language provider; USD→TRY uses the TCMB daily ForexSelling rate via a server function and falls back to USD. Booking/payment amounts stay in contract currency.
+- Contact details and WhatsApp links live only in src/lib/contact.ts.

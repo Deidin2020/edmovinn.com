@@ -8,10 +8,10 @@ import type { Residence, Room } from '@/lib/residences';
 import { RoomDetailsPopup, RoomPhotoGallery, roomPhotos } from './room-interactions';
 
 export function RoomOptionCard({ room, residence, selected, onSelect }: { room: Room; residence: Residence; selected: boolean; onSelect: () => void }) {
-  const { t, language } = useLanguage();
+  const { t, language, money: formatMoney } = useLanguage();
   const [expanded, setExpanded] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const money = (amount: number) => new Intl.NumberFormat(language === 'tr' ? 'tr-TR' : 'en-US', { style: 'currency', currency: residence.currency, maximumFractionDigits: 0 }).format(amount);
+  const money = (amount: number) => formatMoney(amount, residence.currency);
   const title = room.nameKey ? t(room.nameKey) : t(`search.${room.type}`);
   return <article className={`room-option-card ${selected ? 'is-selected' : ''}`}>
     <div className="room-option-photo"><RoomPhotoGallery photos={roomPhotos(room)} title={`${title} · ${t(room.suppliedPhoto ? 'details.suppliedRoomPhoto' : 'details.photoPlaceholder')}`} /><div className="card-gender"><HousingLabel genderKey={residence.genderKey} /></div><FavoriteButton item={{ kind: 'room', residenceSlug: residence.slug, roomId: room.id }} /></div>

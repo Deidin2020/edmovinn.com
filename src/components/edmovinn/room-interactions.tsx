@@ -51,10 +51,10 @@ export function RoomFacts({ room }: { room: Room }) {
 }
 
 export function RoomDetailsPopup({ room, residence, open, onClose }: { room: Room; residence: Residence; open: boolean; onClose: () => void }) {
-  const { t, language } = useLanguage();
+  const { t, language, money: formatMoney } = useLanguage();
   const dialog = useRef<HTMLDialogElement>(null);
   const title = room.nameKey ? t(room.nameKey) : t(`search.${room.type}`);
-  const money = (amount: number) => new Intl.NumberFormat(language === 'tr' ? 'tr-TR' : 'en-US', { style: 'currency', currency: residence.currency, maximumFractionDigits: 0 }).format(amount);
+  const money = (amount: number) => formatMoney(amount, residence.currency);
   useEffect(() => {
     if (open) dialog.current?.showModal();
     else dialog.current?.close();
@@ -73,12 +73,12 @@ export function RoomDetailsPopup({ room, residence, open, onClose }: { room: Roo
 }
 
 export function RoomBookingSidebar({ residence, selectedId }: { residence: Residence; selectedId: string | null }) {
-  const { t, language } = useLanguage();
+  const { t, language, money: formatMoney } = useLanguage();
   const navigate = useNavigate();
   const selection = selectedId ? prepareRoomSelection(residence, selectedId) : null;
   const room = selection ? residence.rooms.find(item => item.id === selection.roomId) : undefined;
   const title = room ? (room.nameKey ? t(room.nameKey) : t(`search.${room.type}`)) : t('details.selectToContinue');
-  const money = (amount: number) => new Intl.NumberFormat(language === 'tr' ? 'tr-TR' : 'en-US', { style: 'currency', currency: residence.currency, maximumFractionDigits: 0 }).format(amount);
+  const money = (amount: number) => formatMoney(amount, residence.currency);
   return <aside className="residence-booking" aria-label={t('details.selection')}>
     {room && <img className="residence-booking-photo" src={room.image} alt={`${title} · ${t(room.suppliedPhoto ? 'details.suppliedRoomPhoto' : 'details.photoPlaceholder')}`} />}
     <h2 aria-live="polite">{title}</h2>

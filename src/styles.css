@@ -1052,3 +1052,7 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
 @media (min-width: 768px) { .about-mv, .about-connect-cards { grid-template-columns: 1fr 1fr; } .about-services { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .about-hero, .about-split { grid-template-columns: 1fr 1fr; gap: 64px; } .about-services { grid-template-columns: repeat(3, 1fr); } .about-reverse img { order: 2; } }
 .about-page .center-heading p { margin-inline: auto; text-align: center; }
+.footer-contact { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; font-style: normal; font-size: 14px; }
+.footer-contact a, .footer-contact span { display: flex; align-items: flex-start; gap: 8px; color: inherit; opacity: .9; }
+.footer-contact a:hover { opacity: 1; text-decoration: underline; }
+.footer-contact svg { flex-shrink: 0; margin-top: 3px; }

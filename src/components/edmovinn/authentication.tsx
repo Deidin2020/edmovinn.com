@@ -13,12 +13,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 function SelectedRoom({ intent }: { intent: RoomIntent }) {
-  const { t, language } = useLanguage();
+  const { t, language, money: formatMoney } = useLanguage();
   const validated = validateRoomIntent(intent);
   const source = validated ? getResidence(validated.residenceSlug) : null;
   const room = source ? detailPreview(source).rooms.find(item => item.id === validated?.roomId) : null;
   if (!source || !room) return null;
-  const money = (amount: number) => new Intl.NumberFormat(language === 'tr' ? 'tr-TR' : 'en-US', { style: 'currency', currency: source.currency, maximumFractionDigits: 0 }).format(amount);
+  const money = (amount: number) => formatMoney(amount, source.currency);
   return <div className="auth-selected-room" data-room-id={room.id}><img src={room.image} alt={t(room.suppliedPhoto ? 'details.suppliedRoomPhoto' : 'details.photoPlaceholder')} /><div><span>{source.nameKey ? t(source.nameKey) : source.name}</span><strong>{room.nameKey ? t(room.nameKey) : t(`search.${room.type}`)}</strong><p>{money(room.price)} {t('details.month')} · {t('details.deposit')} {room.deposit !== undefined ? money(room.deposit) : t('details.notProvided')}</p></div></div>;
 }
 function PasswordField({ id, label, value, setValue, error, confirm = false, newPassword = false }: { id: string; label: string; value: string; setValue: (value: string) => void; error?: string; confirm?: boolean; newPassword?: boolean }) {
@@ -38,7 +38,7 @@ export function authErrorNotice(error: unknown) {
 }
 
 export function AuthForm({ initialMode, intent = null }: { initialMode: AuthMode; intent?: RoomIntent | null }) {
-  const { t, language, setLanguage } = useLanguage();
+  const { t, language, setLanguage, money: formatMoney } = useLanguage();
   const id = useId();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
