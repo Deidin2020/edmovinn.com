@@ -1062,3 +1062,20 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
 .footer-social-icons button, .footer-social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid color-mix(in oklch, var(--primary-foreground) 45%, transparent); background: transparent; color: var(--primary-foreground); cursor: pointer; transition: background .15s ease, transform .15s ease; }
 .footer-social-icons a:hover { background: color-mix(in oklch, var(--primary-foreground) 15%, transparent); transform: translateY(-2px); }
 .footer-social-icons button:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Website district search and display-currency controls. */
+.district-popover [role=listbox] { max-height: 280px; overflow-y: auto; }
+.results-search-field > label { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; margin-bottom: 9px; }
+.currency-status { color: var(--muted-foreground); font-size: 11px; line-height: 1.5; padding-block: 6px; }
+.currency-status .page-container { overflow-wrap: anywhere; }
+.accommodation-price strong, .results-card-price strong, .room-option-terms p, .booking-definition dd { overflow-wrap: anywhere; }
+@media(max-width:1023px) {
+ .mobile-actions { align-items: center; gap: 4px; }
+ .mobile-actions .currency-switch { font-size: 11px; min-height: 44px; }
+ .mobile-actions .currency-switch select { min-height: 44px; max-width: 72px; }
+}
+@media(max-width:400px) {
+ .header-inner { gap: 6px; }
+ .mobile-actions > a, .mobile-actions > button { width: 36px; padding-inline: 6px; }
+ .district-popover { width: min(260px, calc(100vw - 64px)); }
+}

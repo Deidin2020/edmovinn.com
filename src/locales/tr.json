@@ -2,6 +2,9 @@
   "common": {
     "brand": "edmovinn",
     "language": "Dil",
+    "conversionUnavailable": "Döviz dönüşümü kullanılamıyor; kaynak para birimi gösteriliyor.",
+    "conversionPending": "Kur yükleniyor; kaynak para birimi gösteriliyor.",
+    "contractCurrency": "Sözleşme ve ödeme para birimi",
     "currency": "Para Birimi",
     "english": "English",
     "turkish": "Türkçe",
@@ -31,6 +34,11 @@
     "description": "Öğrenci konaklama seçeneklerini keşfedin, karşılaştırın ve üniversitenize yakın, size uygun bir yaşam alanı bulun."
   },
   "search": {
+    "district": "İlçe",
+    "districtPlaceholder": "İstanbul ilçesi ara",
+    "allDistricts": "Tüm İlçeler",
+    "districtUnspecified": "İlçe belirtilmedi",
+    "districtRequired": "Geçerli bir İstanbul ilçesi seçin.",
     "city": "Şehir",
     "cityPlaceholder": "Şehir seçin",
     "gender": "Yurt Türü",
@@ -136,8 +144,13 @@
     "title": "Nasıl Çalışır?",
     "subtitle": "Edmovinn ile öğrenci yurdunuzu bulmak çok kolay.",
     "search": {
+    "district": "İlçe",
+    "districtPlaceholder": "İstanbul ilçesi ara",
+    "allDistricts": "Tüm İlçeler",
+    "districtUnspecified": "İlçe belirtilmedi",
+    "districtRequired": "Geçerli bir İstanbul ilçesi seçin.",
       "title": "Ara",
-      "description": "Şehrinizi ve konaklama tercihlerinizi seçin."
+      "description": "İlçenizi ve konaklama tercihlerinizi seçin."
     },
     "compare": {
       "title": "Karşılaştır",
@@ -293,7 +306,7 @@
   },
   "results": {
     "title": "{city} Öğrenci Konaklamaları",
-    "allCities": "Türkiye",
+    "allCities": "İstanbul",
     "count": "Aramanıza uygun {count} yurt",
     "demoCount": "Aramanıza uygun {count} örnek yurt",
     "previewNotice": "Geliştirme önizlemesi · Örnek yurtların fiyatları ve müsaitliği temsilidir. Rezervasyon yapılamaz.",

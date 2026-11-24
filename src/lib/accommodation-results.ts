@@ -3,11 +3,11 @@ import { getResidence, moveinn, type Facility, type Residence, type Room } from 
 
 export const resultRoomTypes = ['single', 'double', 'triple', 'quadruple', 'studio', 'apartment'] as const;
 export const resultsInventory = [moveinn, ...['demo-twin', 'demo-single', 'demo-studio', 'demo-shared'].flatMap(slug => { const record = getResidence(slug); return record ? [record] : []; })];
-export interface ResultsSearch { city?: string; gender?: string; roomType?: string; monthlyBudget?: string; facilities?: string; min?: number; max?: number; sort?: string; page?: number; university?: string; campus?: string; distance?: number }
+export interface ResultsSearch { city?: string; district?: string; gender?: string; roomType?: string; monthlyBudget?: string; facilities?: string; min?: number; max?: number; sort?: string; page?: number; university?: string; campus?: string; distance?: number }
 export type ResultsPatch = { [K in keyof ResultsSearch]?: ResultsSearch[K] | undefined };
 export function validateResultsSearch(raw: Record<string, unknown>): ResultsSearch {
   const result: ResultsSearch = {};
-  for (const key of ['city', 'gender', 'roomType', 'monthlyBudget', 'facilities', 'sort', 'university', 'campus'] as const) if (typeof raw[key] === 'string') result[key] = raw[key];
+  for (const key of ['city', 'district', 'gender', 'roomType', 'monthlyBudget', 'facilities', 'sort', 'university', 'campus'] as const) if (typeof raw[key] === 'string') result[key] = raw[key];
   for (const key of ['min', 'max', 'page', 'distance'] as const) { const value = Number(raw[key]); if (raw[key] !== undefined && Number.isFinite(value)) result[key] = value; }
   return result;
 }
@@ -28,6 +28,7 @@ function withinBudget(price: number, budget?: string) {
 }
 export function matchingRooms(residence: Residence, search: ResultsSearch, reference = false): Room[] {
   if (residence.currency !== 'USD' || (search.city && search.city !== 'istanbul')) return [];
+  if (search.district && search.district !== 'all' && residence.district !== search.district) return [];
   const genders = splitFilter(search.gender), types = splitFilter(search.roomType), facilities = splitFilter(search.facilities);
   if (genders.length && !genders.includes(residence.genderKey === 'search.male' ? 'male' : 'female')) return [];
   if (!facilities.every(facility => residence.facilities.includes(facility as Facility))) return [];

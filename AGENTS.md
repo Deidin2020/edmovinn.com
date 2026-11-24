@@ -42,6 +42,7 @@ use the editor.
 - Keep detail-page room galleries and popups limited to room-owned photos, and derive booking summaries from the validated selected room in the source record; selection must not alter the disconnected booking workflow.
 - Keep homepage presentation unchanged when extending the app; the approved accommodation detail route reuses its Header and Footer.
 - Centralize interface translations in locale JSON through the language provider; load browser language preferences after hydration to keep SSR consistent.
+- Keep the shared district selector and official district catalog separate from residence data; match district filters only against supplied district keys, preserving legacy Istanbul URLs.
 - Keep typed accommodation filter validation and URL preparation separate from presentation; explicitly labeled fictional preview cards are isolated from real inventory and cannot create bookings.
 - Disable unavailable destinations rather than creating additional routes or simulating authentication, booking, or other completed actions.
 - Keep residence records and booking-selection validation in a browser-safe data module; one dynamic detail route renders mock or supplied records without implying production verification or booking availability.
@@ -56,5 +57,5 @@ use the editor.
 - In development only, strip optimizer versions from exact existing content-hashed files registered as chunks in Vite metadata; identical bytes remain safe while dependency entries retain version protection.
 - University proximity uses campus-level coordinates from src/lib/universities.ts; residences match a university only when both verified campus and residence coordinates exist, so no nearby claim or distance is ever inferred.
 - About Us page lives at /about-us with copy only from owner-approved aboutPage locale keys; never add stats, partnerships or claims not in that copy.
-- Display currency (USD/TRY) lives in the language provider; USD→TRY uses the TCMB daily ForexSelling rate via a server function and falls back to USD. Booking/payment amounts stay in contract currency.
+- Display currency defaults to TRY in the language provider and respects persisted USD/TRY preferences; a validated, expiring TCMB rate supports both directions, with explicit source-currency fallback. Informational booking displays convert, while payment controls use the shared contract-currency formatter without changing accounting.
 - Contact details and WhatsApp links live only in src/lib/contact.ts.

@@ -46,3 +46,8 @@
 - [x] Build a reusable EN/TR Moveinn details page matching the uploaded reference without redesigning the homepage.
 - [x] Add clearly marked mock residence data, gallery, facilities, location, rooms and selection summary without booking integrations.
 - [x] Link existing fictional cards to their matching details and verify selection, languages, gallery, desktop and mobile.
+# Original website: districts, facilities and currency
+- [x] Add 39-district search and honest district matching with legacy Istanbul links.
+- [x] Replace generic facilities indicators, keeping specific Wi-Fi icons.
+- [x] Default display to TRY, retain preferences, validate TCMB cache and both conversion directions with clear fallback.
+- [x] Verify website flows, 360px layout, tests and automatic build; do not modify App remix.

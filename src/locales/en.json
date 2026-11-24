@@ -2,6 +2,9 @@
   "common": {
     "brand": "edmovinn",
     "language": "Language",
+    "conversionUnavailable": "Currency conversion unavailable — USD prices stay in USD ($); TRY prices stay in TRY (₺).",
+    "conversionPending": "Loading exchange rate — source prices shown in USD ($) or TRY (₺).",
+    "contractCurrency": "Contract and payment currency",
     "currency": "Currency",
     "english": "English",
     "turkish": "Türkçe",
@@ -31,6 +34,11 @@
     "description": "Discover student accommodation, compare options, and find the right place to live near your university."
   },
   "search": {
+    "district": "District",
+    "districtPlaceholder": "Search Istanbul districts",
+    "allDistricts": "All Districts",
+    "districtUnspecified": "District unspecified",
+    "districtRequired": "Select a valid Istanbul district.",
     "city": "City",
     "cityPlaceholder": "Select a city",
     "gender": "Residence Gender",
@@ -136,8 +144,13 @@
     "title": "How It Works",
     "subtitle": "Finding your student home is easy with Edmovinn.",
     "search": {
+    "district": "District",
+    "districtPlaceholder": "Search Istanbul districts",
+    "allDistricts": "All Districts",
+    "districtUnspecified": "District unspecified",
+    "districtRequired": "Select a valid Istanbul district.",
       "title": "Search",
-      "description": "Choose your city and housing preferences."
+      "description": "Choose your district and housing preferences."
     },
     "compare": {
       "title": "Compare",
@@ -293,7 +306,7 @@
   },
   "results": {
     "title": "Student Accommodation in {city}",
-    "allCities": "Turkey",
+    "allCities": "Istanbul",
     "count": "{count} residences match your search",
     "demoCount": "{count} sample residences match your search",
     "previewNotice": "Development preview · Demo residences have illustrative prices and availability. No booking is available.",

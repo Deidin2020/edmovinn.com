@@ -99,14 +99,14 @@ export function StudentBookings({ studentId, filter }: { studentId: string; filt
   </main>;
 }
 export function BookingDetailsDestination({ studentId, bookingId }: { studentId: string; bookingId: string }) {
-  const { t, language } = useLanguage(); const { data: loaded } = useSuspenseQuery(studentPortalQuery(studentId)); const bookings = useDemoBookings(studentId, loaded.bookings);
+  const { t, language, money: displayMoney } = useLanguage(); const { data: loaded } = useSuspenseQuery(studentPortalQuery(studentId)); const bookings = useDemoBookings(studentId, loaded.bookings);
   const booking = bookings.find(b => b.id === bookingId) as (PortalBooking & DemoExtras) | undefined;
   if (!booking) return <main className="page-container portal-page"><PortalHeading title={t('portal.viewDetails')} subtitle={t('portal.bookingNotFound')} /><div className="portal-empty"><p>{t('portal.bookingNotFoundText')}</p><Button asChild><Link to="/my-bookings" search={{ filter: 'all' }}>{t('portal.viewAll')}</Link></Button></div></main>;
   const locale = language === 'tr' ? 'tr-TR' : 'en-US';
-  const money = (v?: number) => v == null ? '—' : new Intl.NumberFormat(locale, { style: 'currency', currency: booking.currency ?? 'USD' }).format(v);
+  const money = (v?: number) => v == null ? '—' : displayMoney(v, booking.currency ?? 'USD');
   const date = (v?: string) => v ? new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(v.length === 10 ? `${v}T00:00:00Z` : v)) : '—';
   const rows: [string, string][] = [
-    ['booking.reference', booking.reference], ['booking.moveIn', date(booking.move_in)],
+    ['common.contractCurrency', booking.currency ?? 'USD'], ['booking.reference', booking.reference], ['booking.moveIn', date(booking.move_in)],
     ['booking.contractType', booking.payment_plan ? t(`booking.${booking.payment_plan}`) : '—'],
     ['booking.depositToday', money(booking.deposit)], ['booking.fullContract', money(booking.total_rent)],
     ['booking.paymentStatus', statusText(t, 'payments', booking.payment_status)], ['booking.contractStatus', statusText(t, 'progress', booking.contract_status)],
