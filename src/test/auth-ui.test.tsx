@@ -91,7 +91,7 @@ describe('Student authentication UI', () => {
     render(<AuthForm initialMode="login" />);
     fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'student@example.com' } });
     fireEvent.change(screen.getByLabelText('Password', { exact: true }), { target: { value: 'Student123' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Log In', exact: true }));
+    fireEvent.click(screen.getByRole('button', { name: /^Log In$/ }));
     await waitFor(() => expect(mocks.navigate).toHaveBeenCalledWith({ to: '/booking', search: { residenceSlug: 'moveinn', roomId: 'quadruple-70' } }));
     expect(mocks.signInWithPassword).toHaveBeenCalledWith({ email: 'student@example.com', password: 'Student123' });
   });

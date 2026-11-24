@@ -1,23 +1,24 @@
 # Student Portal
-- [ ] Activate real email/password student signup/login with email confirmation, private name/unverified phone, room selection preservation and dashboard verification.
+- [x] Activate real email/password signup/login with email confirmation, private name/unverified phone, room preservation and password recovery. All 81 tests pass.
+- [ ] Verify successful email confirmation and password login end-to-end: no accessible confirmation inbox; temporary test account password setup returned a service error. Real authenticated dashboard/profile readback, sign-out and invalid-password response verified.
 - [x] Build authenticated dashboard and My Bookings with owner-only real data, EN/TR, status filters and support.
 - [x] Prepare the specific booking-details destination without building the full details page.
 - [x] Verify lifecycle filters and independent payment/room/contract/check-in progress; all 77 tests pass. Desktop/mobile signed-out protection and unchanged homepage verified without runtime errors.
-- [ ] Verify signed-in portal data, booking navigation and visual layout: no auth users exist, live login remains UI-only, and no test account was created.
+- [x] Verify signed-in portal/profile readback, booking-list navigation and desktop/mobile layout with a temporary real account; sign-out protects the portal and homepage reflects the session.
 
 # Room booking flow
 - [x] Build EN/TR three-step booking form, account prefill integration, room preservation and scroll-gated agreement.
 - [x] Add secure student-owned booking storage and booking-status view, with trusted date-specific quotes and no simulated payment/OTP; anonymous read and student direct writes explicitly denied.
 - [x] Verify validation and desktop/mobile room-to-review interactions in both languages; all 67 tests pass and fresh browser checks show no runtime errors.
-- [ ] Verify signed-in save and status readback: existing login is UI-only and test-account creation was declined.
+- [ ] Verify signed-in booking submission/status readback: requires real active quotes and trusted verification; authenticated booking access verified.
 - [ ] Activate payment and WhatsApp verification: requires configured providers; no payment or OTP was sent.
 - [ ] Configure real contract/pricing/deposit quotes: owner confirmed June, but exact day/year and administrator-approved quote remain missing.
 
 # Student authentication UI
 - [x] Resolve preview runtime errors: stale dependency URLs require a preview reload; country-selector hydration fixed and fresh loads plus desktop/mobile flow verified without runtime errors.
 - [x] Design EN/TR phone-and-password signup/login forms and selected-room modal without redesigning existing pages.
-- [x] Prepare private student-profile storage; account creation is not activated.
-- [x] Owner chose interfaces only: no live signup, login, password reset, OTP, dashboard or payments in this task.
+- [x] Activate private student profiles with signup name and unverified contact phone.
+- [x] Replace the earlier interfaces-only authentication with owner-approved email/password accounts and confirmation; payment and phone verification stay separate.
 - [x] Preserve room selection and verify validation, mode switching, cancellation and mobile layout; 54 tests passed.
 
 # Edmovinn homepage
