@@ -22,6 +22,6 @@ export const quoteSchema = z.object({id:z.string().uuid(),residence_slug:z.strin
 export type BookingQuote = z.infer<typeof quoteSchema>;
 export function quoteTotals(quote: BookingQuote) { const valid = quoteSchema.parse(quote); return {total: valid.total_rent, deposit: valid.deposit, remaining: Math.round((valid.total_rent - valid.deposit)*100)/100}; }
 export function realBookingRoom(intent: z.infer<typeof bookingIntentSchema>) { const residence = getResidence(intent.residenceSlug); const room = residence?.rooms.find(r => r.id === intent.roomId && r.availability !== 'unavailable'); return residence && !residence.isMock && room ? {residence,room} : null; }
-export function canPayDeposit({authenticated, phoneVerified, agreed, paymentReady, quoteReady}: {authenticated:boolean;phoneVerified:boolean;agreed:boolean;paymentReady:boolean;quoteReady:boolean}) { return authenticated && phoneVerified && agreed && paymentReady && quoteReady; }
+export function canPayDeposit({authenticated, agreed, paymentReady, quoteReady}: {authenticated:boolean;agreed:boolean;paymentReady:boolean;quoteReady:boolean}) { return authenticated && agreed && paymentReady && quoteReady; }
 export function termsReachedBottom(scrollTop:number,clientHeight:number,scrollHeight:number) { return scrollHeight > 0 && scrollTop + clientHeight >= scrollHeight - 2; }
 export const submitBookingSchema = z.object({quoteId:z.string().uuid(),student:studentSchema,termsVersion:z.literal(TERMS_VERSION),agreed:z.literal(true)});

@@ -10,8 +10,9 @@
 - [x] Build EN/TR three-step booking form, account prefill integration, room preservation and scroll-gated agreement.
 - [x] Add secure student-owned booking storage and booking-status view, with trusted date-specific quotes and no simulated payment/OTP; anonymous read and student direct writes explicitly denied.
 - [x] Verify validation and desktop/mobile room-to-review interactions in both languages; all 67 tests pass and fresh browser checks show no runtime errors.
-- [ ] Verify signed-in booking submission/status readback: requires real active quotes and trusted verification; authenticated booking access verified.
-- [ ] Activate payment and WhatsApp verification: requires configured providers; no payment or OTP was sent.
+- [ ] Verify signed-in booking submission/status readback: requires real active quotes; authenticated booking access verified.
+- [x] Remove WhatsApp phone verification from booking/payment; Pay Deposit shows the deposit amount.
+- [ ] Connect a secure payment gateway for deposits (with 3D Secure) and show "Payment Received — Pending Confirmation" after confirmed payment: waits on the owner choosing to enable payments.
 - [ ] Configure real contract/pricing/deposit quotes: owner confirmed June, but exact day/year and administrator-approved quote remain missing.
 
 # Student authentication UI
