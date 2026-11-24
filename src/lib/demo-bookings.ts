@@ -15,9 +15,10 @@ function read(): PortalBooking[] {
   return cache;
 }
 export function isDemoBooking(b: Pick<PortalBooking, 'id'>) { return b.id.startsWith('demo-'); }
-export function addDemoBooking(studentId: string, residenceSlug: string, roomId: string) {
+export type DemoExtras = { move_in?: string; deposit?: number; total_rent?: number; currency?: string; payment_plan?: string };
+export function addDemoBooking(studentId: string, residenceSlug: string, roomId: string, extras: DemoExtras = {}) {
   const code = Math.random().toString(36).slice(2, 10).toUpperCase();
-  const booking: PortalBooking & { student: string } = { id: `demo-${code.toLowerCase()}`, student: studentId, residence_slug: residenceSlug, room_id: roomId, reference: `DEMO-${code}`, status: 'pending_confirmation', payment_status: 'received', contract_status: 'not_started', check_in_status: 'not_started', availability_status: 'pending', created_at: new Date().toISOString() };
+  const booking: PortalBooking & DemoExtras & { student: string } = { ...extras, id: `demo-${code.toLowerCase()}`, student: studentId, residence_slug: residenceSlug, room_id: roomId, reference: `DEMO-${code}`, status: 'pending_confirmation', payment_status: 'received', contract_status: 'not_started', check_in_status: 'not_started', availability_status: 'pending', created_at: new Date().toISOString() };
   cache = [booking, ...read()];
   try { sessionStorage.setItem(KEY, JSON.stringify(cache)); } catch { /* session only */ }
   listeners.forEach(l => l());

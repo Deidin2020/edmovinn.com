@@ -9,7 +9,7 @@ import { WHATSAPP_URL } from '@/lib/contact';
 import { getResidence } from '@/lib/residences';
 import { bookingProgress, filterStudentBookings, portalOverview, type BookingFilter, type PortalBooking } from '@/lib/student-portal';
 import { studentPortalQuery } from '@/lib/student-portal-query';
-import { isDemoBooking, useDemoBookings } from '@/lib/demo-bookings';
+import { isDemoBooking, useDemoBookings, type DemoExtras } from '@/lib/demo-bookings';
 import { Header, Footer } from './homepage';
 import { WhatsAppIcon } from './favorite-button';
 import { HousingLabel } from './housing-label';
@@ -60,7 +60,7 @@ function statusText(t: (key: string) => string, group: string, value: string) {
   const key = `booking.${group}.${value}`; const text = t(key);
   return text === key ? value.replaceAll('_', ' ') : text;
 }
-function BookingCard({ booking, progress = false }: { booking: PortalBooking; progress?: boolean }) {
+function BookingCard({ booking, progress = false, hideDetailsLink = false }: { booking: PortalBooking; progress?: boolean; hideDetailsLink?: boolean }) {
   const { t } = useLanguage();
   const residence = getResidence(booking.residence_slug);
   const room = residence?.rooms.find(r => r.id === booking.room_id);
@@ -73,7 +73,7 @@ function BookingCard({ booking, progress = false }: { booking: PortalBooking; pr
     <div className="portal-booking-content">{image ? <img src={image} alt={name} className="portal-booking-image" /> : <div className="portal-booking-image portal-image-fallback"><BedDouble size={36} /></div>}
       <div className="portal-booking-info"><div className="portal-card-top"><p className="portal-reference">{t('booking.reference')} · {booking.reference}</p><span className={`portal-status ${booking.status === 'cancelled' ? 'is-cancelled' : ''}`}>{statusText(t, 'statuses', booking.status)}</span></div>{isDemoBooking(booking) && <p className="booking-demo-badge">{t('booking.demoOnly')}</p>}
         <h3>{name}</h3><p className="portal-room"><BedDouble size={16} />{roomName}</p>{residence && <HousingLabel genderKey={residence.genderKey} />}
-        <div className="portal-card-bottom"><p className="portal-deposit"><Wallet size={17} /><span>{t('booking.paymentStatus')}<strong>{statusText(t, 'payments', booking.payment_status)}</strong></span></p><Button variant="brandOutline" asChild><Link to="/my-bookings/$bookingId" params={{ bookingId: booking.id }}>{t('portal.viewDetails')}<ArrowRight /></Link></Button></div>
+        <div className="portal-card-bottom"><p className="portal-deposit"><Wallet size={17} /><span>{t('booking.paymentStatus')}<strong>{statusText(t, 'payments', booking.payment_status)}</strong></span></p>{!hideDetailsLink && <Button variant="brandOutline" asChild><Link to="/my-bookings/$bookingId" params={{ bookingId: booking.id }}>{t('portal.viewDetails')}<ArrowRight /></Link></Button>}</div>
       </div>
     </div>
     {progress && <div className="portal-progress-section"><h4>{t('portal.progress')}</h4><ol className="portal-progress">{['depositReceived', 'roomConfirmation', 'contract', 'checkIn'].map((key, i) => <li key={key} className={done[i] ? 'is-complete' : ''}><span className="portal-step-icon">{done[i] ? <Check size={16} /> : <Circle size={15} />}</span><span>{t(`portal.${key}`)}<small>{t(done[i] ? 'portal.complete' : 'portal.notComplete')}</small></span></li>)}</ol>{received && booking.status === 'pending_confirmation' && <p className="portal-confirmation-note"><Clock3 size={15} />{t('portal.pendingNote')}</p>}</div>}
@@ -99,8 +99,22 @@ export function StudentBookings({ studentId, filter }: { studentId: string; filt
   </main>;
 }
 export function BookingDetailsDestination({ studentId, bookingId }: { studentId: string; bookingId: string }) {
-  const { t } = useLanguage(); const { data: loaded } = useSuspenseQuery(studentPortalQuery(studentId)); const data = { ...loaded, bookings: useDemoBookings(studentId, loaded.bookings) };
-  const booking = data.bookings.find(b => b.id === bookingId);
-  // Navigation destination only; the full Booking Details page is intentionally deferred.
-  return <main className="page-container portal-page"><PortalHeading title={t('portal.viewDetails')} subtitle={booking ? booking.reference : t('portal.bookingNotFound')} /><div className="portal-empty"><p>{t(booking ? 'portal.detailsLater' : 'portal.bookingNotFoundText')}</p><Button asChild><Link to="/my-bookings" search={{ filter: 'all' }}>{t('portal.viewAll')}</Link></Button></div></main>;
+  const { t, language } = useLanguage(); const { data: loaded } = useSuspenseQuery(studentPortalQuery(studentId)); const bookings = useDemoBookings(studentId, loaded.bookings);
+  const booking = bookings.find(b => b.id === bookingId) as (PortalBooking & DemoExtras) | undefined;
+  if (!booking) return <main className="page-container portal-page"><PortalHeading title={t('portal.viewDetails')} subtitle={t('portal.bookingNotFound')} /><div className="portal-empty"><p>{t('portal.bookingNotFoundText')}</p><Button asChild><Link to="/my-bookings" search={{ filter: 'all' }}>{t('portal.viewAll')}</Link></Button></div></main>;
+  const locale = language === 'tr' ? 'tr-TR' : 'en-US';
+  const money = (v?: number) => v == null ? '—' : new Intl.NumberFormat(locale, { style: 'currency', currency: booking.currency ?? 'USD' }).format(v);
+  const date = (v?: string) => v ? new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(v.length === 10 ? `${v}T00:00:00Z` : v)) : '—';
+  const rows: [string, string][] = [
+    ['booking.reference', booking.reference], ['booking.moveIn', date(booking.move_in)],
+    ['booking.contractType', booking.payment_plan ? t(`booking.${booking.payment_plan}`) : '—'],
+    ['booking.depositToday', money(booking.deposit)], ['booking.fullContract', money(booking.total_rent)],
+    ['booking.paymentStatus', statusText(t, 'payments', booking.payment_status)], ['booking.contractStatus', statusText(t, 'progress', booking.contract_status)],
+    ['booking.checkInStatus', statusText(t, 'progress', booking.check_in_status)],
+  ];
+  return <main className="page-container portal-page"><PortalHeading title={t('portal.viewDetails')} subtitle={`${date(booking.created_at)} · ${booking.reference}`} />
+    <BookingCard booking={booking} progress hideDetailsLink />
+    <section className="portal-recent"><dl className="booking-definition">{rows.map(([label, value]) => <div key={label}><dt>{t(label)}</dt><dd>{value}</dd></div>)}</dl></section>
+    <Button variant="brandOutline" asChild><Link to="/my-bookings" search={{ filter: 'all' }}>{t('portal.viewAll')}</Link></Button>
+  </main>;
 }
