@@ -1006,6 +1006,8 @@ h2 { font-size: 29px; font-weight: 800; line-height: 1.2; }
 .university-card { display: flex; flex-direction: column; gap: 10px; padding: 20px; border: 1px solid var(--border); border-radius: 14px; background: #fff; transition: box-shadow .2s, transform .2s; }
 .university-card:hover { box-shadow: 0 12px 28px rgb(23 59 231 / 0.1); transform: translateY(-2px); }
 .university-card-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: rgb(23 59 231 / 0.08); color: #173BE7; border-bottom: 3px solid #F3B431; }
+.university-card-icon:has(img) { background: #fff; border: 1px solid var(--border); border-bottom: 3px solid #F3B431; }
+.university-card-icon img { width: 40px; height: 40px; object-fit: contain; }
 .university-card h3 { font-size: 16px; font-weight: 700; line-height: 1.35; min-width: 0; }
 .university-card-city { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted-foreground); }
 .university-campus, .results-campus { display: grid; gap: 5px; font-size: 12px; font-weight: 600; color: var(--muted-foreground); }

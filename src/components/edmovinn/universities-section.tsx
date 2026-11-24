@@ -1,3 +1,4 @@
+import { universityLogoUrl } from '@/lib/university-domains';
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, GraduationCap, MapPin, Search } from 'lucide-react';
@@ -5,10 +6,14 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/lib/localization';
 import { featuredUniversities, searchUniversities, universities, type University } from '@/lib/universities';
 
+function UniversityLogo({ name }: { name: string }) {
+  const [failed, setFailed] = useState(false); const src = universityLogoUrl(name);
+  return <div className="university-card-icon" aria-hidden="true">{src && !failed ? <img src={src} alt="" loading="lazy" width={40} height={40} onError={() => setFailed(true)} /> : <GraduationCap size={28} strokeWidth={1.7} />}</div>;
+}
 function UniversityCard({ university }: { university: University }) {
   const { t } = useLanguage(); const [campus, setCampus] = useState('');
   const multi = university.campuses.length > 1;
-  return <article className="university-card"><div className="university-card-icon" aria-hidden="true"><GraduationCap size={28} strokeWidth={1.7} /></div><h3>{university.name}</h3><p className="university-card-city"><MapPin size={14} />{t('search.cities.istanbul')}</p>
+  return <article className="university-card"><UniversityLogo name={university.name} /><h3>{university.name}</h3><p className="university-card-city"><MapPin size={14} />{t('search.cities.istanbul')}</p>
     {multi && <label className="university-campus">{t('universities.campus')}<select value={campus} onChange={e => setCampus(e.target.value)}><option value="">{t('universities.allCampuses')}</option>{university.campuses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>}
     <Button variant="brandOutline" asChild><Link to="/accommodations" search={{ city: 'istanbul', university: university.name, ...(campus ? { campus } : {}) }}>{t('universities.explore')}<ArrowRight /></Link></Button></article>;
 }
